@@ -1,0 +1,28 @@
+{
+  "name": "6669-sistemasgraficos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "dbuild": "docker build -t sg .",
+    "drun": "docker run -p 8080:8080 sg",
+    "rmContainers": "docker stop $(docker ps -a -q); docker rm $(docker ps -a -q)"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agusluques/6669-SistemasGraficos.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/agusluques/6669-SistemasGraficos/issues"
+  },
+  "homepage": "https://github.com/agusluques/6669-SistemasGraficos#readme",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "http": "0.0.0",
+    "path": "^0.12.7",
+    "url": "^0.11.0"
+  }
+}
