@@ -11,7 +11,7 @@ http.createServer(function (req, res) {
   // extract URL path
   let pathname = `.${parsedUrl.pathname}`;
   // based on the URL path, extract the file extention. e.g. .js, .doc, ...
-  const ext = path.parse(pathname).ext;
+  let ext = path.parse(pathname).ext;
   // maps file extention to MIME typere
   const map = {
     '.ico': 'image/x-icon',
@@ -29,7 +29,11 @@ http.createServer(function (req, res) {
   };
 
   fs.exists(pathname, function (exist) {
-    if(pathname == "./") pathname = "./index.html";
+    if(pathname == "./"){
+      pathname = "./index.html";
+      ext = ".html";
+    }
+    
     if(!exist) {
       // if the file is not found, return 404
       res.statusCode = 404;
