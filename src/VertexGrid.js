@@ -10,6 +10,8 @@ function VertexGrid (_rows, _cols) {
     var webgl_color_buffer = null;
     var webgl_index_buffer = null;
 
+
+
     var createIndexBuffer = function(){
 
         index_buffer = [];
@@ -126,7 +128,6 @@ function VertexGrid (_rows, _cols) {
     }
 
     this.draw = function(){
-
         var vertexPositionAttribute = gl.getAttribLocation(glProgram, "aVertexPosition");
         gl.enableVertexAttribArray(vertexPositionAttribute);
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_position_buffer);
