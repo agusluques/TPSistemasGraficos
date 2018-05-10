@@ -24,10 +24,19 @@ function Camera(){
 	    gl.uniformMatrix4fv(u_model_view_matrix, false, mvMatrix);                       //Done setting up the buffer
 	}
 	$('body').on("keydown",function(event){
-        if (event.keyCode == 40) z++;
-        if (event.keyCode == 38) z--;
+		if (event.keyCode == 189) z++;	// -
+		if (event.keyCode == 187) z--;	// +
 
-    });
+    	});
+
+    	$('body').bind('mousewheel DOMMouseScroll', function(event){
+	    if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
+	        z--;	// scroll up
+	    }
+	    else {
+	        z++;	// scroll down
+	    }
+	});
 }
 
 
