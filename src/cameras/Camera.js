@@ -18,7 +18,7 @@ function Camera(){
 	    var u_model_view_matrix = gl.getUniformLocation(glProgram, "uMVMatrix");
 	    // Preparamos una matriz de modelo+vista.
 	    mat4.identity(mvMatrix);
-	    mat4.translate(mvMatrix, mvMatrix, [0.0, 0.0, -5.0 - z*1.0]);
+	    mat4.translate(mvMatrix, mvMatrix, [3.0, 0.0, -10.0 -z*1.0]);
 	    mat4.rotate(mvMatrix, mvMatrix, t, [0.0, 1.0, 0.0]);
 
 	    gl.uniformMatrix4fv(u_model_view_matrix, false, mvMatrix);                       //Done setting up the buffer
@@ -37,6 +37,7 @@ function Camera(){
 	        z++;	// scroll down
 	    }
 	});
+
 }
 
 

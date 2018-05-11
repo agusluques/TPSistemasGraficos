@@ -18,4 +18,5 @@ void main(void) {
     // almacenar la posición resultante del fragmento.
     gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
     vColor = vec4(aVertexColor,1.0);
+    gl_PointSize = 10.0;
 }

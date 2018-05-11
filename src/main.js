@@ -42,7 +42,8 @@ function drawScene(shaderProg){
     
     t = t + 0.01;
     my_camera.setView();
-    my_grid.draw();
+    //my_grid.draw();
+    my_point.draw();
 }
 
 function start(){
@@ -51,11 +52,14 @@ function start(){
     glProgram = ShaderUtil.domShaderProgram(gl, "shader-vs", "shader-fs", true);
     gl.useProgram(glProgram);
 
-    my_grid = new VertexGrid(40,5);
+    my_grid = new VertexGrid(5,5);
     my_grid.initialize();
 
+    my_point = new Point();
+    my_point.initialize();
+
     my_camera = new Camera();
-    my_camera.setPerspective(45, 640.0/480.0, 0.1, 100.0)
+    my_camera.setPerspective(55, 640.0/480.0, 0.1, 100.0)
 
 
     setInterval(drawScene, 10);

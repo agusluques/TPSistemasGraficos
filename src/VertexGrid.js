@@ -42,8 +42,8 @@ function VertexGrid (_rows, _cols) {
 
                // Para cada vértice definimos su posición
                // como coordenada (x, y, z=0)
-               position_buffer.push(j - (cols - 1.0)/2.0);
-               position_buffer.push(-i +    (rows- 1.0)/2.0);
+               position_buffer.push(-j - (cols - 1.0)/2.0);
+               position_buffer.push(i +    (rows- 1.0)/2.0);
                position_buffer.push(0);
             
                // Para cada vértice definimos su color
