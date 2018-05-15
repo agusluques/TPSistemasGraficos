@@ -1,78 +1,88 @@
 function Camera(){
-	//var aspect = gl.viewportWidth / gl.viewportHeight;
-	//var zNear = 1;
-	//var zFar = 2000;
-	var projectionMatrix = mat4.create();
-	var mvMatrix = mat4.create();
-	var radio = 5.0;
-	var previousClientX = 0, previousClientY = 0, alfa = 0, beta = Math.PI/2, factorVelocidad = 0.01;
 
-    var isMouseDown = false;
-    var actualEvent;
+	var orbitalCamera = new OrbitalCamera();
+	var cabinCamera = new CabinCamera();
+	//var firstPersonCamera = new FirstPersonCamera();
 
-	var mouse = {x: 0, y: 0};
-	
+	var actualCamera = orbitalCamera;
+	var actualCameraAux = 1;
+
+
 	this.setPerspective = function(fieldOfViewRadians, aspect, zNear, zFar){
+		var projectionMatrix = mat4.create();
+		
 		mat4.perspective(projectionMatrix, fieldOfViewRadians, aspect, zNear, zFar);
 		var u_proj_matrix = gl.getUniformLocation(glProgram, "uPMatrix");
+
 	    // Preparamos una matriz de perspectiva.
 	    gl.uniformMatrix4fv(u_proj_matrix, false, projectionMatrix);
 	}
 
 	this.setView = function(){
-
-		if(isMouseDown){
-			var deltaX = mouse.x - previousClientX;
-	        var deltaY = mouse.y - previousClientY;
-
-	        previousClientX = mouse.x;
-	        previousClientY = mouse.y;
-
-	        alfa = alfa + deltaX * factorVelocidad;
-	        beta = beta + deltaY * factorVelocidad;
-
-			if (beta<0) beta=0.1;
-			if (beta>Math.PI) beta=Math.PI-0.1;
-		}else{
-			previousClientX = mouse.x;
-	        previousClientY = mouse.y;
-		}
-
-	    var u_model_view_matrix = gl.getUniformLocation(glProgram, "uMVMatrix");
-	    // Preparamos una matriz de modelo+vista.
-	    mat4.lookAt(mvMatrix, [radio * Math.sin(beta) * Math.cos(-alfa), radio * Math.cos(beta), radio * Math.sin(beta) * Math.sin(-alfa)], [0.0,0.0,0.0], [0.0,1.0,0.0]);
-
-	    gl.uniformMatrix4fv(u_model_view_matrix, false, mvMatrix);                       //Done setting up the buffer
+		actualCamera.setView();
 	}
+
+	var changeCamera = function(){
+		actualCameraAux++;
+		if (actualCameraAux > 2) actualCameraAux = 1;
+
+		switch(actualCameraAux){
+			case 1:
+				actualCamera = orbitalCamera;
+				break;
+			case 2:
+				actualCamera = cabinCamera;
+				break;
+			case 3:
+				//actualCamera = firstPersonCamera;
+				break;
+		}
+	}
+
+
+	// add event listeners
+
 	$('body').on("keydown",function(event){
 		//alert(event.keyCode);
-		if (event.keyCode == 189) radio++;	// -
-		if (event.keyCode == 187) radio--;	// +
+		if (event.keyCode == 67) changeCamera();
 
-    	});
+		if(actualCameraAux == 1){
+			if (event.keyCode == 189) orbitalCamera.zoomOut();	// -
+			if (event.keyCode == 187) orbitalCamera.zoomIn();	// +
+		}
+	});
 
-    	$('body').bind('mousewheel DOMMouseScroll', function(event){
-	    if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
-	        radio++;	// scroll up
-	    }
-	    else {
-	        radio--;	// scroll down
-	    }
+    $('body').bind('mousewheel DOMMouseScroll', function(event){
+    	if (actualCameraAux == 1){
+		    if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
+		        orbitalCamera.zoomOut();	// scroll up
+		    }
+		    else {
+		        orbitalCamera.zoomIn();	// scroll down
+		    }
+		}
 
 	});
+
 	$('body').mousemove(function(e){ 
-		mouse.x = e.clientX || e.pageX; 
-		mouse.y = e.clientY || e.pageY 
+		actualCamera.setMouse(e.clientX || e.pageX, e.clientY || e.pageY);
 	});
 
-	$('body').mousedown(function(event){		
-		isMouseDown = true;        
+	$('body').mousedown(function(event){
+		switch (event.which) {
+			case 1:	
+				actualCamera.isMouseDown(true);
+				break;
+		}     
 	});
 
 	$('body').mouseup(function(event){
-		isMouseDown = false;		
+		switch (event.which) {
+			case 1:	
+				actualCamera.isMouseDown(false);
+				break;
+		}  		
 	});
-
 }
 
 
