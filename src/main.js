@@ -58,6 +58,12 @@ function start(){
     my_point = new Point();
     my_point.initialize();
 
+    my_bspline = new Curva('bezier3');
+    my_bspline.initialize();
+    console.log(my_bspline);
+    my_bspline.draw();
+
+
     my_camera = new Camera();
     my_camera.setPerspective(55, 640.0/480.0, 0.1, 100.0)
 
