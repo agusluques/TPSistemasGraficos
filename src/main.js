@@ -42,8 +42,8 @@ function drawScene(shaderProg){
     
     t = t + 0.01;
     my_camera.setView();
-    //my_grid.draw();
-    my_point.draw();
+    my_grid.draw();
+    //my_point.draw();
 }
 
 function start(){
