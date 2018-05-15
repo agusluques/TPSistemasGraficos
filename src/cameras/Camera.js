@@ -33,11 +33,14 @@ function Camera(){
 
 			if (beta<0) beta=0.1;
 			if (beta>Math.PI) beta=Math.PI-0.1;
+		}else{
+			previousClientX = mouse.x;
+	        previousClientY = mouse.y;
 		}
 
 	    var u_model_view_matrix = gl.getUniformLocation(glProgram, "uMVMatrix");
 	    // Preparamos una matriz de modelo+vista.
-	    mat4.lookAt(mvMatrix, [radio * Math.sin(beta) * Math.cos(alfa), radio * Math.cos(beta), radio * Math.sin(beta) * Math.sin(alfa)], [0.0,0.0,0.0], [0.0,1.0,0.0]);
+	    mat4.lookAt(mvMatrix, [radio * Math.sin(beta) * Math.cos(-alfa), radio * Math.cos(beta), radio * Math.sin(beta) * Math.sin(-alfa)], [0.0,0.0,0.0], [0.0,1.0,0.0]);
 
 	    gl.uniformMatrix4fv(u_model_view_matrix, false, mvMatrix);                       //Done setting up the buffer
 	}
@@ -50,10 +53,10 @@ function Camera(){
 
     	$('body').bind('mousewheel DOMMouseScroll', function(event){
 	    if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
-	        radio--;	// scroll up
+	        radio++;	// scroll up
 	    }
 	    else {
-	        radio++;	// scroll down
+	        radio--;	// scroll down
 	    }
 
 	});
