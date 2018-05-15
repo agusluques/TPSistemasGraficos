@@ -55,10 +55,10 @@ function Camera(){
     $('body').bind('mousewheel DOMMouseScroll', function(event){
     	if (actualCameraAux == 1){
 		    if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
-		        orbitalCamera.zoomOut();	// scroll up
+		        orbitalCamera.zoomIn();	// scroll up
 		    }
 		    else {
-		        orbitalCamera.zoomIn();	// scroll down
+		        orbitalCamera.zoomOut();	// scroll down
 		    }
 		}
 
