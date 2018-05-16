@@ -43,6 +43,7 @@ function drawScene(shaderProg){
     t = t + 0.01;
     my_camera.setView();
     my_grid.draw();
+    //my_bspline.draw();
     //my_point.draw();
 }
 
@@ -59,6 +60,7 @@ function start(){
     my_point.initialize();
 
     my_bspline = new Curva('bezier3');
+    //my_bspline = new Curva('bspline3');
     my_bspline.initialize();
     console.log(my_bspline);
     my_bspline.draw();

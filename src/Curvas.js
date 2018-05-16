@@ -3,6 +3,8 @@ function Curva (_cual) {
     var Base0,Base1,Base2,Base3;
     var Base0der,Base1der,Base2der,Base3der;
     var position_buffer;
+    var position_render_buffer = [];
+    var position_render_buffer_rotado = [];
     var color_buffer, index_buffer;
 
     var webgl_position_buffer = null;
@@ -58,6 +60,7 @@ function Curva (_cual) {
         var p2=position_buffer[2];
         var p3=position_buffer[3];
 
+        console.log('-----PUNTO NORMAL-----')
         console.log('Punto 0: ' + p0);
         console.log('Punto 1: ' + p1);
         console.log('Punto 2: ' + p2);
@@ -69,6 +72,27 @@ function Curva (_cual) {
         punto.x=Base0(u)*p0[0]+Base1(u)*p1[0]+Base2(u)*p2[0]+Base3(u)*p3[0];
         punto.y=Base0(u)*p0[1]+Base1(u)*p1[1]+Base2(u)*p2[1]+Base3(u)*p3[1];
         punto.z=Base0(u)*p0[2]+Base1(u)*p1[2]+Base2(u)*p2[2]+Base3(u)*p3[2];
+
+        position_render_buffer.push(punto.x);
+        position_render_buffer.push(punto.y);
+        position_render_buffer.push(punto.z);
+
+
+        // ROTACION DE LOS PUNTOS
+        var puntoRotado = new Object();
+        var angulo = Math.PI/4;
+        while(angulo <= (Math.PI*2)){
+            puntoRotado.x = ((punto.x * Math.cos(Math.PI/4)) + (punto.z * Math.sin(Math.PI/4)));
+            puntoRotado.y = punto.y;
+            puntoRotado.z = (( -punto.x * Math.sin(Math.PI/4)) + (punto.z * Math.cos(Math.PI/4)));
+            
+            position_render_buffer_rotado.push(puntoRotado.x);
+            position_render_buffer_rotado.push(puntoRotado.y);
+            position_render_buffer_rotado.push(puntoRotado.z);
+
+            angulo = angulo + Math.PI/4;
+        }
+
 
         return punto;
     }
@@ -156,7 +180,7 @@ function Curva (_cual) {
 
     var createPoints = function(){
 
-        position_buffer =[ [100,450, 1] , [200,100, 0] , [600,100, 0] , [700,450, 10] ];
+        position_buffer =[ [0,450, 0] , [200,300, 0] , [600,130, 0] , [700,0, 0] ];
         color_buffer = [[0.2,0.2,0.2], [0.2,0.2,0.2], [0.2,0.2,0.2], [0.2,0.2,0.2]];
 
     }
@@ -206,6 +230,12 @@ function Curva (_cual) {
             console.log(punto);
             currentU+=0.25;
         }
+
+        console.log("-------POSITION BUFFER--------");
+        console.log(position_render_buffer);
+
+        console.log("----POSITION BUFFER ROTADO----");
+        console.log(position_render_buffer_rotado);
 
         // REEMPLAZAR POR LO QUE CORRESPONDA
         /*
