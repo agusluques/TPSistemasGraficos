@@ -62,8 +62,11 @@ function start(){
     my_bspline = new Curva('bezier3');
     //my_bspline = new Curva('bspline3');
     my_bspline.initialize();
-    console.log(my_bspline);
+    //console.log(my_bspline);
     my_bspline.draw();
+
+    my_barco = new Barco();
+    my_barco.initialize();
 
 
     my_camera = new Camera();
