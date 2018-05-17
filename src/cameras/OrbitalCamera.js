@@ -1,6 +1,6 @@
 function OrbitalCamera(){
 	var mvMatrix = mat4.create();
-	var radio = 5.0;
+	var radio = 10.0;
 	var previousClientX = 0, previousClientY = 0, alfa = 0, beta = Math.PI/2, factorVelocidad = 0.01;
 
     var isMouseDown = false;

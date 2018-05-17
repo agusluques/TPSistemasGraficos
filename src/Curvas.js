@@ -60,13 +60,6 @@ function Curva (_cual) {
         var p2=position_buffer[2];
         var p3=position_buffer[3];
 
-        console.log('-----PUNTO NORMAL-----')
-        console.log('Punto 0: ' + p0);
-        console.log('Punto 1: ' + p1);
-        console.log('Punto 2: ' + p2);
-        console.log('Punto 3: ' + p3);
-        console.log('Valor u: ' + u);
-
         var punto=new Object();
 
         punto.x=Base0(u)*p0[0]+Base1(u)*p1[0]+Base2(u)*p2[0]+Base3(u)*p3[0];
@@ -77,21 +70,34 @@ function Curva (_cual) {
         position_render_buffer.push(punto.y);
         position_render_buffer.push(punto.z);
 
-
         // ROTACION DE LOS PUNTOS
         var puntoRotado = new Object();
         var angulo = Math.PI/4;
-        while(angulo <= (Math.PI*2)){
-            puntoRotado.x = ((punto.x * Math.cos(Math.PI/4)) + (punto.z * Math.sin(Math.PI/4)));
+        while(angulo <= (Math.PI*2) ){
+            if (position_render_buffer_rotado.length == 0){
+                for (var i = 0; i < 9; i++) {
+                    position_render_buffer_rotado.push(p0[0]);
+                    position_render_buffer_rotado.push(p0[1]);
+                    position_render_buffer_rotado.push(p0[2]);
+                }
+            }
+            puntoRotado.x = ((punto.x * Math.cos(angulo)) - (punto.z * Math.sin(angulo)));
             puntoRotado.y = punto.y;
-            puntoRotado.z = (( -punto.x * Math.sin(Math.PI/4)) + (punto.z * Math.cos(Math.PI/4)));
+            puntoRotado.z = (( punto.x * Math.sin(angulo)) + (punto.z * Math.cos(angulo)));
             
             position_render_buffer_rotado.push(puntoRotado.x);
             position_render_buffer_rotado.push(puntoRotado.y);
             position_render_buffer_rotado.push(puntoRotado.z);
-
+            
             angulo = angulo + Math.PI/4;
         }
+        puntoRotado.x = ((punto.x * Math.cos(angulo)) - (punto.z * Math.sin(angulo)));
+        puntoRotado.y = punto.y;
+        puntoRotado.z = (( punto.x * Math.sin(angulo)) + (punto.z * Math.cos(angulo)));
+        
+        position_render_buffer_rotado.push(puntoRotado.x);
+        position_render_buffer_rotado.push(puntoRotado.y);
+        position_render_buffer_rotado.push(puntoRotado.z);
 
 
         return punto;
@@ -181,27 +187,65 @@ function Curva (_cual) {
     var createPoints = function(){
 
         position_buffer =[ [0,450, 0] , [200,300, 0] , [600,130, 0] , [700,0, 0] ];
-        color_buffer = [[0.2,0.2,0.2], [0.2,0.2,0.2], [0.2,0.2,0.2], [0.2,0.2,0.2]];
+        color_buffer = [];
+
+        var currentU = 0;
+        while (currentU <= 1){
+            var punto = CurvaCubica(currentU,position_buffer);
+            
+            currentU+=0.25;
+        }
+
+        for (var i = 0.0; i < 6; i++) { 
+           for (var j = 0.0; j < 9; j++) {
+               // Para cada vértice definimos su color
+               color_buffer.push(1.0/5 * i);
+               color_buffer.push(0.2);
+               color_buffer.push(1.0/8 * j);
+                                      
+           };
+        };
 
     }
 
     var createIndexBuffer = function(){
-
-        index_buffer = [[0.0] , [0.0] ,[0.0] ,[0.0]];
-        
+        index_buffer = [];
+        var cols = 9;
+        var rows = 6;
+        var offset = cols-1;
+        for (var i = 0; i < rows-1; i++) {
+            for (var j = 0.0; j < cols; j++){
+                
+                if (i % 2 == 0){
+                    index_buffer.push(j+(i*cols));
+                    index_buffer.push(j+((i+1)*cols));
+                } else {
+                    index_buffer.push((offset-j)+(i*cols));
+                    index_buffer.push((offset-j)+((i+1)*cols));
+                }
+            }
+        }
     }
 
     // Esta función crea e incializa los buffers dentro del pipeline para luego
     // utlizarlos a la hora de renderizar.
     var setupWebGLBuffers = function(){
-
+        var min = Math.min.apply(null, position_render_buffer_rotado),
+            max = Math.max.apply(null, position_render_buffer_rotado)
+        position_render_buffer_rotado = position_render_buffer_rotado.map(function(e) { 
+                                          e = ((25*(e - min))/(max - min)) -5
+                                          return e;
+                                        });
+        console.log(position_render_buffer_rotado);
+        console.log(index_buffer);
+        console.log(color_buffer);
         // 1. Creamos un buffer para las posicioens dentro del pipeline.
         webgl_position_buffer = gl.createBuffer();
         // 2. Le decimos a WebGL que las siguientes operaciones que vamos a ser se aplican sobre el buffer que
         // hemos creado.
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_position_buffer);
         // 3. Cargamos datos de las posiciones en el buffer.
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(position_buffer), gl.STATIC_DRAW);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(position_render_buffer_rotado), gl.STATIC_DRAW);
 
         // Repetimos los pasos 1. 2. y 3. para la información del color
         webgl_color_buffer = gl.createBuffer();
@@ -223,22 +267,6 @@ function Curva (_cual) {
     }
 
     this.draw = function(){
-
-        var currentU = 0;
-        while (currentU <= 1){
-            var punto = CurvaCubica(currentU,position_buffer);
-            console.log(punto);
-            currentU+=0.25;
-        }
-
-        console.log("-------POSITION BUFFER--------");
-        console.log(position_render_buffer);
-
-        console.log("----POSITION BUFFER ROTADO----");
-        console.log(position_render_buffer_rotado);
-
-        // REEMPLAZAR POR LO QUE CORRESPONDA
-        /*
         var vertexPositionAttribute = gl.getAttribLocation(glProgram, "aVertexPosition");
         gl.enableVertexAttribArray(vertexPositionAttribute);
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_position_buffer);
@@ -252,6 +280,6 @@ function Curva (_cual) {
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, webgl_index_buffer);
 
         // Dibujamos.
-        gl.drawElements(gl.TRIANGLE_STRIP, index_buffer.length, gl.UNSIGNED_SHORT, 0);*/
+        gl.drawElements(gl.TRIANGLE_STRIP, index_buffer.length, gl.UNSIGNED_SHORT, 0);
     }
 }

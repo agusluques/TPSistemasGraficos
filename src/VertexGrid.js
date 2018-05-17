@@ -98,7 +98,9 @@ function VertexGrid (_rows, _cols) {
     // Esta función crea e incializa los buffers dentro del pipeline para luego
     // utlizarlos a la hora de renderizar.
     var setupWebGLBuffers = function(){
-
+        console.log(position_buffer);
+        console.log(index_buffer);
+        console.log(color_buffer);
         // 1. Creamos un buffer para las posicioens dentro del pipeline.
         webgl_position_buffer = gl.createBuffer();
         // 2. Le decimos a WebGL que las siguientes operaciones que vamos a ser se aplican sobre el buffer que
