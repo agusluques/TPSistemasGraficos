@@ -23,8 +23,8 @@ function Barco () {
 
 	//Todos los puntos de la malla para el barco
 	var bezier_final = []
-	var color_buffer = null;
-	var index_buffer = null;
+	var color_buffer = [];
+	var index_buffer = [];
 
     var webgl_position_buffer = null;
     var webgl_color_buffer = null;
@@ -60,7 +60,7 @@ function Barco () {
 
 		//Costado superior del barco
 		//control_points_4 = [[25,0,6] , [20,0,6] , [15,0,-6] , [10,0,-6]];
-		control_points_4 = [[7,0,6] , [2,0,6] , [-3,0,-6] , [-8,0,-6]];
+		control_points_4 = [[7,0,6] , [2,0,6] , [-3,0,6] , [-8,0,6]];
 
 	}
 
@@ -83,7 +83,7 @@ function Barco () {
 	var createBezierCurvePoints = function(){
 
         var currentU = 0;
-        while (currentU <= 1){
+        while (currentU < 1){
 
         	//Para la trompa
             var punto_cp1 = CalcularPuntoBezier(currentU,control_points_1);
@@ -112,6 +112,12 @@ function Barco () {
             currentU+=0.25;
         }
 
+        //AGREGO ULTIMO PUNTO
+        var ultimoPunto = CalcularPuntoBezier(1,control_points_4);
+        bezier_points_4.push(ultimoPunto.x);
+        bezier_points_4.push(ultimoPunto.y);
+        bezier_points_4.push(ultimoPunto.z);
+
         console.log("------ POINTS 1 ------");
         console.log(bezier_points_1);
         console.log("------ POINTS 2 ------");
@@ -125,23 +131,20 @@ function Barco () {
 
 	var createBezierFirstLevelSurface = function(){
 
-		var i;
-		for (i = 0; i < bezier_points_1.length; i = i+3) { 
+		for (var i = 0; i<bezier_points_1.length ; i++) {
 			bezier_first_level.push(bezier_points_1[i]);
-			bezier_first_level.push(bezier_points_1[i+1]);
-			bezier_first_level.push(bezier_points_1[i+2]);
-
+		}
+		
+		for (var i = 0; i<bezier_points_2.length ; i++) {
 			bezier_first_level.push(bezier_points_2[i]);
-			bezier_first_level.push(bezier_points_2[i+1]);
-			bezier_first_level.push(bezier_points_2[i+2]);
+		}
 
+		for (var i = 0; i<bezier_points_3.length ; i++) {
 			bezier_first_level.push(bezier_points_3[i]);
-			bezier_first_level.push(bezier_points_3[i+1]);
-			bezier_first_level.push(bezier_points_3[i+2]);
+		}
 
+		for (var i = 0; i<bezier_points_4.length ; i++) {
 			bezier_first_level.push(bezier_points_4[i]);
-			bezier_first_level.push(bezier_points_4[i+1]);
-			bezier_first_level.push(bezier_points_4[i+2]);
 		}
 
 		console.log("----- FIRST LEVEL -----");
@@ -155,7 +158,7 @@ function Barco () {
 		var i;
 		for (i = 0; i < _bufferIN.length; i = i+3) {
 			_bufferOUT.push(_bufferIN[i]*1.2);
-			_bufferOUT.push(_bufferIN[i+1]+2);
+			_bufferOUT.push(_bufferIN[i+1]-3);
 			_bufferOUT.push(_bufferIN[i+2]*1.2);
 		}
 
@@ -201,13 +204,51 @@ function Barco () {
 
     var createColorBuffer = function(){
 
-        //Completar con lo que corresponda
+        for (var i = 0.0; i < 120; i=i+2) { 
+           if (i == 0.0){
+           		color_buffer.push(0.0);
+           		color_buffer.push(0.0);
+           		color_buffer.push(0.1);
+
+           		color_buffer.push(0.0);
+		           color_buffer.push(1.0);
+		           color_buffer.push(0.0);
+           }else{
+           color_buffer.push(0.0);
+           color_buffer.push(1.0);
+           color_buffer.push(0.0);
+
+           color_buffer.push(0.0);
+           color_buffer.push(1.0);
+           color_buffer.push(0.0);
+       }
+
+           /*color_buffer.push(0.0);
+           color_buffer.push(0.0);
+           color_buffer.push(1.0);*/
+        };
         
     }
 
     var createIndexBuffer = function(){
 
-        //Completar con lo que corresponda
+        index_buffer = [];
+        var cols = 3;
+        var rows = 17;
+        var offset = cols-1;
+        for (var i = 0; i < rows-1; i++) {
+            for (var j = 0.0; j < cols; j++){
+                
+                if (i % 2 == 0){
+                    index_buffer.push(j+(i*cols));
+                    index_buffer.push(j+((i+1)*cols));
+                } else {
+                    index_buffer.push((offset-j)+(i*cols));
+                    index_buffer.push((offset-j)+((i+1)*cols));
+                }
+            }
+        }
+        console.log(index_buffer);
         
     }
 
@@ -247,6 +288,23 @@ function Barco () {
         createColorBuffer();
         createIndexBuffer();
         setupWebGLBuffers();
+    }
+
+    this.draw = function(){
+        var vertexPositionAttribute = gl.getAttribLocation(glProgram, "aVertexPosition");
+        gl.enableVertexAttribArray(vertexPositionAttribute);
+        gl.bindBuffer(gl.ARRAY_BUFFER, webgl_position_buffer);
+        gl.vertexAttribPointer(vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0);
+
+        var vertexColorAttribute = gl.getAttribLocation(glProgram, "aVertexColor");
+        gl.enableVertexAttribArray(vertexColorAttribute);
+        gl.bindBuffer(gl.ARRAY_BUFFER, webgl_color_buffer);
+        gl.vertexAttribPointer(vertexColorAttribute, 3, gl.FLOAT, false, 0, 0);
+
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, webgl_index_buffer);
+
+        // Dibujamos.
+        gl.drawElements(gl.TRIANGLE_STRIP, index_buffer.length, gl.UNSIGNED_SHORT, 0);
     }
 
 }

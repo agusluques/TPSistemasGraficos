@@ -42,9 +42,10 @@ function drawScene(shaderProg){
     
     t = t + 0.01;
     my_camera.setView();
-    my_grid.draw();
+    //my_grid.draw();
     my_bspline.draw();
     //my_point.draw();
+    my_barco.draw();
 }
 
 function start(){
