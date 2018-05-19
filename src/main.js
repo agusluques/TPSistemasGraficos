@@ -44,8 +44,9 @@ function drawScene(shaderProg){
     my_camera.setView();
     //my_grid.draw();
     my_bspline.draw();
-    //my_point.draw();
+    my_point.draw();
     my_barco.draw();
+    my_water.draw();
 }
 
 function start(){
@@ -54,6 +55,9 @@ function start(){
     glProgram = ShaderUtil.domShaderProgram(gl, "shader-vs", "shader-fs", true);
     gl.useProgram(glProgram);
 
+    my_water = new Water();
+    my_water.initialize();
+
     my_grid = new VertexGrid(5,5);
     my_grid.initialize();
 
@@ -61,7 +65,6 @@ function start(){
     my_point.initialize();
 
     my_bspline = new Curva('bspline3');
-    //my_bspline = new Curva('bspline3');
     my_bspline.initialize();
 
     my_barco = new Barco();

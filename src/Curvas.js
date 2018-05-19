@@ -199,9 +199,9 @@ function Curva (_cual) {
         for (var i = 0.0; i < 6; i++) { 
            for (var j = 0.0; j < 9; j++) {
                // Para cada vértice definimos su color
-               color_buffer.push(1.0/5 * i);
-               color_buffer.push(0.2);
-               color_buffer.push(1.0/8 * j);
+               color_buffer.push(0.6);
+               color_buffer.push(0.3);
+               color_buffer.push(0.17);
                                       
            };
         };
@@ -260,13 +260,28 @@ function Curva (_cual) {
         gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(index_buffer), gl.STATIC_DRAW);
     }
 
+    var setModelMatrix = function(){
+        var modelMatrix = mat4.create();
+        
+        mat4.rotate(modelMatrix, modelMatrix, Math.PI, [1,0,0]);
+        mat4.translate(modelMatrix, modelMatrix, [0, -10, -10]);
+        
+        var u_model_matrix = gl.getUniformLocation(glProgram, "uMMatrix");
+
+        gl.uniformMatrix4fv(u_model_matrix, false, modelMatrix);
+
+    }
+
     this.initialize = function(){
         createPoints();
         createIndexBuffer();
         setupWebGLBuffers();
+        
     }
 
     this.draw = function(){
+        setModelMatrix();
+
         var vertexPositionAttribute = gl.getAttribLocation(glProgram, "aVertexPosition");
         gl.enableVertexAttribArray(vertexPositionAttribute);
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_position_buffer);

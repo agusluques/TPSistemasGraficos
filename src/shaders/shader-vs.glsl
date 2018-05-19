@@ -7,6 +7,7 @@ attribute vec3 aVertexColor;
 // Son comunes a todos los vertices involucrados en el dibujado.
 uniform mat4 uMVMatrix;
 uniform mat4 uPMatrix;
+uniform mat4 uMMatrix;
 
 // Los varying son propiedades que toman valor para cada fragmento a partir
 // de interpolar linealmente entre los valores que se les asigna en cada 
@@ -16,7 +17,7 @@ varying highp vec4 vColor;
 void main(void) {
     // gl_Position es una variable "built-in" de GLSL que es usada para 
     // almacenar la posición resultante del fragmento.
-    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+    gl_Position = uPMatrix * uMVMatrix * uMMatrix * vec4(aVertexPosition, 1.0);
     vColor = vec4(aVertexColor,1.0);
     gl_PointSize = 10.0;
 }

@@ -204,29 +204,11 @@ function Barco () {
 
     var createColorBuffer = function(){
 
-        for (var i = 0.0; i < 120; i=i+2) { 
-           if (i == 0.0){
-           		color_buffer.push(0.0);
-           		color_buffer.push(0.0);
-           		color_buffer.push(0.1);
-
-           		color_buffer.push(0.0);
-		           color_buffer.push(1.0);
-		           color_buffer.push(0.0);
-           }else{
-           color_buffer.push(0.0);
-           color_buffer.push(1.0);
-           color_buffer.push(0.0);
-
-           color_buffer.push(0.0);
-           color_buffer.push(1.0);
-           color_buffer.push(0.0);
-       }
-
-           /*color_buffer.push(0.0);
-           color_buffer.push(0.0);
-           color_buffer.push(1.0);*/
-        };
+        for (var i = 0.0; i < 120; i++) { 
+           color_buffer.push(0.5);
+           color_buffer.push(0.5);
+           color_buffer.push(0.5);
+       };
         
     }
 
@@ -277,6 +259,18 @@ function Barco () {
         gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(index_buffer), gl.STATIC_DRAW);
     }
 
+    var setModelMatrix = function(){
+        var modelMatrix = mat4.create();
+        
+        mat4.scale(modelMatrix, modelMatrix, [0.125,0.125,0.125]);
+        mat4.translate(modelMatrix, modelMatrix, [-60.0, 0, 0]);
+        
+        var u_model_matrix = gl.getUniformLocation(glProgram, "uMMatrix");
+
+        gl.uniformMatrix4fv(u_model_matrix, false, modelMatrix);
+
+    }
+
     this.initialize = function(){
         createBases();
         createControlPoints();
@@ -291,6 +285,7 @@ function Barco () {
     }
 
     this.draw = function(){
+        setModelMatrix();
         var vertexPositionAttribute = gl.getAttribLocation(glProgram, "aVertexPosition");
         gl.enableVertexAttribArray(vertexPositionAttribute);
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_position_buffer);

@@ -1,8 +1,9 @@
-function Point () {
-    var index_buffer = null;
+function Water () {
 
-    var position_buffer = null;
-    var color_buffer = null;
+    var position_buffer;
+    var position_render_buffer = [];
+    var position_render_buffer_rotado = [];
+    var color_buffer, index_buffer;
 
     var webgl_position_buffer = null;
     var webgl_color_buffer = null;
@@ -10,26 +11,35 @@ function Point () {
 
 
 
+    var createPoints = function(){
+
+        position_buffer =[ 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1 ];
+        color_buffer = [0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1];
+
+    }
+
     var createIndexBuffer = function(){
-
-        index_buffer = [0.0];
-        
-        
+        index_buffer = [];
+        var cols = 2;
+        var rows = 2;
+        var offset = cols-1;
+        for (var i = 0; i < rows-1; i++) {
+            for (var j = 0.0; j < cols; j++){
+                
+                if (i % 2 == 0){
+                    index_buffer.push(j+(i*cols));
+                    index_buffer.push(j+((i+1)*cols));
+                } else {
+                    index_buffer.push((offset-j)+(i*cols));
+                    index_buffer.push((offset-j)+((i+1)*cols));
+                }
+            }
+        }
     }
-
-    var createPoint = function(){
-
-        position_buffer = [0.0,0.0,0.0];
-        color_buffer = [0.2,0.2,0.2];
-        
-    }
-
-    
 
     // Esta función crea e incializa los buffers dentro del pipeline para luego
     // utlizarlos a la hora de renderizar.
     var setupWebGLBuffers = function(){
-
         // 1. Creamos un buffer para las posicioens dentro del pipeline.
         webgl_position_buffer = gl.createBuffer();
         // 2. Le decimos a WebGL que las siguientes operaciones que vamos a ser se aplican sobre el buffer que
@@ -53,16 +63,19 @@ function Point () {
 
     var setModelMatrix = function(){
         var modelMatrix = mat4.create();
-        var u_model_matrix = gl.getUniformLocation(glProgram, "uMMatrix");
+        
 
-        mat4.translate(modelMatrix, modelMatrix, [0, 0, 0]);
+        mat4.scale(modelMatrix, modelMatrix, [1000,1000,1000]);
+        mat4.translate(modelMatrix, modelMatrix, [-0.5, 0, -0.5]);
+
+        var u_model_matrix = gl.getUniformLocation(glProgram, "uMMatrix");
 
         gl.uniformMatrix4fv(u_model_matrix, false, modelMatrix);
 
     }
 
     this.initialize = function(){
-        createPoint();
+        createPoints();
         createIndexBuffer();
         setupWebGLBuffers();
         
@@ -70,6 +83,7 @@ function Point () {
 
     this.draw = function(){
         setModelMatrix();
+
         var vertexPositionAttribute = gl.getAttribLocation(glProgram, "aVertexPosition");
         gl.enableVertexAttribArray(vertexPositionAttribute);
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_position_buffer);
@@ -83,8 +97,6 @@ function Point () {
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, webgl_index_buffer);
 
         // Dibujamos.
-        gl.drawElements(gl.POINTS, index_buffer.length, gl.UNSIGNED_SHORT, 0);
+        gl.drawElements(gl.TRIANGLE_STRIP, index_buffer.length, gl.UNSIGNED_SHORT, 0);
     }
-
-    
 }
