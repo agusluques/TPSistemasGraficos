@@ -260,15 +260,13 @@ function Curva (_cual) {
         gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(index_buffer), gl.STATIC_DRAW);
     }
 
-    var setModelMatrix = function(){
+    var getModelMatrix = function(){
         var modelMatrix = mat4.create();
         
         mat4.rotate(modelMatrix, modelMatrix, Math.PI, [1,0,0]);
         mat4.translate(modelMatrix, modelMatrix, [0, -10, -10]);
         
-        var u_model_matrix = gl.getUniformLocation(glProgram, "uMMatrix");
-
-        gl.uniformMatrix4fv(u_model_matrix, false, modelMatrix);
+        return modelMatrix;
 
     }
 
@@ -279,8 +277,11 @@ function Curva (_cual) {
         
     }
 
-    this.draw = function(){
-        setModelMatrix();
+    this.draw = function(viewMatrix){
+        var modelViewMatrix = mat4.create();
+        mat4.multiply(modelViewMatrix, viewMatrix, getModelMatrix());
+        var u_modelview_matrix = gl.getUniformLocation(glProgram, "uMVMatrix");
+        gl.uniformMatrix4fv(u_modelview_matrix, false, modelViewMatrix);
 
         var vertexPositionAttribute = gl.getAttribLocation(glProgram, "aVertexPosition");
         gl.enableVertexAttribArray(vertexPositionAttribute);

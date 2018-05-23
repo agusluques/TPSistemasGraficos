@@ -18,8 +18,8 @@ function Camera(){
 	    gl.uniformMatrix4fv(u_proj_matrix, false, projectionMatrix);
 	}
 
-	this.setView = function(){
-		actualCamera.setView();
+	this.getViewMatrix = function(){
+		return actualCamera.getViewMatrix();
 	}
 
 	var changeCamera = function(){

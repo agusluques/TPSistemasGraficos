@@ -1,5 +1,5 @@
 function FirstPersonCamera(){
-	var mvMatrix = mat4.create();
+	var vMatrix = mat4.create();
 	var radio = 0.0;
 	var previousClientX = 0, previousClientY = 0, alfa = 0, beta = 0.0, factorVelocidad = 0.01;
 
@@ -10,7 +10,7 @@ function FirstPersonCamera(){
 	
 	
 
-	this.setView = function(){
+	this.getViewMatrix = function(){
 
 		if(isMouseDown){
 			var deltaX = mouse.x - previousClientX;
@@ -27,11 +27,10 @@ function FirstPersonCamera(){
 	        previousClientY = mouse.y;
 		}
 
-	    var u_model_view_matrix = gl.getUniformLocation(glProgram, "uMVMatrix");
 	    // Preparamos una matriz de modelo+vista.
-	    mat4.lookAt(mvMatrix, [0.0,0.0,10.0], [alfa, beta, 0], [0.0,1.0,0.0]);
+	    mat4.lookAt(vMatrix, [0.0,0.0,10.0], [alfa, beta, 0], [0.0,1.0,0.0]);
 
-	    gl.uniformMatrix4fv(u_model_view_matrix, false, mvMatrix);                       //Done setting up the buffer
+	    return vMatrix;                      //Done setting up the buffer
 	}
 
 

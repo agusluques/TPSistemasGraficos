@@ -61,16 +61,14 @@ function Water () {
         gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(index_buffer), gl.STATIC_DRAW);
     }
 
-    var setModelMatrix = function(){
+    var getModelMatrix = function(){
         var modelMatrix = mat4.create();
         
 
         mat4.scale(modelMatrix, modelMatrix, [1000,1000,1000]);
         mat4.translate(modelMatrix, modelMatrix, [-0.5, 0, -0.5]);
 
-        var u_model_matrix = gl.getUniformLocation(glProgram, "uMMatrix");
-
-        gl.uniformMatrix4fv(u_model_matrix, false, modelMatrix);
+        return modelMatrix;
 
     }
 
@@ -81,8 +79,11 @@ function Water () {
         
     }
 
-    this.draw = function(){
-        setModelMatrix();
+    this.draw = function(viewMatrix){
+        var modelViewMatrix = mat4.create();
+        mat4.multiply(modelViewMatrix, viewMatrix, getModelMatrix());
+        var u_modelview_matrix = gl.getUniformLocation(glProgram, "uMVMatrix");
+        gl.uniformMatrix4fv(u_modelview_matrix, false, modelViewMatrix);
 
         var vertexPositionAttribute = gl.getAttribLocation(glProgram, "aVertexPosition");
         gl.enableVertexAttribArray(vertexPositionAttribute);

@@ -41,12 +41,12 @@ function GLInstance(){
 function drawScene(shaderProg){
     
     t = t + 0.01;
-    my_camera.setView();
-    //my_grid.draw();
-    my_bspline.draw();
-    my_point.draw();
-    my_barco.draw();
-    my_water.draw();
+
+    requestAnimationFrame(drawScene);
+
+    var viewMatrix = my_camera.getViewMatrix();
+    
+    my_scene.draw(viewMatrix);
 }
 
 function start(){
@@ -55,26 +55,14 @@ function start(){
     glProgram = ShaderUtil.domShaderProgram(gl, "shader-vs", "shader-fs", true);
     gl.useProgram(glProgram);
 
-    my_water = new Water();
-    my_water.initialize();
-
-    my_grid = new VertexGrid(5,5);
-    my_grid.initialize();
-
-    my_point = new Point();
-    my_point.initialize();
-
-    my_bspline = new Curva('bspline3');
-    my_bspline.initialize();
-
-    my_barco = new Barco();
-    my_barco.initialize();
+    my_scene = new Scene();
+    my_scene.initialize();
 
 
     my_camera = new Camera();
     my_camera.setPerspective(55, 640.0/480.0, 0.1, 1000.0)
 
 
-    setInterval(drawScene, 10);
+    drawScene();
                 
 }

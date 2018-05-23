@@ -5,10 +5,13 @@ function VertexGrid (_rows, _cols) {
 
     var position_buffer = null;
     var color_buffer = null;
+    var color = [0.0,0.0,0.0];
 
     var webgl_position_buffer = null;
     var webgl_color_buffer = null;
     var webgl_index_buffer = null;
+
+    var modelMatrix = mat4.create();
 
 
 
@@ -32,29 +35,6 @@ function VertexGrid (_rows, _cols) {
         
     }
 
-    var createUniformPlaneGrid = function(){
-
-        position_buffer = [];
-        color_buffer = [];
-
-        for (var i = 0.0; i < rows; i++) { 
-           for (var j = 0.0; j < cols; j++) {
-
-               // Para cada vértice definimos su posición
-               // como coordenada (x, y, z=0)
-               position_buffer.push(-j - (cols - 1.0)/2.0);
-               position_buffer.push(i +    (rows- 1.0)/2.0);
-               position_buffer.push(0);
-            
-               // Para cada vértice definimos su color
-               color_buffer.push(1.0/rows * i);
-               color_buffer.push(0.2);
-               color_buffer.push(1.0/cols * j);
-                                      
-           };
-        };
-        
-    }
 
     var createCilinder = function(){
 
@@ -83,9 +63,9 @@ function VertexGrid (_rows, _cols) {
                     position_buffer.push(Math.sin(ang));
                 }
                 // Para cada vértice definimos su color
-                color_buffer.push(1.0/rows * i);
-                color_buffer.push(0.2);
-                color_buffer.push(1.0/cols * j);
+                color_buffer.push(color[0]);
+                color_buffer.push(color[1]);
+                color_buffer.push(color[2]);
                 
                 
                 
@@ -98,9 +78,6 @@ function VertexGrid (_rows, _cols) {
     // Esta función crea e incializa los buffers dentro del pipeline para luego
     // utlizarlos a la hora de renderizar.
     var setupWebGLBuffers = function(){
-        console.log(position_buffer);
-        console.log(index_buffer);
-        console.log(color_buffer);
         // 1. Creamos un buffer para las posicioens dentro del pipeline.
         webgl_position_buffer = gl.createBuffer();
         // 2. Le decimos a WebGL que las siguientes operaciones que vamos a ser se aplican sobre el buffer que
@@ -122,14 +99,38 @@ function VertexGrid (_rows, _cols) {
         gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(index_buffer), gl.STATIC_DRAW);
     }
 
+    var getModelMatrix = function(){
+        return modelMatrix;
+    }
+
+    this.translate = function(x,y,z){
+        mat4.translate(modelMatrix, modelMatrix, [x, y, z]);
+    }
+
+    this.rotate = function(alfa, vector){
+        mat4.rotate(modelMatrix, modelMatrix, alfa, vector);
+    }
+
+    this.scale = function( vector){
+        mat4.scale(modelMatrix, modelMatrix, vector);
+    }
+
+    this.setColor = function(vector){
+        color = vector;
+    }
+
     this.initialize = function(){
-        createUniformPlaneGrid();
         createCilinder();
         createIndexBuffer();
         setupWebGLBuffers();
     }
 
-    this.draw = function(){
+    this.draw = function(viewMatrix){
+        var modelViewMatrix = mat4.create();
+        mat4.multiply(modelViewMatrix, viewMatrix, getModelMatrix());
+        var u_modelview_matrix = gl.getUniformLocation(glProgram, "uMVMatrix");
+        gl.uniformMatrix4fv(u_modelview_matrix, false, modelViewMatrix);
+
         var vertexPositionAttribute = gl.getAttribLocation(glProgram, "aVertexPosition");
         gl.enableVertexAttribArray(vertexPositionAttribute);
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_position_buffer);
