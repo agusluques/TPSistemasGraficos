@@ -236,9 +236,9 @@ function Curva (_cual) {
                                           e = ((25*(e - min))/(max - min)) -5
                                           return e;
                                         });
-        console.log(position_render_buffer_rotado);
-        console.log(index_buffer);
-        console.log(color_buffer);
+        //console.log(position_render_buffer_rotado);
+        //console.log(index_buffer);
+        //console.log(color_buffer);
         // 1. Creamos un buffer para las posicioens dentro del pipeline.
         webgl_position_buffer = gl.createBuffer();
         // 2. Le decimos a WebGL que las siguientes operaciones que vamos a ser se aplican sobre el buffer que
