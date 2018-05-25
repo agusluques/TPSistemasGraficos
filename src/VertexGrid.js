@@ -119,6 +119,10 @@ function VertexGrid (_rows, _cols) {
         color = vector;
     }
 
+    this.reset = function(){
+        modelMatrix = mat4.create();
+    }
+
     this.initialize = function(){
         createCilinder();
         createIndexBuffer();

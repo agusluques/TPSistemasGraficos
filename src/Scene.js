@@ -5,7 +5,7 @@ function Scene(){
     //objetos.push(new Point());
     objetos.push(new Curva('bspline3'));
     objetos.push(new Barco());
-    //objetos.push(new Grua());
+    objetos.push(new Grua());
     objetos.push(new Muelle());
     objetos.push(new Container());
     objetos.push(new puenteMando());
