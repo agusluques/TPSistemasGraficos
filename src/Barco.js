@@ -118,14 +118,14 @@ function Barco () {
         bezier_points_4.push(ultimoPunto.y);
         bezier_points_4.push(ultimoPunto.z);
 
-        console.log("------ POINTS 1 ------");
-        console.log(bezier_points_1);
-        console.log("------ POINTS 2 ------");
-        console.log(bezier_points_2);
-        console.log("------ POINTS 3 ------");
-        console.log(bezier_points_3);
-        console.log("------ POINTS 4 ------");
-        console.log(bezier_points_4);
+        //console.log("------ POINTS 1 ------");
+        //console.log(bezier_points_1);
+        //console.log("------ POINTS 2 ------");
+        //console.log(bezier_points_2);
+        //console.log("------ POINTS 3 ------");
+        //console.log(bezier_points_3);
+        //console.log("------ POINTS 4 ------");
+        //console.log(bezier_points_4);
 
 	}
 
@@ -147,8 +147,8 @@ function Barco () {
 			bezier_first_level.push(bezier_points_4[i]);
 		}
 
-		console.log("----- FIRST LEVEL -----");
-		console.log(bezier_first_level);
+		//console.log("----- FIRST LEVEL -----");
+		//console.log(bezier_first_level);
 
 	}
 
@@ -168,28 +168,19 @@ function Barco () {
 
 		expandPoints(bezier_first_level, bezier_second_level);
 
-		console.log("----- SECOND LEVEL -----");
-		console.log(bezier_second_level);	
+		//console.log("----- SECOND LEVEL -----");
+		//console.log(bezier_second_level);	
 	}
 
 	var createBezierThirdLevelSurface = function(){
 
 		expandPoints(bezier_second_level, bezier_third_level);
 
-		console.log("----- THIRD LEVEL -----");
-		console.log(bezier_third_level);	
+		//console.log("----- THIRD LEVEL -----");
+		//console.log(bezier_third_level);	
 	}
 
 	var joinPoints = function(){
-
-        //Agrego un level cero para cerrarlo abajo
-        /*
-        var bezier_cero_level = [-4, 0 , 0];
-        for(var i = 0; i < bezier_first_level.length; i = i+3){
-            bezier_final.push(bezier_cero_level[0]);
-            bezier_final.push(bezier_cero_level[1]);
-            bezier_final.push(bezier_cero_level[2]);
-        }*/
 
         var bezier_intermediate_level = [-4, -3, 0];
 
@@ -216,8 +207,8 @@ function Barco () {
 			bezier_final.push(bezier_third_level[i+2]);
 		} 
 
-		console.log("----- FINAL BEZIER -----");
-		console.log(bezier_final);
+		//console.log("----- FINAL BEZIER -----");
+		//console.log(bezier_final);
 
 	}
 
@@ -249,7 +240,7 @@ function Barco () {
                 }
             }
         }
-        console.log(index_buffer);
+        //console.log(index_buffer);
         
     }
 
