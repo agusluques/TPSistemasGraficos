@@ -22,7 +22,7 @@ function Barco () {
 	var bezier_third_level = [];
 
 	//Todos los puntos de la malla para el barco
-	var bezier_final = []
+	var bezier_final = [];
 	var color_buffer = [];
 	var index_buffer = [];
 
@@ -182,8 +182,24 @@ function Barco () {
 
 	var joinPoints = function(){
 
-		var i;
-		for (i = 0; i < bezier_first_level.length; i = i+3) { 
+        //Agrego un level cero para cerrarlo abajo
+        /*
+        var bezier_cero_level = [-4, 0 , 0];
+        for(var i = 0; i < bezier_first_level.length; i = i+3){
+            bezier_final.push(bezier_cero_level[0]);
+            bezier_final.push(bezier_cero_level[1]);
+            bezier_final.push(bezier_cero_level[2]);
+        }*/
+
+        var bezier_fourth_level = [-4, -6, 0];
+        var bezier_cero_level = [-4, 0, 0];
+
+		for (var i = 0; i < bezier_first_level.length; i = i+3) { 
+            //Agrego un level cero para cerrarlo abajo
+            //bezier_final.push(bezier_cero_level[0]);
+            //bezier_final.push(bezier_cero_level[1]);
+            //bezier_final.push(bezier_cero_level[2]);
+
 			bezier_final.push(bezier_first_level[i]);
 			bezier_final.push(bezier_first_level[i+1]);
 			bezier_final.push(bezier_first_level[i+2]);
@@ -195,7 +211,12 @@ function Barco () {
 			bezier_final.push(bezier_third_level[i]);
 			bezier_final.push(bezier_third_level[i+1]);
 			bezier_final.push(bezier_third_level[i+2]);
-		}
+
+            //Agrego un level cuatro para cerrarlo arriba
+            bezier_final.push(bezier_fourth_level[0]);
+            bezier_final.push(bezier_fourth_level[1]);
+            bezier_final.push(bezier_fourth_level[2]);
+		} 
 
 		console.log("----- FINAL BEZIER -----");
 		console.log(bezier_final);
@@ -215,7 +236,7 @@ function Barco () {
     var createIndexBuffer = function(){
 
         index_buffer = [];
-        var cols = 3;
+        var cols = 4;
         var rows = 17;
         var offset = cols-1;
         for (var i = 0; i < rows-1; i++) {

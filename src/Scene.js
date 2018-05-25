@@ -2,11 +2,12 @@ function Scene(){
     var objetos = [];
     objetos.push(new Water());
     //objetos.push(new VertexGrid(20,5));
-    objetos.push(new Point());
+    //objetos.push(new Point());
     objetos.push(new Curva('bspline3'));
     objetos.push(new Barco());
-    objetos.push(new Grua());
+    //objetos.push(new Grua());
     objetos.push(new Muelle());
+    objetos.push(new Container());
 
     this.initialize = function(){
 		for (var i = 0; i < objetos.length; i++) {
