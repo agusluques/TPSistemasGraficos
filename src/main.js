@@ -58,7 +58,6 @@ function start(){
     my_scene = new Scene();
     my_scene.initialize();
 
-
     my_camera = new Camera();
     my_camera.setPerspective(55, 640.0/480.0, 0.1, 1000.0)
 

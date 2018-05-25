@@ -8,6 +8,7 @@ function Scene(){
     //objetos.push(new Grua());
     objetos.push(new Muelle());
     objetos.push(new Container());
+    objetos.push(new puenteMando());
 
     this.initialize = function(){
 		for (var i = 0; i < objetos.length; i++) {
