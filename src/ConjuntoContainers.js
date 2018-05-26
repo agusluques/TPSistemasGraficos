@@ -1,10 +1,16 @@
 function ConjuntoContainers(){
 
-	var cantidadContainers = 15;
 	var listaContainers = [];
-	var filas = 5;
-	var columnas = 3;
 
+	//Configuración inicial de los containers
+	var filasMuelle = 5;
+	var columnasMuelle = 3;
+	var nivelesMuelle = 3;
+	var filasBarco = 1;
+	var columnasBarco = 5;
+	var nivelesBarco = 3;
+
+	//Distancia entre containers
 	var distanciaX = -0.6;
 	var distanciaY = -0.13;
 	var distanciaZ = 0.2;
@@ -18,12 +24,21 @@ function ConjuntoContainers(){
 
     this.initialize = function(){
         //Containers en el muelle
-        var indice = 0;
-        for(var i = 0; i < filas; i++){
-            for (var j = 0; j < columnas; j++) {
+        for(var i = 0; i < filasMuelle; i++){
+            for (var j = 0; j < columnasMuelle; j++) {
             	listaContainers.push(new Container([-7 + (distanciaX*i), -0.8, 2.2 + (distanciaZ*j)]));
             }
         }
+
+        //Containers en el barco
+		for(var i = 0; i < filasBarco; i++){
+            for (var j = 0; j < columnasBarco; j++) {
+            	for (var k = 0; k < nivelesBarco; k++) {
+            		listaContainers.push(new Container([-7 + (distanciaX*i), -0.6 + (distanciaY*k), -0.35 + (distanciaZ*j)]));
+            	}
+            }
+        }
+
 
         ubicarContainers();
     }
