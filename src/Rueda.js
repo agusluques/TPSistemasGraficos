@@ -5,11 +5,6 @@ function Rueda(_posicion){
 	var cilindro1 = new VertexGrid(20,5);
 	var cilindro2 = new VertexGrid(20,5);
 
-    var modelMatrix1 = mat4.create();
-    var modelMatrix2 = mat4.create();
-
-
-
     var setCilindros = function(){
         cilindro1.reset();
         cilindro1.translate(posicion[0], posicion[1], posicion[2]);
