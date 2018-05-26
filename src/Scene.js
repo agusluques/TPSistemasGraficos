@@ -7,7 +7,7 @@ function Scene(){
     objetos.push(new Barco());
     objetos.push(new Grua());
     objetos.push(new Muelle());
-    objetos.push(new Container());
+    objetos.push(new ConjuntoContainers());
     objetos.push(new puenteMando());
 
     this.initialize = function(){
