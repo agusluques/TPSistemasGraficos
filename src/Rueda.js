@@ -9,15 +9,13 @@ function Rueda(_posicion){
         cilindro1.reset();
         cilindro1.translate(posicion[0], posicion[1], posicion[2]);
         cilindro1.translate(-5,-0.8,3.1);
-        cilindro1.scale([0.05,0.05,0.005]);
-        //cilindro1.rotate(angulo, [0,0,1]);
+        cilindro1.scale([0.1,0.1,0.005]);
         cilindro1.rotate(Math.PI/2, [0,1,0]);
 
         cilindro2.reset();
         cilindro2.translate(posicion[0], posicion[1], posicion[2]);
         cilindro2.translate(-5,-0.8,3);
-        cilindro2.scale([0.05,0.05,0.005]);
-        //cilindro1.rotate(angulo, [0,0,1]);
+        cilindro2.scale([0.1,0.1,0.005]);
         cilindro2.rotate(Math.PI/2, [0,1,0]);
     }
 

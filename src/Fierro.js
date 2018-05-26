@@ -15,10 +15,20 @@ function Fierro(_posicion, _diagonal, _tamano){
         fierro.rotate(Math.PI/4, [1,0,0]);
     }
 
+    this.getPosicion = function(){
+        return posicion;
+    }
+
 	this.translate = function(x,y,z){
         posicion[0] += x;
         posicion[1] += y;
         posicion[2] += z;
+    }
+
+    this.scale = function(x,y,z){
+        tamano[0] += x;
+        tamano[1] += y;
+        tamano[2] += z;
     }
 
     this.initialize = function(){
