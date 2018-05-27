@@ -160,7 +160,7 @@ function Grua(){
             }
         } else {
             if(objetosCabina[0].getPosicion()[2]<-0.59){
-                desplazarCabina(0);    // arriba
+                desplazarCabina(0);    // abajo
             }else{
                 console.log("Limite");
                 
