@@ -1,8 +1,14 @@
-function Curva (_cual) {
+function Curva () {
 
     var Base0,Base1,Base2,Base3;
     var Base0der,Base1der,Base2der,Base3der;
     var position_buffer;
+    var position_buffer1, position_buffer2, position_buffer3, position_buffer4;
+    var bspline1, bspline2, bspline3, bspline4;
+    var bsplineR1, bsplineR2, bsplineR3, bsplineR4;
+    var l1 = []; var l2 = []; var l3 = []; var l4 = []; var l5 = [];
+    var puntosFinales = [];
+
     var position_render_buffer = [];
     var position_render_buffer_rotado = [];
     var color_buffer, index_buffer;
@@ -11,49 +17,67 @@ function Curva (_cual) {
     var webgl_color_buffer = null;
     var webgl_index_buffer = null;
 
-    // Definimos las Bases de Berstein, dependen de u
-    if (_cual=="bezier3"){
+    Base0=function(u) { return (1-3*u+3*u*u-u*u*u)*1/6;}  // (1 -3u +3u2 -u3)/6
+    Base1=function(u) { return (4-6*u*u+3*u*u*u)*1/6; }  // (4  -6u2 +3u3)/6
+    Base2=function(u) { return (1+3*u+3*u*u-3*u*u*u)*1/6} // (1 -3u +3u2 -3u3)/6
+    Base3=function(u) { return (u*u*u)*1/6; }  //    u3/6   
 
-         Base0=function(u) { return (1-u)*(1-u)*(1-u);}  // 1*(1-u) - u*(1-u) = 1-2u+u2  ,  (1-2u+u2) - u +2u2- u3 ,  1 - 3u +3u2 -u3
+    var puntosSegunU = function(u, buffer, numeroCurva){
 
-         Base1=function(u) { return 3*(1-u)*(1-u)*u; }
+        switch (buffer) {
+            case 1:
+                var p0=position_buffer1[0];
+                var p1=position_buffer1[1];
+                var p2=position_buffer1[2];
+                var p3=position_buffer1[3];
+                break; 
+            case 2:
+                var p0=position_buffer2[0];
+                var p1=position_buffer2[1];
+                var p2=position_buffer2[2];
+                var p3=position_buffer2[3];
+                break; 
+            case 3:
+                var p0=position_buffer3[0];
+                var p1=position_buffer3[1];
+                var p2=position_buffer3[2];
+                var p3=position_buffer3[3];
+                break; 
+            case 4:
+                var p0=position_buffer4[0];
+                var p1=position_buffer4[1];
+                var p2=position_buffer4[2];
+                var p3=position_buffer4[3];
+                break; 
+            default: 
+                console.log("No debería entrar acá");
+        }           
 
-         Base2=function(u) { return 3*(1-u)*u*u;}
+        var punto=new Object();
 
-         Base3=function(u) { return u*u*u; }
+        punto.x=Base0(u)*p0[0]+Base1(u)*p1[0]+Base2(u)*p2[0]+Base3(u)*p3[0];
+        punto.y=Base0(u)*p0[1]+Base1(u)*p1[1]+Base2(u)*p2[1]+Base3(u)*p3[1];
+        punto.z=Base0(u)*p0[2]+Base1(u)*p1[2]+Base2(u)*p2[2]+Base3(u)*p3[2];
 
-         // bases derivadas
-
-         Base0der=function(u) { return -3*u*u+6*u-3;} //-3u2 +6u -3
-
-         Base1der=function(u) { return 9*u*u-12*u+3; }  // 9u2 -12u +3
-
-         Base2der=function(u) { return -9*u*u+6*u;}      // -9u2 +6u
-
-         Base3der=function(u) { return 3*u*u; }         // 3u2
-
-    
-    } else if (_cual=="bspline3"){ 
-        
-         Base0=function(u) { return (1-3*u+3*u*u-u*u*u)*1/6;}  // (1 -3u +3u2 -u3)/6
-
-         Base1=function(u) { return (4-6*u*u+3*u*u*u)*1/6; }  // (4  -6u2 +3u3)/6
-
-         Base2=function(u) { return (1+3*u+3*u*u-3*u*u*u)*1/6} // (1 -3u +3u2 -3u3)/6
-
-         Base3=function(u) { return (u*u*u)*1/6; }  //    u3/6
-
-
-         Base0der=function(u) { return (-3 +6*u -3*u*u)/6 }  // (-3 +6u -3u2)/6
-
-         Base1der=function(u) { return (-12*u+9*u*u)/6 }   // (-12u +9u2)  /6
-
-         Base2der=function(u) { return (3+6*u-9*u*u)/6;}    // (-3 +6u -9u2)/6
-
-         Base3der=function(u) { return (3*u*u)*1/6; }           
+        switch (numeroCurva) {
+            case 1:
+                bspline1.push(punto);
+                break; 
+            case 2:
+                bspline2.push(punto);
+                break; 
+            case 3:
+                bspline3.push(punto);
+                break; 
+            case 4:
+                bspline4.push(punto);
+                break; 
+            default: 
+                console.log("No debería entrar acá");
+        }
     }
 
-    var CurvaCubica=function (u,position_buffer){
+    var CurvaCubica=function (u){
 
         var p0=position_buffer[0];
         var p1=position_buffer[1];
@@ -77,7 +101,7 @@ function Curva (_cual) {
             if (position_render_buffer_rotado.length == 0){
                 for (var i = 0; i < 9; i++) {
                     position_render_buffer_rotado.push(p0[0]);
-                    position_render_buffer_rotado.push(p0[1]);
+                    position_render_buffer_rotado.push(p0[1] - 130);
                     position_render_buffer_rotado.push(p0[2]);
                 }
             }
@@ -88,6 +112,7 @@ function Curva (_cual) {
             position_render_buffer_rotado.push(puntoRotado.x);
             position_render_buffer_rotado.push(puntoRotado.y);
             position_render_buffer_rotado.push(puntoRotado.z);
+
             
             angulo = angulo + Math.PI/4;
         }
@@ -103,98 +128,128 @@ function Curva (_cual) {
         return punto;
     }
 
-    //NO LA ESTARIAMOS USANDO
-    var CurvaCubicaDerivadaPrimera=function (u,position_buffer){
-
-        var p0=position_buffer[0];
-        var p1=position_buffer[1];
-        var p2=position_buffer[2];
-        var p3=position_buffer[3];
-
-        var punto=new Object();
-
-        punto.x=Base0der(u)*p0[0]+Base1der(u)*p1[0]+Base2der(u)*p2[0]+Base3der(u)*p3[0];
-        punto.y=Base0der(u)*p0[1]+Base1der(u)*p1[1]+Base2der(u)*p2[1]+Base3der(u)*p3[1];
-        punto.z=Base0der(u)*p0[2]+Base1der(u)*p1[2]+Base2der(u)*p2[2]+Base3der(u)*p3[2];
-
-        return punto;
+    var rotarBspline = function(_bspline, _angulo, _bsplineR){
+        for (var i = 0; i < _bspline.length; i++) {
+            var puntoRotado = new Object();
+            puntoRotado.x = ((_bspline[i].x * Math.cos(_angulo)) - (_bspline[i].z * Math.sin(_angulo)));
+            puntoRotado.y = _bspline[i].y;
+            puntoRotado.z = (( _bspline[i].x * Math.sin(_angulo)) + (_bspline[i].z * Math.cos(_angulo)));
+            _bsplineR.push(puntoRotado);
+            switch (i) {
+                case 0:
+                    l1.push(puntoRotado);
+                    break; 
+                case 1:
+                    l2.push(puntoRotado);
+                    break; 
+                case 2:
+                    l3.push(puntoRotado);
+                    break; 
+                case 3:
+                    l4.push(puntoRotado);
+                    break; 
+                case 4:
+                    l5.push(puntoRotado);
+                    break; 
+                default: 
+                    console.log("No debería entrar acá");
+            }
+        }
     }
 
-	//NO LA ESTARIAMOS USANDO
-    function dibujarCurvaCubica(position_buffer,dibujarGrafo){
+    var rotarBsplines = function(){
 
-        // devuelve un punto de la curva segun el parametro u entre 0 y 1
+        var angulo = 0;
+        for (var i = 0; i < 4; i++) {
 
-        // 4 Puntos de control P0, P1, P2 y P3      
-        
+            rotarBspline(bspline1, angulo, bsplineR1);
+            rotarBspline(bspline2, angulo, bsplineR2);
+            rotarBspline(bspline3, angulo, bsplineR3);
+            rotarBspline(bspline4, angulo, bsplineR4);
 
-        var p0=position_buffer[0];
-        var p1=position_buffer[1];
-        var p2=position_buffer[2];
-        var p3=position_buffer[3];
-
-        ctx.lineWidth=2;
-        // Dibujamos la curva en color azul, entre u=0 y u=1 con deltaU
-
-        var deltaU=0.01; // es el paso de avance sobre la curva cuanto mas chico mayor es el detalle
-                         // u=0.05 son 20 segmentos (0.05=1/20)
-        ctx.clearRect ( 0 , 0 ,1000 , 1000 );
-        ctx.beginPath();
-        
-        
-            
-        for (u=0;u<=1.001;u=u+deltaU){
-            // Tengo que calcular la posicion del punto c(u)
-
-
-            var punto=CurvaCubica(u,position_buffer);
-
-            if (u==0) ctx.moveTo(punto.x,punto.y);
-            ctx.lineTo(punto.x,punto.y);// hago una linea desde el ultimo lineTo hasta x,y
-            
-            //console.log("C("+u+")= "+punto.x+","+punto.y);
-        }
-        ctx.strokeStyle="#0000FF";
-        ctx.stroke();
-
-
-
-        // Dibujo el grafo de control en color rojo, solo para verificar donde esta cada punto de control
-
-        if (dibujarGrafo){
-            ctx.beginPath();
-            ctx.moveTo(p0[0],p0[1]);
-            ctx.lineTo(p1[0],p1[1]);
-            ctx.lineTo(p2[0],p2[1]);
-            ctx.lineTo(p3[0],p3[1]);
-            ctx.strokeStyle="#FF0000";
-            ctx.stroke();
-        }
-
-
+            angulo = angulo + 5*Math.PI/8;
+        } 
     }
 
-    //NO LA ESTARIAMOS USANDO
-    function dibujarVector(x1,y1,x2,y2,color){
+    var unirBsplinePorNiveles = function(){
+        for (var i = 0; i < l1.length; i++) {
 
-        ctx.beginPath();
-        ctx.moveTo(x1,y1);
-        ctx.lineTo(x1+x2,y1+y2);
-        ctx.strokeStyle=color;
-        ctx.stroke();       
+            puntosFinales.push(l1[i].x);
+            puntosFinales.push(l1[i].y);
+            puntosFinales.push(l1[i].z);
+
+            puntosFinales.push(l2[i].x);
+            puntosFinales.push(l2[i].y);
+            puntosFinales.push(l2[i].z);
+
+            puntosFinales.push(l3[i].x);
+            puntosFinales.push(l3[i].y);
+            puntosFinales.push(l3[i].z);
+
+            puntosFinales.push(l4[i].x);
+            puntosFinales.push(l4[i].y);
+            puntosFinales.push(l4[i].z);   
+
+            puntosFinales.push(l5[i].x);
+            puntosFinales.push(l5[i].y);
+            puntosFinales.push(l5[i].z);        
+        }
     }
 
     var createPoints = function(){
 
         position_buffer =[ [0,450, 0] , [200,300, 0] , [600,130, 0] , [700,0, 0] ];
+
+        //Eje YX +
+        position_buffer1 =[ [0,450, 0] , [200,300, 0] , [600,130, 0] , [700,0, 0] ];
+        bspline1 = [];
+        bsplineR1 = [];
+
+        //Eje YZ +
+        position_buffer2 =[ [0,700, 0] , [0,600, 245] , [0,230, 510] , [0,0, 900] ];
+        bspline2 = [];
+        bsplineR2 = [];
+
+        //Eje YX -
+        position_buffer3 =[ [0,350, 0] , [-200,400, 0] , [-475,345, 0] , [-750,0, 0] ];
+        bspline3 = [];
+        bsplineR3 = [];
+
+        //EJE YZ - 
+        position_buffer4 =[ [0,300, 0] , [0,200, -80] , [0,50, -200] , [0,0, -300] ];
+        bspline4 = [];
+        bsplineR4 = [];
+
         color_buffer = [];
 
         var currentU = 0;
         while (currentU <= 1){
-            var punto = CurvaCubica(currentU,position_buffer);
-            
+            var punto = CurvaCubica(currentU);
+            //for (var i = 0; i < 4; i++) {
+            //    puntosSegunU(currentU, i+1, i+1);
+            //}
             currentU+=0.25;
         }
+        /*
+        console.log(bspline1);
+        console.log(bspline2);
+        console.log(bspline3);
+        console.log(bspline4);
+
+        rotarBsplines();
+        console.log(bsplineR1);
+        console.log(bsplineR2);
+        console.log(bsplineR3);
+        console.log(bsplineR4);
+
+        console.log(l1);
+        console.log(l2);
+        console.log(l3);
+        console.log(l4);
+        console.log(l5);
+
+        unirBsplinePorNiveles();
+        console.log(puntosFinales);*/
 
         for (var i = 0.0; i < 6; i++) { 
            for (var j = 0.0; j < 9; j++) {
