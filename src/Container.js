@@ -24,6 +24,10 @@ function Container (_posicion) {
         this.ubicar();
     }
 
+    this.getPosicion = function(){
+        return posicion;
+    }
+
     this.draw = function(viewMatrix){
         formaContainer.initialize();
         formaContainer.draw(viewMatrix);

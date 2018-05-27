@@ -72,6 +72,7 @@ function Grua(){
     objetosCabina.push(new Fierro([-2.9,-2,-3], 0, [0.005,0.05,0.1]));
     objetosCabina.push(new Fierro([-3.1,-2,-3], 0, [0.005,0.05,0.1]));
 
+    var containerTomado = null;
 
     this.initialize = function(){
         for (var i = 0; i < ruedas.length; i++) {
@@ -115,6 +116,16 @@ function Grua(){
             if (sentido == 0) objetosCabina[i].translate(0.1,0,0);
             
         }
+        if (containerTomado){
+            if (sentido == 1){
+                containerTomado.translate(-0.1,0,0);
+                containerTomado.reset();
+            }
+            if (sentido == 0){
+                containerTomado.translate(0.1,0,0);
+                containerTomado.reset();
+            }
+        }
     }
 
     var desplazarCabina = function(sentido){
@@ -122,6 +133,16 @@ function Grua(){
             if (sentido == 1) objetosCabina[i].translate(0,0,-0.1);
             if (sentido == 0) objetosCabina[i].translate(0,0,0.1);
             
+        }
+        if (containerTomado){
+            if (sentido == 1){
+                containerTomado.translate(0,0,-0.1);
+                containerTomado.reset();
+            }
+            if (sentido == 0){
+                containerTomado.translate(0,0,0.1);
+                containerTomado.reset();
+            }
         }
     }
 
@@ -149,6 +170,7 @@ function Grua(){
             
         }
     }
+
 
     var validarLimiteCabina = function(arg){
         if(arg == 0){
@@ -181,7 +203,30 @@ function Grua(){
             }else{
                 desplazarGrua(1);    // derecha
             }
-        }        
+        }   
+    }     
+
+
+
+    this.getPosicionImanes = function(){
+        return objetosCabina[15].getPosicionRelativa();
+    }
+
+    this.tomarContainer = function(container){
+        containerTomado = container;
+        var posicionImanes = this.getPosicionImanes();
+        var posicionContainer = containerTomado.getPosicion();
+        var posicion = [];
+        posicion[0] = posicionImanes[0] - posicionContainer[0];
+        posicion[1] = posicionImanes[1] - posicionContainer[1];
+        posicion[2] = posicionImanes[2] - posicionContainer[2];
+        containerTomado.translate(posicion[0] - 0.1, posicion[1] + 0.1, posicion[2]);
+        containerTomado.reset();
+    }
+
+    this.hasContainer = function(){
+        if(containerTomado) return true;
+        else return false;
     }
 
     $('body').on("keydown",function(event){

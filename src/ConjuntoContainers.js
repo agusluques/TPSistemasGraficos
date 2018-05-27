@@ -60,6 +60,30 @@ function ConjuntoContainers(){
         }
     }
 
+    this.getContainerCercano = function(posicion){
+        var distancia, distanciaAux, containerActual;
+        for (var i = 0; i < listaContainers.length; i++) {
+            if (i == 0) {
+                distancia = Math.pow(listaContainers[i].getPosicion()[0] - posicion[0], 2);
+                distancia += Math.pow(listaContainers[i].getPosicion()[1] - posicion[1], 2);
+                distancia += Math.pow(listaContainers[i].getPosicion()[2] - posicion[2], 2);
+
+                containerActual = i;
+            }else{
+                distanciaAux = Math.pow(listaContainers[i].getPosicion()[0] - posicion[0], 2);
+                distanciaAux += Math.pow(listaContainers[i].getPosicion()[1] - posicion[1], 2);
+                distanciaAux += Math.pow(listaContainers[i].getPosicion()[2] - posicion[2], 2);
+
+                if (distanciaAux < distancia) {
+                    distancia = distanciaAux;
+                    containerActual = i;
+                }
+            }
+            
+        }
+        return listaContainers[containerActual];
+    }
+
     $('body').on("keydown",function(event){
         if (event.keyCode == 75) moverContainer(0);    // k
         if (event.keyCode == 76) moverContainer(1);    // l
