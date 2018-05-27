@@ -3,7 +3,7 @@ function Scene(){
     objetos.push(new Water());
     //objetos.push(new VertexGrid(20,5));
     //objetos.push(new Point());
-    objetos.push(new Curva('bspline3'));
+    objetos.push(new Curva());
     objetos.push(new Barco());
     objetos.push(new Grua());
     objetos.push(new Muelle());

@@ -126,12 +126,54 @@ function Grua(){
         }
     }
 
+    var validarLimiteCabina = function(arg){
+        if(arg == 0){
+            if(objetosCabina[0].getPosicion()[2]<-3.9){
+                console.log("Limite");
+            }else{
+                desplazarCabina(1);    // arriba
+            }
+        } else {
+            if(objetosCabina[0].getPosicion()[2]<-0.29){
+                desplazarCabina(0);    // arriba
+            }else{
+                console.log("Limite");
+                
+            }
+        }        
+    }
+
+    var validarLimiteGrua = function(arg){
+             
+        if(arg == 0){
+            if(ruedas[0].getPosicion()[0]>-0.39){
+                console.log("Limite");
+            }else{
+                desplazarGrua(0);    // izquierda
+            }
+        } else {
+            if(ruedas[0].getPosicion()[0]<-3.7){
+                console.log("Limite");
+            }else{
+                desplazarGrua(1);    // derecha
+            }
+        }        
+    }
+
     $('body').on("keydown",function(event){
         //alert(event.keyCode)
-        if (event.keyCode == 37) desplazarGrua(0);    // izq
-        if (event.keyCode == 39) desplazarGrua(1);    // der
-        if (event.keyCode == 38) desplazarCabina(1);    // arriba
-        if (event.keyCode == 40) desplazarCabina(0);    // abajo
+        if (event.keyCode == 37){
+            validarLimiteGrua(0);
+        } 
+        if (event.keyCode == 39){
+            validarLimiteGrua(1);
+        }
+        if (event.keyCode == 38){
+            validarLimiteCabina(0); //Adelante
+        } 
+        if (event.keyCode == 40){
+            validarLimiteCabina(1); //Atras
+        } 
         if (event.keyCode == 81) desplazarCables(1);    // q
         if (event.keyCode == 65) desplazarCables(0);    // a
 

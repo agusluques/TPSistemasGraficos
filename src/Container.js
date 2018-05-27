@@ -4,7 +4,7 @@ function Container (_posicion) {
     var formaContainer = new VertexGrid(5,5);
 
     this.colorear = function(){
-            formaContainer.setColor([Math.random(), Math.random(),Math.random()]);
+        formaContainer.setColor([Math.random(), Math.random(),Math.random()]);
     }
 
     this.ubicar = function(){

@@ -19,6 +19,10 @@ function Rueda(_posicion){
         cilindro2.rotate(Math.PI/2, [0,1,0]);
     }
 
+    this.getPosicion = function(){
+        return posicion;
+    }
+
 	this.translate = function(x,y,z){
         posicion[0] += x;
         posicion[1] += y;
