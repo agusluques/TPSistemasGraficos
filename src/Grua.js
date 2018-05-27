@@ -35,8 +35,33 @@ function Grua(){
     fierros.push(new Fierro([-3,-3.25,0.45], 0, [1,0.25,0.5]));
 
     var objetosCabina = [];
-    // cabina
-    objetosCabina.push(new Fierro([-3,-3,-3], 0, [0.5,0.25,0.25]));
+    
+
+    //--------------------------------------CABINA-----------------------------------------
+    //Tapa delantera
+    objetosCabina.push(new Fierro([-3,-3.5,-3], 0, [0.5,0.1,0.01]));     //Palo arriba
+    objetosCabina.push(new Fierro([-3,-3,-3], 0, [0.5,0.1,0.01]));       //Palo abajo
+    objetosCabina.push(new Fierro([-3.5,-2.7,-3], 0, [0.05,0.4,0.01]));  //Palo izquierda
+    objetosCabina.push(new Fierro([-2.5,-2.7,-3], 0, [0.05,0.4,0.01]));  //Palo derecha
+
+    //Tapa trasera
+    objetosCabina.push(new Fierro([-3,-2.66,-2.44], 0, [0.5,0.44,0.01]));
+
+    //Tapa arriba
+    objetosCabina.push(new Fierro([-3,-3.74,-2.725], 0, [0.5,0.01,0.4]));
+
+    //Tapa lateral 1
+    objetosCabina.push(new Fierro([-3.5,-3.5,-2.72], 0, [0.01,0.1,0.39]));     //Palo arriba
+    objetosCabina.push(new Fierro([-3.5,-3.05,-2.72], 0, [0.01,0.1,0.39]));     //Palo abajo
+
+    //Tapa lateral 1
+    objetosCabina.push(new Fierro([-2.5,-3.5,-2.72], 0, [0.01,0.1,0.39]));     //Palo arriba
+    objetosCabina.push(new Fierro([-2.5,-3.05,-2.72], 0, [0.01,0.1,0.39]));     //Palo abajo
+
+    //Tapa abajo
+    objetosCabina.push(new Fierro([-3,-3.2,-2.57], 0, [0.5,0.01,0.2]));
+
+    //--------------------------------------------------------------------------------------
 
     // cables
     objetosCabina.push(new Fierro([-2.9,-1,-2.95], 0, [0.005,1,0.005]));
