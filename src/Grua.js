@@ -153,13 +153,13 @@ function Grua(){
 
     var validarLimiteCabina = function(arg){
         if(arg == 0){
-            if(objetosCabina[0].getPosicion()[2]<-3.9){
+            if(objetosCabina[0].getPosicion()[2]<-4){
                 console.log("Limite");
             }else{
                 desplazarCabina(1);    // arriba
             }
         } else {
-            if(objetosCabina[0].getPosicion()[2]<-0.29){
+            if(objetosCabina[0].getPosicion()[2]<-0.59){
                 desplazarCabina(0);    // arriba
             }else{
                 console.log("Limite");
