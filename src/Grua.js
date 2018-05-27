@@ -34,8 +34,7 @@ function Grua(){
     // sosten rectangulo grande
     fierros.push(new Fierro([-3,-3.25,0.45], 0, [1,0.25,0.5]));
 
-    var objetosCabina = [];
-    
+    var objetosCabina = [];    
 
     //--------------------------------------CABINA-----------------------------------------
     //Tapa delantera
@@ -127,7 +126,7 @@ function Grua(){
     }
 
     var desplazarCables = function(sentido){
-        for (var i = 1; i < 5; i++) {
+        for (var i = 11; i < 15; i++) {
             // cables
             if (sentido == 1) {
                 objetosCabina[i].translate(0,-0.2,0);
@@ -139,7 +138,7 @@ function Grua(){
             }
             
         }
-        for (var i = 5; i < 7; i++) {
+        for (var i = 15; i < 17; i++) {
             // imanes
             if (sentido == 1) {
                 objetosCabina[i].translate(0,-0.1,0);
