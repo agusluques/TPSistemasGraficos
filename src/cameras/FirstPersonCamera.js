@@ -3,7 +3,7 @@ function FirstPersonCamera(){
 	var radio = 0.0;
 	var previousClientX = 0, previousClientY = 0, focoX = 0, focoY = 0, focoZ = 3 , factorVelocidad = 0.01;
 	var despX = 0, despZ = 0;
-	var focoXR, focoZR;
+	var focoXR, focoYR, focoZR;
 	var angulo = Math.PI/16;
 
 	var dirX, dirZ;
@@ -25,9 +25,14 @@ function FirstPersonCamera(){
 		focoZ = focoZ + despZ;
 	}
 
-	var rotarFoco = function(angulo){
+	var rotarFocoHorizontalmente = function(angulo){
 		focoXR = (focoX * Math.cos(angulo)) + (focoZ * Math.sin(angulo));
 		focoZR = (focoX * -Math.sin(angulo)) + (focoZ * Math.cos(angulo));
+	}
+
+	var rotarFocoVerticalmente = function(angulo){
+		focoXR = (focoX * Math.cos(angulo)) + (focoY * -Math.sin(angulo));
+		focoYR = (focoX * Math.sin(angulo)) + (focoY * Math.cos(angulo));
 	}
 
 	var volverFoco =function(){
@@ -44,9 +49,8 @@ function FirstPersonCamera(){
 	        previousClientX = mouse.x;
 	        previousClientY = mouse.y;
 
-        	focoX = focoX + deltaX * factorVelocidad;
+        	//focoX = focoX + deltaX * factorVelocidad;
 	        focoY = focoY + deltaY * factorVelocidad;
-	        //focoZ = focoZ + deltaX * factorVelocidad;
 
 		}else{
 			previousClientX = mouse.x;
@@ -80,19 +84,27 @@ function FirstPersonCamera(){
 		obtenerVectorDirector();
         if (sentido == 0){
         	posX = posX + dirX * 0.01;
+        	posY = -1;
         	posZ = posZ + dirZ * 0.01;
         } 
 
         //Flecha abajo
         if (sentido == 1){
         	posX = posX - dirX * 0.01;
+        	posY = -1;
         	posZ = posZ - dirZ * 0.01;
         } 
     }
 
-    var rotarCamara = function(angulo){
+    var rotarCamaraHorizontalmente = function(angulo){
     	desplazarFocoOrigen();
-    	rotarFoco(angulo);
+    	rotarFocoHorizontalmente(angulo);
+    	volverFoco();
+    }
+
+    var rotarCamaraVerticalmente = function(angulo){
+    	desplazarFocoOrigen();
+    	rotarFocoVerticalmente(angulo);
     	volverFoco();
     }
 
@@ -114,11 +126,17 @@ function FirstPersonCamera(){
         if (event.keyCode == 40){
             validarLimiteMuelle(1); //Atras
         }
-   		if (event.keyCode == 79){
-   			rotarCamara(-angulo);
+   		if (event.keyCode == 74){
+   			rotarCamaraHorizontalmente(-angulo);  //J
         }
-   		if (event.keyCode == 80){
-            rotarCamara(angulo);
+   		if (event.keyCode == 76){
+            rotarCamaraHorizontalmente(angulo);   //L
+        }
+   		if (event.keyCode == 75){
+   			rotarCamaraVerticalmente(-angulo);  //K
+        }
+   		if (event.keyCode == 73){
+            rotarCamaraVerticalmente(angulo);   //I
         }
     });
 }

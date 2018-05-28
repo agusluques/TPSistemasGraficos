@@ -84,11 +84,12 @@ function ConjuntoContainers(){
         return listaContainers[containerActual];
     }
 
+    /*
     $('body').on("keydown",function(event){
         if (event.keyCode == 75) moverContainer(0);    // k
         if (event.keyCode == 76) moverContainer(1);    // l
         if (event.keyCode == 85) moverContainer(2);    // u
         if (event.keyCode == 74) moverContainer(3);    // j
 
-    });
+    });*/
 }
