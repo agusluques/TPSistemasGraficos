@@ -2,7 +2,7 @@ function Camera(){
 
 	var orbitalCamera = new OrbitalCamera();
 	var cabinCamera = new CabinCamera();
-	//var firstPersonCamera = new FirstPersonCamera();
+	var firstPersonCamera = new FirstPersonCamera();
 
 	var actualCamera = orbitalCamera;
 	var actualCameraAux = 1;
@@ -24,7 +24,7 @@ function Camera(){
 
 	var changeCamera = function(){
 		actualCameraAux++;
-		if (actualCameraAux > 2) actualCameraAux = 1;
+		if (actualCameraAux > 3) actualCameraAux = 1;
 
 		switch(actualCameraAux){
 			case 1:
@@ -34,7 +34,7 @@ function Camera(){
 				actualCamera = cabinCamera;
 				break;
 			case 3:
-				//actualCamera = firstPersonCamera;
+				actualCamera = firstPersonCamera;
 				break;
 		}
 	}
