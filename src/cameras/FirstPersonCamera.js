@@ -1,4 +1,5 @@
 function FirstPersonCamera(){
+    var actualCameraAux = 1;
 	var vMatrix = mat4.create();
 	var radio = 0.0;
 	var previousClientX = 0, previousClientY = 0, focoX = 0, focoY = 0, focoZ = 3 , factorVelocidad = 0.01;
@@ -105,15 +106,7 @@ function FirstPersonCamera(){
     	volverFoco();
     }
 
-    var rotarCamaraVerticalmente = function(angulo){
-    	desplazarFocoOrigen();
-    	rotarFocoVerticalmente(angulo);
-    	volverFoco();
-    }
-
     var validarLimiteMuelle = function(arg){
-		console.log("focoX: " + focoX + " - focoY: " + focoY + " - focoZ: " + focoZ);
-		console.log("PosX: " + posX + " - PosY: " + posY + " - PosZ: " + posZ);
     	if(arg == 0){
 			desplazar(0); //arriba
     	} else if(arg == 1) {
@@ -122,25 +115,19 @@ function FirstPersonCamera(){
     }
 
     $('body').on("keydown",function(event){
-        //alert(event.keyCode)
-        if (event.keyCode == 38){
-            validarLimiteMuelle(0); //Adelante
-        } 
-        if (event.keyCode == 40){
-            validarLimiteMuelle(1); //Atras
-        }
-        /*
-   		if (event.keyCode == 74){
-   			rotarCamaraHorizontalmente(-angulo);  //J
-        }
-   		if (event.keyCode == 76){
-            rotarCamaraHorizontalmente(angulo);   //L
-        }
-   		if (event.keyCode == 75){
-   			rotarCamaraVerticalmente(-angulo);  //K
-        }
-   		if (event.keyCode == 73){
-            rotarCamaraVerticalmente(angulo);   //I
-        }*/
+    	if(actualCameraAux == 3){
+	        //alert(event.keyCode)
+	        if (event.keyCode == 38){
+	            validarLimiteMuelle(0); //Adelante
+	        } 
+	        if (event.keyCode == 40){
+	            validarLimiteMuelle(1); //Atras
+	        }
+	    }
+        if (event.keyCode == 67) {                      // C
+            actualCameraAux++;
+            console.log(actualCameraAux);
+            if (actualCameraAux > 3) actualCameraAux = 1; 
+        }     
     });
 }

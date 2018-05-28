@@ -1,4 +1,5 @@
 function Grua(){
+    var actualCameraAux = 1;
 	var ruedas = [];
 	ruedas.push(new Rueda([-2,0,-1]));
 	ruedas.push(new Rueda([-4,0,-1]));
@@ -230,22 +231,26 @@ function Grua(){
     }
 
     $('body').on("keydown",function(event){
-        //alert(event.keyCode)
-        if (event.keyCode == 37){
-            validarLimiteGrua(0);
-        } 
-        if (event.keyCode == 39){
-            validarLimiteGrua(1);
+        if(actualCameraAux == 1){
+            //alert(event.keyCode)
+            if (event.keyCode == 37){
+                validarLimiteGrua(0);
+            } 
+            if (event.keyCode == 39){
+                validarLimiteGrua(1);
+            }
+            if (event.keyCode == 38){
+                validarLimiteCabina(0); //Adelante
+            } 
+            if (event.keyCode == 40){
+                validarLimiteCabina(1); //Atras
+            } 
+            if (event.keyCode == 81) desplazarCables(1);    // q
+            if (event.keyCode == 65) desplazarCables(0);    // a
         }
-        if (event.keyCode == 38){
-            validarLimiteCabina(0); //Adelante
-        } 
-        if (event.keyCode == 40){
-            validarLimiteCabina(1); //Atras
-        } 
-        if (event.keyCode == 81) desplazarCables(1);    // q
-        if (event.keyCode == 65) desplazarCables(0);    // a
-
-
+        if (event.keyCode == 67) {                      // c
+            actualCameraAux++;
+            if (actualCameraAux > 3) actualCameraAux = 1; 
+        }     
     });
 }
