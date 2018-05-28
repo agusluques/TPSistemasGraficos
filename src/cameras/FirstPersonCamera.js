@@ -12,6 +12,7 @@ function FirstPersonCamera(){
     var actualEvent;
 
 	var mouse = {x: 0, y: 0};
+	var deltaX = 0, deltaY = 0;
 
 	var posX = -8;
 	var posY = -1;
@@ -43,8 +44,8 @@ function FirstPersonCamera(){
 	this.getViewMatrix = function(){
 
 		if(isMouseDown){
-			var deltaX = mouse.x - previousClientX;
-	        var deltaY = mouse.y - previousClientY;
+			deltaX = mouse.x - previousClientX;
+	        deltaY = mouse.y - previousClientY;
 
 	        previousClientX = mouse.x;
 	        previousClientY = mouse.y;
@@ -56,6 +57,8 @@ function FirstPersonCamera(){
 			previousClientX = mouse.x;
 	        previousClientY = mouse.y;
 		}
+
+		rotarCamaraHorizontalmente(angulo * deltaX * -0.01);
 
 	    // Preparamos una matriz de modelo+vista.
 	    mat4.lookAt(vMatrix, [posX,posY,posZ], [focoX, focoY, focoZ], [0.0,1.0,0.0]);
@@ -126,6 +129,7 @@ function FirstPersonCamera(){
         if (event.keyCode == 40){
             validarLimiteMuelle(1); //Atras
         }
+        /*
    		if (event.keyCode == 74){
    			rotarCamaraHorizontalmente(-angulo);  //J
         }
@@ -137,6 +141,6 @@ function FirstPersonCamera(){
         }
    		if (event.keyCode == 73){
             rotarCamaraVerticalmente(angulo);   //I
-        }
+        }*/
     });
 }
