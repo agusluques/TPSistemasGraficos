@@ -231,7 +231,7 @@ function Grua(){
     }
 
     $('body').on("keydown",function(event){
-        if(actualCameraAux == 1){
+        if(actualCameraAux != 3){
             //alert(event.keyCode)
             if (event.keyCode == 37){
                 validarLimiteGrua(0);
