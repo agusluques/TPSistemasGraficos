@@ -8,6 +8,16 @@ function GLInstance(){
 
     if(!gl){ console.error("WebGL context is not available."); return null; }
 
+
+    function resizer(){
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+    }
+
+    window.addEventListener('resize', resizer);
+    resizer();
+
     //...................................................
     //Setup GL, Set all the default configurations we need.
     gl.clearColor(0.1, 0.1, 0.2, 1.0);      //Set clear color
