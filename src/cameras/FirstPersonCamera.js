@@ -2,7 +2,7 @@ function FirstPersonCamera(){
     var actualCameraAux = 1;
 	var vMatrix = mat4.create();
 	var radio = 0.0;
-	var previousClientX = 0, previousClientY = 0, focoX = 0, focoY = 0, focoZ = 3 , factorVelocidad = 0.01;
+	var previousClientX = 0, previousClientY = 0, focoX = 0, focoY = 0, focoZ = 3 , factorVelocidad = 0.08;
 	var despX = 0, despZ = 0;
 	var focoXR, focoYR, focoZR;
 	var angulo = Math.PI/16;
@@ -57,6 +57,7 @@ function FirstPersonCamera(){
 		}else{
 			previousClientX = mouse.x;
 	        previousClientY = mouse.y;
+	        deltaX = 0;
 		}
 
 		rotarCamaraHorizontalmente(angulo * deltaX * -0.01);
@@ -126,7 +127,6 @@ function FirstPersonCamera(){
 	    }
         if (event.keyCode == 67) {                      // C
             actualCameraAux++;
-            console.log(actualCameraAux);
             if (actualCameraAux > 3) actualCameraAux = 1; 
         }     
     });

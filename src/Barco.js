@@ -109,7 +109,7 @@ function Barco () {
             bezier_points_4.push(punto_cp4.y);
             bezier_points_4.push(punto_cp4.z);
             
-            currentU+=0.25;
+            currentU+=0.10;
         }
 
         //AGREGO ULTIMO PUNTO
@@ -118,14 +118,14 @@ function Barco () {
         bezier_points_4.push(ultimoPunto.y);
         bezier_points_4.push(ultimoPunto.z);
 
-        //console.log("------ POINTS 1 ------");
-        //console.log(bezier_points_1);
-        //console.log("------ POINTS 2 ------");
-        //console.log(bezier_points_2);
-        //console.log("------ POINTS 3 ------");
-        //console.log(bezier_points_3);
-        //console.log("------ POINTS 4 ------");
-        //console.log(bezier_points_4);
+        console.log("------ POINTS 1 ------");
+        console.log(bezier_points_1);
+        console.log("------ POINTS 2 ------");
+        console.log(bezier_points_2);
+        console.log("------ POINTS 3 ------");
+        console.log(bezier_points_3);
+        console.log("------ POINTS 4 ------");
+        console.log(bezier_points_4);
 
 	}
 
@@ -147,8 +147,8 @@ function Barco () {
 			bezier_first_level.push(bezier_points_4[i]);
 		}
 
-		//console.log("----- FIRST LEVEL -----");
-		//console.log(bezier_first_level);
+		console.log("----- FIRST LEVEL -----");
+		console.log(bezier_first_level);
 
 	}
 
@@ -168,16 +168,16 @@ function Barco () {
 
 		expandPoints(bezier_first_level, bezier_second_level);
 
-		//console.log("----- SECOND LEVEL -----");
-		//console.log(bezier_second_level);	
+		console.log("----- SECOND LEVEL -----");
+		console.log(bezier_second_level);	
 	}
 
 	var createBezierThirdLevelSurface = function(){
 
 		expandPoints(bezier_second_level, bezier_third_level);
 
-		//console.log("----- THIRD LEVEL -----");
-		//console.log(bezier_third_level);	
+		console.log("----- THIRD LEVEL -----");
+		console.log(bezier_third_level);	
 	}
 
 	var joinPoints = function(){
@@ -207,14 +207,14 @@ function Barco () {
 			bezier_final.push(bezier_third_level[i+2]);
 		} 
 
-		//console.log("----- FINAL BEZIER -----");
-		//console.log(bezier_final);
+		console.log("----- FINAL BEZIER -----");
+		console.log(bezier_final);
 
 	}
 
     var createColorBuffer = function(){
 
-        for (var i = 0.0; i < 120; i++) { 
+        for (var i = 0; i < 225; i++) { 
            color_buffer.push(0.5);
            color_buffer.push(0.5);
            color_buffer.push(0.5);
@@ -226,7 +226,7 @@ function Barco () {
 
         index_buffer = [];
         var cols = 5;
-        var rows = 17;
+        var rows = 45;
         var offset = cols-1;
         for (var i = 0; i < rows-1; i++) {
             for (var j = 0.0; j < cols; j++){
