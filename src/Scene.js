@@ -5,7 +5,7 @@ function Scene(){
     //objetos.push(new Point());
 
 
-    objetos.push(new Curva());
+    //objetos.push(new Curva());
 
 
     objetos.push(new Barco());
@@ -19,6 +19,8 @@ function Scene(){
     objetos.push(conjuntoContainers);
 
     objetos.push(new puenteMando());
+
+    objetos.push(new Isla());
 
     this.initialize = function(){
 		for (var i = 0; i < objetos.length; i++) {
