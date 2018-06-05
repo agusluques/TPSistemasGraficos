@@ -39,10 +39,10 @@ function Isla () {
 		control_points_1 = [ [525,135,0] , [583,120,0] , [641,105,0] , [700,100,0] ];
 
 		control_points_2 = [ [350,165, 0] , [408,160, 0] , [466,150, 0] , [525,135,0] ];
-		control_points_3 = [ [-200,700,0] , [233,292, 0] , [291,196, 0] , [350,165, 0] ];
+		control_points_3 = [ [300,300,0] , [350,292, 0] , [400,196, 0] , [350,165, 0] ];
 
 		//Tramo superior de la isla
-		control_points_4 = [ [0,550,0] , [58,500,0] , [116,450,0] , [350,100,0] ];
+		control_points_4 = [ [100,550,0] , [200,500,0] , [250,450,0] , [450,0,0] ];
 
 	}
 
@@ -73,7 +73,7 @@ function Isla () {
 
 		//Agrego la primer curva sin rotar
 		bspline_final.push(0);
-		bspline_final.push(400);
+		bspline_final.push(300);
 		bspline_final.push(0);
 		for (var i = 0; i < bspline_first.length; i++) {
 			bspline_final.push(bspline_first[i]);
@@ -82,10 +82,8 @@ function Isla () {
         // Rotacion de los puntos
         var puntoRotado = new Object();
         var angulo = 5*Math.PI/180; //Roto de a 5° grados
-        //var angulo = Math.PI/4;
-        var anguloPlaya = Math.PI/4;
 
-        while(angulo <= (Math.PI*2)){
+        while(angulo <= (Math.PI*2) + 5*Math.PI/180){
 
 			bspline_final.push(0);
 			bspline_final.push(400);
@@ -182,7 +180,7 @@ function Isla () {
 
     var createColorBuffer = function(){
 
-        for (var i = 0; i < 3285; i++) { 
+        for (var i = 0; i < 3330; i++) { 
            color_buffer.push(0.5);
            color_buffer.push(0.5);
            color_buffer.push(0.5);
@@ -194,7 +192,7 @@ function Isla () {
 
         index_buffer = [];
         var cols = 45;
-        var rows = 73;
+        var rows = 74;
         var offset = cols-1;
         for (var i = 0; i < rows-1; i++) {
             for (var j = 0.0; j < cols; j++){
