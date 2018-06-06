@@ -168,6 +168,17 @@ function Grua(){
             }
             
         }
+
+        if (containerTomado){
+            if (sentido == 1){
+                containerTomado.translate(0,-0.1,0);
+                containerTomado.reset();
+            }
+            if (sentido == 0){
+                containerTomado.translate(0,0.1,0);
+                containerTomado.reset();
+            }
+        }
     }
 
 
@@ -221,6 +232,10 @@ function Grua(){
         posicion[2] = posicionImanes[2] - posicionContainer[2];
         containerTomado.translate(posicion[0] - 0.1, posicion[1] + 0.1, posicion[2]);
         containerTomado.reset();
+    }
+
+    this.soltarContainer = function(){
+        containerTomado = null;
     }
 
     this.hasContainer = function(){

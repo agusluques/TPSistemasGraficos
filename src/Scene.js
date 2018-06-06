@@ -32,7 +32,8 @@ function Scene(){
             var container = conjuntoContainers.getContainerCercano(posicion);
             grua.tomarContainer(container);
         }else{
-            // TODO: implementar el soltado
+            container = null;
+            grua.soltarContainer();
         }
     }
 
