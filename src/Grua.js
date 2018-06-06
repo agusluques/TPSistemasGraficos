@@ -64,14 +64,14 @@ function Grua(){
     //--------------------------------------------------------------------------------------
 
     // cables
-    objetosCabina.push(new Cable([-7.9,-3.2,0.1]));
-    objetosCabina.push(new Cable([-8.1,-3.2,0.1]));
-    objetosCabina.push(new Cable([-7.9,-3.2,0]));
-    objetosCabina.push(new Cable([-8.1,-3.2,0]));
+    objetosCabina.push(new Cable([-7.9,-3.2,0.5]));
+    objetosCabina.push(new Cable([-8.1,-3.2,0.5]));
+    objetosCabina.push(new Cable([-7.9,-3.2,0.4]));
+    objetosCabina.push(new Cable([-8.1,-3.2,0.4]));
 
     // imanes
-    objetosCabina.push(new Fierro([-2.9,-2,-3], 0, [0.005,0.05,0.1]));
-    objetosCabina.push(new Fierro([-3.1,-2,-3], 0, [0.005,0.05,0.1]));
+    objetosCabina.push(new Fierro([-2.9,-2,-2.6], 0, [0.005,0.05,0.1]));
+    objetosCabina.push(new Fierro([-3.1,-2,-2.6], 0, [0.005,0.05,0.1]));
 
     var containerTomado = null;
 
