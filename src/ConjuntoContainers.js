@@ -61,6 +61,7 @@ function ConjuntoContainers(){
     }
 
     this.getContainerCercano = function(posicion){
+        var distanciaMin = 0.1;
         var distancia, distanciaAux, containerActual;
         for (var i = 0; i < listaContainers.length; i++) {
             if (i == 0) {
@@ -81,7 +82,12 @@ function ConjuntoContainers(){
             }
             
         }
-        return listaContainers[containerActual];
+        if(distancia<distanciaMin){
+            return listaContainers[containerActual];
+        } else {
+            return null;
+        }
+        
     }
 
     /*
