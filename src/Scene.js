@@ -1,6 +1,5 @@
 function Scene(){
     var objetos = [];
-    //objetos.push(new Point());
     objetos.push(new Water());
     objetos.push(new Barco());
     var grua = new Grua();
@@ -9,10 +8,7 @@ function Scene(){
     var conjuntoContainers = new ConjuntoContainers();
     objetos.push(conjuntoContainers);
     objetos.push(new puenteMando());
-    //objetos.push(new Isla());
-    //var cable = new Cable([-8, -3.2, 0.02]);
-    //objetos.push(cable);
-    //cable.escalarCable(1);
+    objetos.push(new Isla());
 
     this.initialize = function(){
 		for (var i = 0; i < objetos.length; i++) {

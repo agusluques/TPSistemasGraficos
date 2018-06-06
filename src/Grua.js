@@ -64,10 +64,10 @@ function Grua(){
     //--------------------------------------------------------------------------------------
 
     // cables
-    objetosCabina.push(new Fierro([-2.9,-1,-2.95], 0, [0.005,1,0.005]));
-    objetosCabina.push(new Fierro([-3.1,-1,-2.95], 0, [0.005,1,0.005]));
-    objetosCabina.push(new Fierro([-2.9,-1,-3.05], 0, [0.005,1,0.005]));
-    objetosCabina.push(new Fierro([-3.1,-1,-3.05], 0, [0.005,1,0.005]));
+    objetosCabina.push(new Cable([-7.9,-3.2,0.1]));
+    objetosCabina.push(new Cable([-8.1,-3.2,0.1]));
+    objetosCabina.push(new Cable([-7.9,-3.2,0]));
+    objetosCabina.push(new Cable([-8.1,-3.2,0]));
 
     // imanes
     objetosCabina.push(new Fierro([-2.9,-2,-3], 0, [0.005,0.05,0.1]));
@@ -151,12 +151,10 @@ function Grua(){
         for (var i = 11; i < 15; i++) {
             // cables
             if (sentido == 1) {
-                objetosCabina[i].translate(0,-0.2,0);
-                objetosCabina[i].scale(0,-0.1,0);
+                objetosCabina[i].escalarCable(1);
             }
             if (sentido == 0) {
-                objetosCabina[i].translate(0,0.2,0);
-                objetosCabina[i].scale(0,0.1,0);
+                objetosCabina[i].escalarCable(0);
             }
             
         }

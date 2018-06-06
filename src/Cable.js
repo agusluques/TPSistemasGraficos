@@ -3,7 +3,7 @@ function Cable(_posicion){
 	var posicion = _posicion;
     var posicionAux;
 	var puntosVertice = [];
-    var tamanio = [0.0125,1.18,0.0125];
+    var tamanio = [0.0125,1.12,0.0125];
 
 	var color_buffer = [];
 	var index_buffer = [];
@@ -21,9 +21,9 @@ function Cable(_posicion){
     var createColorBuffer = function(){
 
         for (var i = 0; i < 15; i++) { 
-           color_buffer.push(0.7);
-           color_buffer.push(0.7);
-           color_buffer.push(0.7);
+           color_buffer.push(0);
+           color_buffer.push(0);
+           color_buffer.push(0);
        };
         
     }
@@ -90,17 +90,25 @@ function Cable(_posicion){
 
     var escalarEnOrigen = function(_arg){
         if(_arg == 0){
-            tamanio[1] = tamanio[1]+1;
+            //if(tamanio[1]<2){
+                tamanio[1] = tamanio[1]+0.1;
+            //}
         } else {
-            if(tamanio[1]>1){
-                tamanio[1] = tamanio[1]-1;
-            }
+            //if(tamanio[1]>0.5){
+                tamanio[1] = tamanio[1]-0.1;
+            //}
         }
         
     }
 
     var retornarPosicion = function(){
         posicion = posicionAux;
+    }
+
+    this.translate = function(x,y,z){
+        posicion[0] += x;
+        posicion[1] += y;
+        posicion[2] += z;
     }
 
     this.escalarCable = function(_arg){
