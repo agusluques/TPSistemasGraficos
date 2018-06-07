@@ -9,7 +9,9 @@ function Scene(){
     objetos.push(conjuntoContainers);
     objetos.push(new puenteMando());
     objetos.push(new Isla());
-    
+    objetos.push(new PosteLuz([-6,-1,2.5]));
+    objetos.push(new PosteLuz([-10,-1,2.5]));
+
     this.initialize = function(){
 		for (var i = 0; i < objetos.length; i++) {
 			objetos[i].initialize();
