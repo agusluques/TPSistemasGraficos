@@ -6,13 +6,12 @@ function Muelle(){
 	muelle.rotate(Math.PI/4, [1,0,0]);
 
 	this.initialize = function(){
-		muelle.setColor([0.8, 0.76, 0.69]);
         muelle.initialize();
     }
 
     this.draw = function(viewMatrix){
 
-		muelle.draw(viewMatrix);
+		muelle.draw(viewMatrix, muelleTexture);
     }
 
 

@@ -1,7 +1,7 @@
 function Scene(){
     var objetos = [];
     objetos.push(new Water());
-    objetos.push(new Barco());
+    // // objetos.push(new Barco());
     var grua = new Grua();
     objetos.push(grua);
     objetos.push(new Muelle());

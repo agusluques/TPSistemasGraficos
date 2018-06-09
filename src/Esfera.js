@@ -5,10 +5,12 @@ function Esfera(_posicion){
 
 	var color_buffer = [];
 	var index_buffer = [];
+    var texture_buffer = [];
 
     var webgl_position_buffer = null;
     var webgl_color_buffer = null;
     var webgl_index_buffer = null;
+    var webgl_texture_coord_buffer = null;
 
     var modelMatrix;
 
@@ -72,9 +74,26 @@ function Esfera(_posicion){
         }
     }
 
+    var createTextureBuffer = function(){
+        texture_buffer = [];
+        var cols = 37; //Puntos por nivel
+        var rows = 19; //Niveles
+
+        for (var i = 0; i < rows; i++) {
+            for (var j = 0.0; j < cols; j++){
+                texture_buffer.push(i/rows);
+                texture_buffer.push(j/cols);
+            }
+        }
+
+    }
+
     // Esta función crea e incializa los buffers dentro del pipeline para luego
     // utlizarlos a la hora de renderizar.
     var setupWebGLBuffers = function(){
+        webgl_texture_coord_buffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, webgl_texture_coord_buffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(texture_buffer), gl.STATIC_DRAW); 
 
         // 1. Creamos un buffer para las posicioens dentro del pipeline.
         webgl_position_buffer = gl.createBuffer();
@@ -111,14 +130,25 @@ function Esfera(_posicion){
 		rotarSemicircunferencia();
         createColorBuffer();
         createIndexBuffer();
+        createTextureBuffer();
         setupWebGLBuffers();
 	}
 
-    this.draw = function(viewMatrix){
+    this.draw = function(viewMatrix, textura){
         var modelViewMatrix = mat4.create();
         mat4.multiply(modelViewMatrix, viewMatrix, getModelMatrix());
         var u_modelview_matrix = gl.getUniformLocation(glProgram, "uMVMatrix");
         gl.uniformMatrix4fv(u_modelview_matrix, false, modelViewMatrix);
+
+        var vertexTextureAttribute = gl.getAttribLocation(glProgram, "aUv");
+        gl.enableVertexAttribArray(vertexTextureAttribute);
+        gl.bindBuffer(gl.ARRAY_BUFFER, webgl_texture_coord_buffer);
+        gl.vertexAttribPointer(vertexTextureAttribute, 2, gl.FLOAT, false, 0, 0);
+
+        var texturaUniform = gl.getUniformLocation(glProgram, "uTextura");
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, textura);
+        gl.uniform1i(texturaUniform, 0);
 
         var vertexPositionAttribute = gl.getAttribLocation(glProgram, "aVertexPosition");
         gl.enableVertexAttribArray(vertexPositionAttribute);

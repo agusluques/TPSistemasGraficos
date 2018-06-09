@@ -1,6 +1,7 @@
 function ConjuntoContainers(){
 
 	var listaContainers = [];
+    var listaTexturas = [containerAzulTexture, containerAmarilloTexture, containerCelesteTexture, containerNaranjaTexture, containerRojoTexture, containerVerdeTexture];
 
 	//Configuración inicial de los containers
 	var filasMuelle = 5;
@@ -45,7 +46,7 @@ function ConjuntoContainers(){
 
     this.draw = function(viewMatrix){
         for (var i = 0; i < listaContainers.length; i++) {
-        	listaContainers[i].draw(viewMatrix);
+        	listaContainers[i].draw(viewMatrix, listaTexturas[i % 5]);
         }
     }
 

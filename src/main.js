@@ -62,6 +62,8 @@ function drawScene(shaderProg){
 function start(){
     gl = GLInstance().fSetSize().fClear();
 
+    initTexture();
+
     glProgram = ShaderUtil.domShaderProgram(gl, "shader-vs", "shader-fs", true);
     gl.useProgram(glProgram);
 

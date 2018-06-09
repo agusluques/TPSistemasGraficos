@@ -3,11 +3,12 @@ function Water () {
     var position_buffer;
     var position_render_buffer = [];
     var position_render_buffer_rotado = [];
-    var color_buffer, index_buffer;
+    var color_buffer, index_buffer, texture_buffer;
 
     var webgl_position_buffer = null;
     var webgl_color_buffer = null;
     var webgl_index_buffer = null;
+    var webgl_texture_coord_buffer = null;
 
 
 
@@ -15,6 +16,8 @@ function Water () {
 
         position_buffer =[ 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1 ];
         color_buffer = [0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1];
+        texture_buffer = [0, 0, 1, 0, 0, 1, 1, 1];
+
 
     }
 
@@ -40,6 +43,11 @@ function Water () {
     // Esta función crea e incializa los buffers dentro del pipeline para luego
     // utlizarlos a la hora de renderizar.
     var setupWebGLBuffers = function(){
+        webgl_texture_coord_buffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, webgl_texture_coord_buffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(texture_buffer), gl.STATIC_DRAW); 
+
+
         // 1. Creamos un buffer para las posicioens dentro del pipeline.
         webgl_position_buffer = gl.createBuffer();
         // 2. Le decimos a WebGL que las siguientes operaciones que vamos a ser se aplican sobre el buffer que
@@ -51,7 +59,7 @@ function Water () {
         // Repetimos los pasos 1. 2. y 3. para la información del color
         webgl_color_buffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_color_buffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(color_buffer), gl.STATIC_DRAW);   
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(color_buffer), gl.STATIC_DRAW);  
 
         // Repetimos los pasos 1. 2. y 3. para la información de los índices
         // Notar que esta vez se usa ELEMENT_ARRAY_BUFFER en lugar de ARRAY_BUFFER.
@@ -59,6 +67,8 @@ function Water () {
         webgl_index_buffer = gl.createBuffer();
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, webgl_index_buffer);
         gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(index_buffer), gl.STATIC_DRAW);
+
+
     }
 
     var getModelMatrix = function(){
@@ -85,15 +95,25 @@ function Water () {
         var u_modelview_matrix = gl.getUniformLocation(glProgram, "uMVMatrix");
         gl.uniformMatrix4fv(u_modelview_matrix, false, modelViewMatrix);
 
-        var vertexPositionAttribute = gl.getAttribLocation(glProgram, "aVertexPosition");
-        gl.enableVertexAttribArray(vertexPositionAttribute);
-        gl.bindBuffer(gl.ARRAY_BUFFER, webgl_position_buffer);
-        gl.vertexAttribPointer(vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0);
+        var vertexTextureAttribute = gl.getAttribLocation(glProgram, "aUv");
+        gl.enableVertexAttribArray(vertexTextureAttribute);
+        gl.bindBuffer(gl.ARRAY_BUFFER, webgl_texture_coord_buffer);
+        gl.vertexAttribPointer(vertexTextureAttribute, 2, gl.FLOAT, false, 0, 0);
+
+        var texturaUniform = gl.getUniformLocation(glProgram, "uTextura");
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, waterTexture);
+        gl.uniform1i(texturaUniform, 0);
 
         var vertexColorAttribute = gl.getAttribLocation(glProgram, "aVertexColor");
         gl.enableVertexAttribArray(vertexColorAttribute);
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_color_buffer);
         gl.vertexAttribPointer(vertexColorAttribute, 3, gl.FLOAT, false, 0, 0);
+
+        var vertexPositionAttribute = gl.getAttribLocation(glProgram, "aVertexPosition");
+        gl.enableVertexAttribArray(vertexPositionAttribute);
+        gl.bindBuffer(gl.ARRAY_BUFFER, webgl_position_buffer);
+        gl.vertexAttribPointer(vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0);
 
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, webgl_index_buffer);
 

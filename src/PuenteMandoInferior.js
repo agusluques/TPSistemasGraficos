@@ -1,6 +1,4 @@
-function VertexGrid (_rows, _cols) {
-    var cols = _cols;
-    var rows = _rows;
+function PuenteMandoInferior () {
     var index_buffer = null;
 
     var position_buffer = null;
@@ -19,65 +17,104 @@ function VertexGrid (_rows, _cols) {
 
 
     var createIndexBuffer = function(){
-
-        index_buffer = [];
-        var offset = cols-1;
-        for (var i = 0; i < rows-1; i++) {
-            for (var j = 0.0; j < cols; j++){
-                
-                if (i % 2 == 0){
-                    index_buffer.push(j+(i*cols));
-                    index_buffer.push(j+((i+1)*cols));
-                } else {
-                    index_buffer.push((offset-j)+(i*cols));
-                    index_buffer.push((offset-j)+((i+1)*cols));
-                }
-            }
-        }
-        
-        
+        index_buffer = [
+            0, 1, 2,      0, 2, 3,    // Front face
+            4, 5, 6,      4, 6, 7,    // Back face
+            8, 9, 10,     8, 10, 11,  // Top face
+            12, 13, 14,   12, 14, 15, // Bottom face
+            16, 17, 18,   16, 18, 19, // Right face
+            20, 21, 22,   20, 22, 23,  // Left face
+        ];
     }
 
 
-    var createCilinder = function(){
+    var createPuenteMandoInferior = function(){
 
         position_buffer = [];
         color_buffer = [];
         texture_buffer = [];
-        var delta = (2*Math.PI) / (rows - 1);
-        var ang = delta;
-        var auxTapas;
-        for (var i = 0.0; i < rows; i++) { 
-           for (var j = 0.0; j < cols; j++) {
+        position_buffer = [
+            // Front face
+            -1.0, -1.0,  1.0,
+             1.0, -1.0,  1.0,
+             1.0,  1.0,  1.0,
+            -1.0,  1.0,  1.0,
 
-                if (j == 0.0){
-                    auxTapas = j + 1;
-                    position_buffer.push(auxTapas - (cols-1.0)/2.0);
-                    position_buffer.push(0);
-                    position_buffer.push(0);
-                } else if (j == cols - 1){
-                    auxTapas = j - 1;
-                    position_buffer.push(auxTapas - (cols-1.0)/2.0);
-                    position_buffer.push(0);
-                    position_buffer.push(0);  
-                } else{
-                 
-                    position_buffer.push(j - (cols-1.0)/2.0);
-                    position_buffer.push(Math.cos(ang));
-                    position_buffer.push(Math.sin(ang));
-                }
-                // Para cada vértice definimos su color
-                color_buffer.push(color[0]);
-                color_buffer.push(color[1]);
-                color_buffer.push(color[2]); 
+            // Back face
+            -1.0, -1.0, -1.0,
+             1.0, -1.0, -1.0,
+             1.0,  1.0, -1.0,
+            -1.0,  1.0, -1.0,
 
-                // Para cada vertice definimos su coord textura
-                texture_buffer.push(i/rows);
-                texture_buffer.push(i/cols);
-                                  
-           };
-           ang = ang + delta; 
-        };
+            // Top face
+            -1.0,  1.0, -1.0,
+            -1.0,  1.0,  1.0,
+             1.0,  1.0,  1.0,
+             1.0,  1.0, -1.0,
+
+            // Bottom face
+            -1.0, -1.0, -1.0,
+             1.0, -1.0, -1.0,
+             1.0, -1.0,  1.0,
+            -1.0, -1.0,  1.0,
+
+            // Right face
+             1.0, -1.0, -1.0,
+             1.0,  1.0, -1.0,
+             1.0,  1.0,  1.0,
+             1.0, -1.0,  1.0,
+
+            // Left face
+            -1.0, -1.0, -1.0,
+            -1.0, -1.0,  1.0,
+            -1.0,  1.0,  1.0,
+            -1.0,  1.0, -1.0,
+        ];
+        for (var i = 0; i < position_buffer.length; i++){
+            color_buffer.push(0.0);
+        }
+        texture_buffer = [
+            // Front face
+            0.0, 0.0,
+            1.0, 0.0,
+            1.0, 0.9,
+            0.0, 0.9,
+
+            // Back face
+            0.0, 0.0,
+            0.0, 0.0,
+            0.0, 0.0,
+            0.0, 0.0,
+
+            // Top face
+            0.0, 0.0,
+            0.0, 0.0,
+            0.0, 0.0,
+            0.0, 0.0,
+
+            // Bottom face
+            0.0, 0.0,
+            0.0, 0.0,
+            0.0, 0.0,
+            0.0, 0.0,
+
+            // Right face
+            0.0, 0.0,
+            0.0, 0.0,
+            0.0, 0.0,
+            0.0, 0.0,
+
+            // Left face
+            0.0, 0.0,
+            0.0, 0.0,
+            0.0, 0.0,
+            0.0, 0.0
+        ];
+
+
+
+
+        
     }
 
     // Esta función crea e incializa los buffers dentro del pipeline para luego
@@ -135,7 +172,7 @@ function VertexGrid (_rows, _cols) {
     }
 
     this.initialize = function(){
-        createCilinder();
+        createPuenteMandoInferior();
         createIndexBuffer();
         setupWebGLBuffers();
     }

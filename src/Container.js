@@ -1,7 +1,7 @@
 function Container (_posicion) {
 
     var posicion = _posicion;
-    var formaContainer = new VertexGrid(5,5);
+    var formaContainer = new Container3D();
 
     this.colorear = function(){
         formaContainer.setColor([Math.random(), Math.random(),Math.random()]);
@@ -9,8 +9,8 @@ function Container (_posicion) {
 
     this.ubicar = function(){
         formaContainer.translate(posicion[0],posicion[1],posicion[2]);
-        formaContainer.scale([3/16,3/32,3/32])
-        formaContainer.rotate(Math.PI/4, [1,0,0]);
+        formaContainer.scale([3/16,3/32,3/32]);
+        formaContainer.rotate(Math.PI/2, [1,0,0]);
     }
 
     this.translate = function(x,y,z){
@@ -28,9 +28,9 @@ function Container (_posicion) {
         return posicion;
     }
 
-    this.draw = function(viewMatrix){
+    this.draw = function(viewMatrix, textura){
         formaContainer.initialize();
-        formaContainer.draw(viewMatrix);
+        formaContainer.draw(viewMatrix, textura);
     }
 
 }
