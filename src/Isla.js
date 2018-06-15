@@ -46,7 +46,7 @@ function Isla () {
         while(angulo < Math.PI*2){
 
             bsplineFinal.push(0);
-            bsplineFinal.push(100);
+            bsplineFinal.push(250);
             bsplineFinal.push(0);
 			for (var i = 0; i < bspline.length; i = i +3) {
 				
