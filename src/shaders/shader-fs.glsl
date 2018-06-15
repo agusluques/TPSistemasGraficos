@@ -2,8 +2,12 @@ precision highp float;
 
 varying vec2 vUv;
 varying highp vec4 vColor;
+varying mat4 vMVMatrix;
+varying vec4 vModelPosition;
+// falta "vec3 vTransformedNormal"
 
 uniform sampler2D uTextura;
+// falta "sampler2D uNormalSampler"
 
 void main(void) {
 
@@ -13,7 +17,5 @@ void main(void) {
 	color.x = textColor.x + vColor.x;
 	color.y = textColor.y + vColor.y;
 	color.z = textColor.z + vColor.z;
-  // gl_FragColor es una variable "built-in" de GLSL que es usada para 
-  // almacenar el color resultante del fragmento.
-  gl_FragColor = color;
+  	gl_FragColor = color;
 }

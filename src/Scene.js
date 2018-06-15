@@ -1,7 +1,7 @@
 function Scene(){
     var objetos = [];
     objetos.push(new Water());
-    // // objetos.push(new Barco());
+    // objetos.push(new Barco());
     var grua = new Grua();
     objetos.push(grua);
     objetos.push(new Muelle());
@@ -11,6 +11,7 @@ function Scene(){
     objetos.push(new Isla());
     objetos.push(new PosteLuz([-6,-1,2.5]));
     objetos.push(new PosteLuz([-10,-1,2.5]));
+    objetos.push(new Sky());
 
     this.initialize = function(){
 		for (var i = 0; i < objetos.length; i++) {

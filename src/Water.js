@@ -95,6 +95,10 @@ function Water () {
         var u_modelview_matrix = gl.getUniformLocation(glProgram, "uMVMatrix");
         gl.uniformMatrix4fv(u_modelview_matrix, false, modelViewMatrix);
 
+        var modelMatrix = getModelMatrix();
+        var u_model_matrix = gl.getUniformLocation(glProgram, "uMMatrix");
+        gl.uniformMatrix4fv(u_model_matrix, false, modelMatrix);
+
         var vertexTextureAttribute = gl.getAttribLocation(glProgram, "aUv");
         gl.enableVertexAttribArray(vertexTextureAttribute);
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_texture_coord_buffer);

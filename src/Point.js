@@ -73,6 +73,10 @@ function Point () {
         var u_modelview_matrix = gl.getUniformLocation(glProgram, "uMVMatrix");
         gl.uniformMatrix4fv(u_modelview_matrix, false, modelViewMatrix);
 
+        var modelMatrix = getModelMatrix();
+        var u_model_matrix = gl.getUniformLocation(glProgram, "uMMatrix");
+        gl.uniformMatrix4fv(u_model_matrix, false, modelMatrix);
+
         var vertexPositionAttribute = gl.getAttribLocation(glProgram, "aVertexPosition");
         gl.enableVertexAttribArray(vertexPositionAttribute);
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_position_buffer);

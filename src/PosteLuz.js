@@ -1,7 +1,7 @@
 function PosteLuz(_posicion){
 
     var posteBase = new VertexGrid(5,5);
-    var posteLampara = new Esfera(_posicion);
+    var posteLampara = new Esfera(_posicion, 1);
 
     posteBase.translate(_posicion[0],_posicion[1],_posicion[2]);
     posteBase.scale([0.05,1,0.05]);
@@ -12,9 +12,10 @@ function PosteLuz(_posicion){
     //posteLampara.rotate(Math.PI/4, [1,0,0]);
 
     this.initialize = function(){
-        posteBase.setColor([0,0,0]);
+        posteBase.setColor([0.0,0.0,0.0]);
         posteBase.initialize();
 
+        posteLampara.setColor([1.0,1.0,1.0]);
         posteLampara.initialize();
     }
 

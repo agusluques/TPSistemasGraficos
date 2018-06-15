@@ -4,6 +4,7 @@ var fierroTexture;
 var muelleTexture;
 var islaTexture;
 var puenteMandoTexture;
+var skyTexture;
 var containerAzulTexture, containerAmarilloTexture, containerCelesteTexture, containerNaranjaTexture, containerRojoTexture, containerVerdeTexture;
 function initTexture() {	
 	
@@ -14,6 +15,13 @@ function initTexture() {
 		handleLoadedTexture(waterTexture);
 	}
 	waterTexture.image.src = "src/textures/sea-map.jpg";
+
+	skyTexture = gl.createTexture();
+	skyTexture.image = new Image();
+	skyTexture.image.onload = function() {		
+		handleLoadedTexture(skyTexture);
+	}
+	skyTexture.image.src = "src/textures/skyBox.jpg";
 
 	containerTexture = gl.createTexture();
 	containerTexture.image = new Image();

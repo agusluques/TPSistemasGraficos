@@ -1,4 +1,4 @@
-function Esfera(_posicion){
+function Esfera(_posicion, _radio){
 
 	var puntosSemicirculo = [];
 	var puntosEsfera = [];
@@ -13,6 +13,8 @@ function Esfera(_posicion){
     var webgl_texture_coord_buffer = null;
 
     var modelMatrix;
+
+    var color = [0.0,0.0,0.0];
 
     var rotarSemicircunferencia = function(){
     	
@@ -31,7 +33,7 @@ function Esfera(_posicion){
     }
 
     var crearVerticesSemicircunferencia = function(){
-    	var punto = [1,0,0];
+    	var punto = [_radio,0,0];
 		var angulo = 0;
 
     	//Roto en Z 90° para obtener una semicircunferencia
@@ -47,11 +49,15 @@ function Esfera(_posicion){
     var createColorBuffer = function(){
 
         for (var i = 0; i < 703; i++) { 
-           color_buffer.push(1);
-           color_buffer.push(1);
-           color_buffer.push(1);
+           color_buffer.push(color[0]);
+           color_buffer.push(color[1]);
+           color_buffer.push(color[2]);
        };
         
+    }
+
+    this.setColor = function(vector){
+        color = vector;
     }
 
     var createIndexBuffer = function(){
@@ -81,8 +87,8 @@ function Esfera(_posicion){
 
         for (var i = 0; i < rows; i++) {
             for (var j = 0.0; j < cols; j++){
-                texture_buffer.push(i/rows);
-                texture_buffer.push(j/cols);
+                texture_buffer.push((i/rows));
+                texture_buffer.push((j/cols));
             }
         }
 
@@ -120,6 +126,7 @@ function Esfera(_posicion){
         modelMatrix = mat4.create();
         mat4.translate(modelMatrix, modelMatrix, [_posicion[0],_posicion[1]-0.6,_posicion[2]]);
         mat4.scale(modelMatrix, modelMatrix, [0.2,0.2,0.2]);
+        mat4.rotate(modelMatrix, modelMatrix, Math.PI/2, [0,0,1]);
         
         return modelMatrix;
 
@@ -139,6 +146,10 @@ function Esfera(_posicion){
         mat4.multiply(modelViewMatrix, viewMatrix, getModelMatrix());
         var u_modelview_matrix = gl.getUniformLocation(glProgram, "uMVMatrix");
         gl.uniformMatrix4fv(u_modelview_matrix, false, modelViewMatrix);
+
+        var modelMatrix = getModelMatrix();
+        var u_model_matrix = gl.getUniformLocation(glProgram, "uMMatrix");
+        gl.uniformMatrix4fv(u_model_matrix, false, modelMatrix);
 
         var vertexTextureAttribute = gl.getAttribLocation(glProgram, "aUv");
         gl.enableVertexAttribArray(vertexTextureAttribute);
