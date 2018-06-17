@@ -60,7 +60,7 @@ function drawScene(shaderProg){
     my_scene.draw(viewMatrix);
     my_water.animate(anguloAgua);
     my_water.draw(viewMatrix);
-    anguloAgua = anguloAgua + (Math.PI/30);
+    anguloAgua = anguloAgua + (Math.PI/10);
 }
 
 function start(){

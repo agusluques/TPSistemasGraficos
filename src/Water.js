@@ -106,8 +106,10 @@ function Water () {
 
     this.animate = function(angulo){
         for (var i = 0; i < (cantidadPuntosX * cantidadPuntosZ * 3); i = i+3) {
-			position_buffer[i+1] = position_buffer[i+1] + (Math.sin(angulo)/40);
-   		}
+			//position_buffer[i+1] = position_buffer[i+1] + (Math.sin(angulo)/40);
+            //position_buffer[i+1] = position_buffer[i+1] + 20*((Math.sin(position_buffer[i])/40) * (Math.sin(angulo)/40));
+   		    position_buffer[i+1] = position_buffer[i+1] + 4000*((Math.sin(position_buffer[i])/40) * (Math.sin(position_buffer[i+2])/40) * (Math.sin(angulo)/40));
+        }
         setupWebGLBuffers();
     }
 
