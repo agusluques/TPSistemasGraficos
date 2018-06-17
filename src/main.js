@@ -1,5 +1,6 @@
 var canvas, gl, glProgram; 
 var t = 0.0;
+var anguloAgua = 0;
  
 
 function GLInstance(){
@@ -57,6 +58,9 @@ function drawScene(shaderProg){
     var viewMatrix = my_camera.getViewMatrix();
     
     my_scene.draw(viewMatrix);
+    my_water.animate(anguloAgua);
+    my_water.draw(viewMatrix);
+    anguloAgua = anguloAgua + (Math.PI/30);
 }
 
 function start(){
@@ -69,6 +73,9 @@ function start(){
 
     my_scene = new Scene();
     my_scene.initialize();
+
+    my_water = new Water();
+    my_water.initialize();
 
     my_camera = new Camera();
     my_camera.setPerspective(55, 640.0/480.0, 0.1, 1000.0)

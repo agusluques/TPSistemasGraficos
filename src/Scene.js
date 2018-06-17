@@ -1,6 +1,6 @@
 function Scene(){
     var objetos = [];
-    objetos.push(new Water());
+    //objetos.push(new Water());
     // objetos.push(new Barco());
     var grua = new Grua();
     objetos.push(grua);
@@ -19,14 +19,10 @@ function Scene(){
 		}
     }
 
-    this.draw = function(viewMatrix){
+    this.draw = function(viewMatrix){       
     	for (var i = 0; i < objetos.length; i++) {
-			
-			objetos[i].draw(viewMatrix);
-
-	        
+			objetos[i].draw(viewMatrix);        
 		}
-    	
     }
 
     var tomarContainer = function(accion){

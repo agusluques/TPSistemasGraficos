@@ -1,30 +1,55 @@
 function Water () {
 
-    var position_buffer;
+    var position_buffer = [];
     var position_render_buffer = [];
     var position_render_buffer_rotado = [];
-    var color_buffer, index_buffer, texture_buffer;
+    var color_buffer = [];
+    var index_buffer = [];
+    var texture_buffer = [];
 
     var webgl_position_buffer = null;
     var webgl_color_buffer = null;
     var webgl_index_buffer = null;
     var webgl_texture_coord_buffer = null;
 
-
+    var cantidadPuntosX = 101;
+    var cantidadPuntosZ = 101;
 
     var createPoints = function(){
 
-        position_buffer =[ 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1 ];
-        color_buffer = [0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1];
-        texture_buffer = [0, 0, 1, 0, 0, 1, 1, 1];
+        //position_buffer =[ 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1 ];
+        //color_buffer = [0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1];
+        //texture_buffer = [0, 0, 1, 0, 0, 1, 1, 1];
 
+        for (var i = 0; i < cantidadPuntosX; i++) {
+        	for (var j = 0; j < cantidadPuntosZ; j++) {
+        		position_buffer.push(i);
+        		position_buffer.push(0);
+        		position_buffer.push(j);
 
+        		color_buffer.push(0);
+        		color_buffer.push(0);
+        		color_buffer.push(0);
+
+        		texture_buffer.push(i/cantidadPuntosX);
+        		texture_buffer.push(j/cantidadPuntosZ);
+
+        	}
+        }
+
+        /*
+        console.log("Position Buffer");
+        console.log(position_buffer);
+        console.log("Color Buffer");
+        console.log(color_buffer);
+        console.log("Texture Buffer");
+        console.log(texture_buffer);*/
     }
 
     var createIndexBuffer = function(){
         index_buffer = [];
-        var cols = 2;
-        var rows = 2;
+        var cols = 101;
+        var rows = 101;
         var offset = cols-1;
         for (var i = 0; i < rows-1; i++) {
             for (var j = 0.0; j < cols; j++){
@@ -73,13 +98,17 @@ function Water () {
 
     var getModelMatrix = function(){
         var modelMatrix = mat4.create();
-        
-
-        mat4.scale(modelMatrix, modelMatrix, [1000,1000,1000]);
-        mat4.translate(modelMatrix, modelMatrix, [-0.5, 0, -0.5]);
+        mat4.translate(modelMatrix, modelMatrix, [-40, 0, -40]);
 
         return modelMatrix;
 
+    }
+
+    this.animate = function(angulo){
+        for (var i = 0; i < (cantidadPuntosX * cantidadPuntosZ * 3); i = i+3) {
+			position_buffer[i+1] = position_buffer[i+1] + (Math.sin(angulo)/40);
+   		}
+        setupWebGLBuffers();
     }
 
     this.initialize = function(){
