@@ -140,6 +140,9 @@ function Water () {
         gl.bindTexture(gl.TEXTURE_2D, waterTexture);
         gl.uniform1i(texturaUniform, 0);
 
+        var uId = gl.getUniformLocation(glProgram, "uId");
+        gl.uniform1i(uId, 1);
+
         var vertexColorAttribute = gl.getAttribLocation(glProgram, "aVertexColor");
         gl.enableVertexAttribArray(vertexColorAttribute);
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_color_buffer);

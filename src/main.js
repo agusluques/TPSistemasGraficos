@@ -56,6 +56,12 @@ function drawScene(shaderProg){
     requestAnimationFrame(drawScene);
 
     var viewMatrix = my_camera.getViewMatrix();
+
+    var uT = gl.getUniformLocation(glProgram, "uT");
+    gl.uniform1f(uT, t);
+
+    var uId = gl.getUniformLocation(glProgram, "uId");
+    gl.uniform1i(uId, 0); // se pone a todos id = 0, y el agua se pone id = 1
     
     my_scene.draw(viewMatrix);
     my_water.animate(anguloAgua);
