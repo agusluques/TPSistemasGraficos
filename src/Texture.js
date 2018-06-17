@@ -21,7 +21,7 @@ function initTexture() {
 	skyTexture.image.onload = function() {		
 		handleLoadedTexture(skyTexture);
 	}
-	skyTexture.image.src = "src/textures/skyBox.jpg";
+	skyTexture.image.src = "src/textures/reflexionMap.jpg";
 
 	containerTexture = gl.createTexture();
 	containerTexture.image = new Image();
