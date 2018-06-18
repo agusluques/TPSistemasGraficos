@@ -20,15 +20,21 @@ function Barco () {
 	var bezier_first_level = [];
 	var bezier_second_level = [];
 	var bezier_third_level = [];
+    var bezier_4_level = [];
+    var bezier_5_level = [];
+    var bezier_6_level = [];
+    var bezier_7_level = [];
 
 	//Todos los puntos de la malla para el barco
 	var bezier_final = [];
 	var color_buffer = [];
 	var index_buffer = [];
+    var texture_buffer = [];
 
     var webgl_position_buffer = null;
     var webgl_color_buffer = null;
     var webgl_index_buffer = null;
+    var webgl_texture_coord_buffer = null;
 
 	var createBases = function(){
 
@@ -158,9 +164,9 @@ function Barco () {
 
 		var i;
 		for (i = 0; i < _bufferIN.length; i = i+3) {
-			_bufferOUT.push(_bufferIN[i]*1.2);
-			_bufferOUT.push(_bufferIN[i+1]-3);
-			_bufferOUT.push(_bufferIN[i+2]*1.2);
+			_bufferOUT.push(_bufferIN[i]*1.05);
+			_bufferOUT.push(_bufferIN[i+1]-1);
+			_bufferOUT.push(_bufferIN[i+2]*1.05);
 		}
 
 	}
@@ -181,6 +187,22 @@ function Barco () {
 		//console.log(bezier_third_level);	
 	}
 
+    var createBezier4LevelSurface = function(){
+        expandPoints(bezier_third_level, bezier_4_level);
+    }
+
+    var createBezier5LevelSurface = function(){
+        expandPoints(bezier_4_level, bezier_5_level);
+    }
+
+    var createBezier6LevelSurface = function(){
+        expandPoints(bezier_5_level, bezier_6_level);
+    }
+
+    var createBezier7LevelSurface = function(){
+        expandPoints(bezier_6_level, bezier_7_level);
+    }
+
 	var joinPoints = function(){
 
         var bezier_intermediate_level = [-4, -3, 0];
@@ -195,17 +217,33 @@ function Barco () {
 			bezier_final.push(bezier_second_level[i+1]);
 			bezier_final.push(bezier_second_level[i+2]);
 
-            bezier_final.push(bezier_intermediate_level[0]);
-            bezier_final.push(bezier_intermediate_level[1]);
-            bezier_final.push(bezier_intermediate_level[2]);
+            //bezier_final.push(bezier_intermediate_level[0]);
+            //bezier_final.push(bezier_intermediate_level[1]);
+            //bezier_final.push(bezier_intermediate_level[2]);
 
-            bezier_final.push(bezier_second_level[i]);
-            bezier_final.push(bezier_second_level[i+1]);
-            bezier_final.push(bezier_second_level[i+2]);
+            //bezier_final.push(bezier_second_level[i]);
+            //bezier_final.push(bezier_second_level[i+1]);
+            //bezier_final.push(bezier_second_level[i+2]);
 
 			bezier_final.push(bezier_third_level[i]);
 			bezier_final.push(bezier_third_level[i+1]);
 			bezier_final.push(bezier_third_level[i+2]);
+
+            bezier_final.push(bezier_4_level[i]);
+            bezier_final.push(bezier_4_level[i+1]);
+            bezier_final.push(bezier_4_level[i+2]);
+
+            bezier_final.push(bezier_5_level[i]);
+            bezier_final.push(bezier_5_level[i+1]);
+            bezier_final.push(bezier_5_level[i+2]);
+
+            bezier_final.push(bezier_6_level[i]);
+            bezier_final.push(bezier_6_level[i+1]);
+            bezier_final.push(bezier_6_level[i+2]);
+
+            bezier_final.push(bezier_7_level[i]);
+            bezier_final.push(bezier_7_level[i+1]);
+            bezier_final.push(bezier_7_level[i+2]);
 		} 
 
 		//console.log("----- FINAL BEZIER -----");
@@ -215,10 +253,10 @@ function Barco () {
 
     var createColorBuffer = function(){
 
-        for (var i = 0; i < 225; i++) { 
-           color_buffer.push(0.5);
-           color_buffer.push(0.5);
-           color_buffer.push(0.5);
+        for (var i = 0; i < 315; i++) {  //355 con el intermediate
+           color_buffer.push(0.0);
+           color_buffer.push(0.0);
+           color_buffer.push(0.0);
        };
         
     }
@@ -226,7 +264,7 @@ function Barco () {
     var createIndexBuffer = function(){
 
         index_buffer = [];
-        var cols = 5;
+        var cols = 7;
         var rows = 45;
         var offset = cols-1;
         for (var i = 0; i < rows-1; i++) {
@@ -245,9 +283,26 @@ function Barco () {
         
     }
 
+    var createTextureBuffer = function(){
+        texture_buffer = [];
+        var cols = 7; //Niveles
+        var rows = 45; //Puntos por nivel
+
+        for (var i = 0; i < rows; i++) {
+            for (var j = 0.0; j < cols; j++){
+                
+                texture_buffer.push((i/rows));
+                texture_buffer.push((j/cols));
+            }
+        }
+    }
+
     // Esta función crea e incializa los buffers dentro del pipeline para luego
     // utlizarlos a la hora de renderizar.
     var setupWebGLBuffers = function(){
+        webgl_texture_coord_buffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, webgl_texture_coord_buffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(texture_buffer), gl.STATIC_DRAW); 
 
         // 1. Creamos un buffer para las posicioens dentro del pipeline.
         webgl_position_buffer = gl.createBuffer();
@@ -287,9 +342,14 @@ function Barco () {
         createBezierFirstLevelSurface();
         createBezierSecondLevelSurface();
         createBezierThirdLevelSurface();
+        createBezier4LevelSurface();
+        createBezier5LevelSurface();
+        createBezier6LevelSurface();
+        createBezier7LevelSurface();
         joinPoints();
         createColorBuffer();
         createIndexBuffer();
+        createTextureBuffer();
         setupWebGLBuffers();
     }
 
@@ -302,6 +362,16 @@ function Barco () {
         var modelMatrix = getModelMatrix();
         var u_model_matrix = gl.getUniformLocation(glProgram, "uMMatrix");
         gl.uniformMatrix4fv(u_model_matrix, false, modelMatrix);
+
+        var vertexTextureAttribute = gl.getAttribLocation(glProgram, "aUv");
+        gl.enableVertexAttribArray(vertexTextureAttribute);
+        gl.bindBuffer(gl.ARRAY_BUFFER, webgl_texture_coord_buffer);
+        gl.vertexAttribPointer(vertexTextureAttribute, 2, gl.FLOAT, false, 0, 0);
+
+        var texturaUniform = gl.getUniformLocation(glProgram, "uTextura");
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, barcoTexture);
+        gl.uniform1i(texturaUniform, 0);
 
         var vertexPositionAttribute = gl.getAttribLocation(glProgram, "aVertexPosition");
         gl.enableVertexAttribArray(vertexPositionAttribute);
@@ -316,6 +386,7 @@ function Barco () {
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, webgl_index_buffer);
 
         // Dibujamos.
+        //gl.drawElements(gl.POINTS_STRIP, index_buffer.length, gl.UNSIGNED_SHORT, 0);
         gl.drawElements(gl.TRIANGLE_STRIP, index_buffer.length, gl.UNSIGNED_SHORT, 0);
     }
 

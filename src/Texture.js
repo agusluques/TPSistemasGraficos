@@ -8,7 +8,13 @@ var skyTexture;
 var containerAzulTexture, containerAmarilloTexture, containerCelesteTexture, containerNaranjaTexture, containerRojoTexture, containerVerdeTexture;
 function initTexture() {	
 	
-	
+	barcoTexture = gl.createTexture();
+	barcoTexture.image = new Image();
+	barcoTexture.image.onload = function() {		
+		handleLoadedTexture(barcoTexture);
+	}
+	barcoTexture.image.src = "src/textures/cascoBarco2.jpg";
+
 	waterTexture = gl.createTexture();
 	waterTexture.image = new Image();
 	waterTexture.image.onload = function() {		
