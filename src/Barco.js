@@ -2,6 +2,8 @@ function Barco () {
 
 	var Base0,Base1,Base2,Base3;
 
+    var tapa;
+
 	//Puntos de control para crear las curvas de Bezier
 	//Se utilizarán 4 curvas de Bezier
 	var control_points_1 = [];
@@ -24,6 +26,8 @@ function Barco () {
     var bezier_5_level = [];
     var bezier_6_level = [];
     var bezier_7_level = [];
+
+    var bezier_intermediate_level = [];
 
 	//Todos los puntos de la malla para el barco
 	var bezier_final = [];
@@ -159,7 +163,6 @@ function Barco () {
 
 	}
 
-	//VERIFICAR QUE EL ESCALADO ESTE FUNCIONANDO BIEN
 	var expandPoints = function(_bufferIN, _bufferOUT){
 
 		var i;
@@ -205,7 +208,7 @@ function Barco () {
 
 	var joinPoints = function(){
 
-        var bezier_intermediate_level = [-4, -3, 0];
+        //var bezier_intermediate_level = [-4, -3, 0];
 
 		for (var i = 0; i < bezier_first_level.length; i = i+3) { 
 
@@ -233,6 +236,10 @@ function Barco () {
             bezier_final.push(bezier_4_level[i+1]);
             bezier_final.push(bezier_4_level[i+2]);
 
+            bezier_intermediate_level.push(bezier_5_level[i]);
+            bezier_intermediate_level.push(bezier_5_level[i+1]);
+            bezier_intermediate_level.push(bezier_5_level[i+2]);
+
             bezier_final.push(bezier_5_level[i]);
             bezier_final.push(bezier_5_level[i+1]);
             bezier_final.push(bezier_5_level[i+2]);
@@ -249,6 +256,8 @@ function Barco () {
 		//console.log("----- FINAL BEZIER -----");
 		//console.log(bezier_final);
 
+        tapa = new TapaBarco(bezier_intermediate_level);
+
 	}
 
     var createColorBuffer = function(){
@@ -262,7 +271,6 @@ function Barco () {
     }
 
     var createIndexBuffer = function(){
-
         index_buffer = [];
         var cols = 7;
         var rows = 45;
@@ -351,6 +359,9 @@ function Barco () {
         createIndexBuffer();
         createTextureBuffer();
         setupWebGLBuffers();
+
+        //Tapa del barco
+        tapa.initialize();
     }
 
     this.draw = function(viewMatrix){
@@ -388,6 +399,8 @@ function Barco () {
         // Dibujamos.
         //gl.drawElements(gl.POINTS_STRIP, index_buffer.length, gl.UNSIGNED_SHORT, 0);
         gl.drawElements(gl.TRIANGLE_STRIP, index_buffer.length, gl.UNSIGNED_SHORT, 0);
+
+        tapa.draw(viewMatrix);
     }
 
 }

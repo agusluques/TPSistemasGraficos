@@ -6,14 +6,21 @@ var islaTexture;
 var puenteMandoTexture;
 var skyTexture;
 var containerAzulTexture, containerAmarilloTexture, containerCelesteTexture, containerNaranjaTexture, containerRojoTexture, containerVerdeTexture;
-function initTexture() {	
+function initTexture() {
+
+	tapaBarcoTexture = gl.createTexture();
+	tapaBarcoTexture.image = new Image();
+	tapaBarcoTexture.image.onload = function() {		
+		handleLoadedTexture(tapaBarcoTexture);
+	}
+	tapaBarcoTexture.image.src = "src/textures/concretoPlataforma.jpg";	
 	
 	barcoTexture = gl.createTexture();
 	barcoTexture.image = new Image();
 	barcoTexture.image.onload = function() {		
 		handleLoadedTexture(barcoTexture);
 	}
-	barcoTexture.image.src = "src/textures/cascoBarco2.jpg";
+	barcoTexture.image.src = "src/textures/cascoBarco3.jpg";
 
 	waterTexture = gl.createTexture();
 	waterTexture.image = new Image();
