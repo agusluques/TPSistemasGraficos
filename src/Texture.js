@@ -128,16 +128,16 @@ function handleLoadedTexture(texture) {
 	texture.finished = true;
 }
 
-// function handleLoadedTextureMosaic(texture) {
-// 	gl.bindTexture(gl.TEXTURE_2D, texture);
-// 	gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-// 	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.image);
-// 	//esta forma para evitar utilizar texturas que tengan dimensiones de dos a la algo
-// 	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_NEAREST); //gl.NEAREST is also allowed, instead of gl.LINEAR, as neither mipmap.
-// 	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-// 	gl.generateMipmap(gl.TEXTURE_2D);
-// 	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT); //Prevents s-coordinate wrapping (repeating).
-// 	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT); //Prevents t-coordinate wrapping (repeating).
-// 	gl.bindTexture(gl.TEXTURE_2D, null);
-// 	texture.finished = true;
-// }
+function handleLoadedTextureMosaic(texture) {
+	gl.bindTexture(gl.TEXTURE_2D, texture);
+	gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+ 	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.image);
+ 	//esta forma para evitar utilizar texturas que tengan dimensiones de dos a la algo
+ 	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_NEAREST); //gl.NEAREST is also allowed, instead of gl.LINEAR, as neither mipmap.
+ 	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+ 	gl.generateMipmap(gl.TEXTURE_2D);
+ 	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT); //Prevents s-coordinate wrapping (repeating).
+ 	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT); //Prevents t-coordinate wrapping (repeating).
+ 	gl.bindTexture(gl.TEXTURE_2D, null);
+ 	texture.finished = true;
+}

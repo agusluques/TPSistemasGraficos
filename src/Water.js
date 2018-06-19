@@ -1,6 +1,7 @@
 function Water () {
 
     var position_buffer = [];
+    var normal_buffer = [];
     var position_render_buffer = [];
     var position_render_buffer_rotado = [];
     var color_buffer = [];
@@ -8,12 +9,13 @@ function Water () {
     var texture_buffer = [];
 
     var webgl_position_buffer = null;
+    var webgl_normal_buffer = null;
     var webgl_color_buffer = null;
     var webgl_index_buffer = null;
     var webgl_texture_coord_buffer = null;
 
-    var cantidadPuntosX = 101;
-    var cantidadPuntosZ = 101;
+    var cantidadPuntosX = 101.0;
+    var cantidadPuntosZ = 101.0;
 
     var createPoints = function(){
 
@@ -21,15 +23,19 @@ function Water () {
         //color_buffer = [0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1];
         //texture_buffer = [0, 0, 1, 0, 0, 1, 1, 1];
 
-        for (var i = 0; i < cantidadPuntosX; i++) {
-        	for (var j = 0; j < cantidadPuntosZ; j++) {
+        for (var i = 0.0; i < cantidadPuntosX; i++) {
+        	for (var j = 0.0; j < cantidadPuntosZ; j++) {
         		position_buffer.push(i);
-        		position_buffer.push(0);
+        		position_buffer.push(0.0);
         		position_buffer.push(j);
 
-        		color_buffer.push(0);
-        		color_buffer.push(0);
-        		color_buffer.push(0);
+        		normal_buffer.push(0.0);
+        		normal_buffer.push(-1.0);
+        		normal_buffer.push(0.0);
+
+        		color_buffer.push(0.0);
+        		color_buffer.push(0.0);
+        		color_buffer.push(0.0);
 
         		texture_buffer.push(i/cantidadPuntosX);
         		texture_buffer.push(j/cantidadPuntosZ);
@@ -71,6 +77,10 @@ function Water () {
         webgl_texture_coord_buffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_texture_coord_buffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(texture_buffer), gl.STATIC_DRAW); 
+
+        webgl_normal_buffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, webgl_normal_buffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normal_buffer), gl.STATIC_DRAW); 
 
 
         // 1. Creamos un buffer para las posicioens dentro del pipeline.
@@ -130,6 +140,11 @@ function Water () {
         var u_model_matrix = gl.getUniformLocation(glProgram, "uMMatrix");
         gl.uniformMatrix4fv(u_model_matrix, false, modelMatrix);
 
+        var normalMatrix = mat3.create();
+        mat3.normalFromMat4(normalMatrix, modelMatrix);
+        var u_normal_matrix = gl.getUniformLocation(glProgram, "uNMatrix");
+        gl.uniformMatrix3fv(u_normal_matrix, false, normalMatrix);
+
         var vertexTextureAttribute = gl.getAttribLocation(glProgram, "aUv");
         gl.enableVertexAttribArray(vertexTextureAttribute);
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_texture_coord_buffer);
@@ -152,6 +167,11 @@ function Water () {
         gl.enableVertexAttribArray(vertexPositionAttribute);
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_position_buffer);
         gl.vertexAttribPointer(vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0);
+
+        var vertexNormalAttribute = gl.getAttribLocation(glProgram, "aVertexNormal");
+        gl.enableVertexAttribArray(vertexNormalAttribute);
+        gl.bindBuffer(gl.ARRAY_BUFFER, webgl_normal_buffer);
+        gl.vertexAttribPointer(vertexNormalAttribute, 3, gl.FLOAT, false, 0, 0);
 
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, webgl_index_buffer);
 
