@@ -57,16 +57,33 @@ function drawScene(shaderProg){
 
     var viewMatrix = my_camera.getViewMatrix();
 
-    var uT = gl.getUniformLocation(glProgram, "uT");
-    gl.uniform1f(uT, t);
+    
+    gl.uniform1f(glProgram.uT, t);
 
-    var uId = gl.getUniformLocation(glProgram, "uId");
-    gl.uniform1i(uId, 0); // se pone a todos id = 0, y el agua se pone id = 1
+    gl.uniform1i(glProgram.uId, 0); // se pone a todos id = 0, y el agua se pone id = 1
+
     
     my_scene.draw(viewMatrix);
-    //my_water.animate(anguloAgua);
     my_water.draw(viewMatrix);
-    //anguloAgua = anguloAgua + (Math.PI/10);
+}
+
+var intensidadSol = 0.5;
+
+var initLuces = function(){
+    //Acá inicio mi primera luz que quiero que sea la de ambiente
+    gl.uniform3f(glProgram.uAmbientColor,0.1,0.1,0.5); 
+    //Luz del sol
+    var lightingDirection = [ -30.0,5.0,-5.0 ]; // sol
+    var adjustedLD = vec3.create();
+    vec3.normalize(adjustedLD, lightingDirection);
+    vec3.scale(adjustedLD, adjustedLD, -1);
+    gl.uniform3fv(glProgram.uLightDirection, adjustedLD);
+    gl.uniform3f(glProgram.uDirectionalColor,intensidadSol+0.05,intensidadSol,intensidadSol); //El +0.05 es para que sea mas anaranjado por el sol
+    // //Luz de la lampara
+    // gl.uniform3f(shaderProgram.lampLightOnePosition,-7.0,0.0,0.8);
+    // gl.uniform3f(shaderProgram.lampLightTwoPosition,15.0,0.0,0.8);
+    // gl.uniform3f(shaderProgram.lampLightColour,0.5,0.3,0.0);    //Naranja
+    // gl.uniform3f(shaderProgram.lampLightColourSpecular,0.5,0.5,0.5);    //Blanco
 }
 
 function start(){
@@ -76,6 +93,18 @@ function start(){
 
     glProgram = ShaderUtil.domShaderProgram(gl, "shader-vs", "shader-fs", true);
     gl.useProgram(glProgram);
+
+    glProgram.uT = gl.getUniformLocation(glProgram, "uT");
+    glProgram.uId = gl.getUniformLocation(glProgram, "uId");
+
+    glProgram.uAmbientColor = gl.getUniformLocation(glProgram, "uAmbientColor");
+    glProgram.uLightDirection = gl.getUniformLocation(glProgram, "uLightDirection");
+    glProgram.uDirectionalColor = gl.getUniformLocation(glProgram, "uDirectionalColor");
+
+    glProgram.uTarget = gl.getUniformLocation(glProgram, "uTarget");
+    glProgram.uCameraPos = gl.getUniformLocation(glProgram, "uCameraPos");
+
+    initLuces();
 
     my_scene = new Scene();
     my_scene.initialize();

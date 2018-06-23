@@ -13,10 +13,22 @@ uniform sampler2D uTextura2;
 uniform float uT;
 uniform int uId;
 
+
+//luces
+uniform vec3 uAmbientColor; // ambiente
+uniform vec3 uLightDirection; // sol
+uniform vec3 uDirectionalColor; // sol
+
+
+uniform vec3 uTarget;
+uniform vec3 uCameraPos;
+
 void main(void) {
 
 	vec4 color = vec4(0.0,0.0,0.0,1.0);
 	vec3 textColor;
+
+	float directionalLightWeighting = max(dot(normalize(uLightDirection), normalize(vModelPosition.xyz)), 0.0);
 
 	if (uId == 1){
 		vec2 offset=vec2(uT*0.01, uT*0.02);
@@ -34,6 +46,6 @@ void main(void) {
 	color.x = textColor.x + vColor.x;
 	color.y = textColor.y + vColor.y;
 	color.z = textColor.z + vColor.z;
-  	gl_FragColor = color;
+  	gl_FragColor = vec4(color.rgb * (uAmbientColor + uDirectionalColor * directionalLightWeighting), color.a);
   	//gl_FragColor = vec4(vTransformedNormal, 1.0);
 }

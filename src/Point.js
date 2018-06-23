@@ -1,4 +1,4 @@
-function Point () {
+function Point (x,y,z) {
     var index_buffer = null;
 
     var position_buffer = null;
@@ -19,7 +19,7 @@ function Point () {
 
     var createPoint = function(){
 
-        position_buffer = [0.0,0.0,0.0];
+        position_buffer = [x,y,z];
         color_buffer = [0.2,0.2,0.2];
         
     }
