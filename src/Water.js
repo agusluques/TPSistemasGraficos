@@ -155,6 +155,11 @@ function Water () {
         gl.bindTexture(gl.TEXTURE_2D, waterTexture);
         gl.uniform1i(texturaUniform, 0);
 
+        var texturaUniform2 = gl.getUniformLocation(glProgram, "uTextura2");
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, waterTexture);
+        gl.uniform1i(texturaUniform2, 0);
+
         var uId = gl.getUniformLocation(glProgram, "uId");
         gl.uniform1i(uId, 1);
 

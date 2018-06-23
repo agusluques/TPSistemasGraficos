@@ -1,3 +1,5 @@
+precision highp float;
+precision highp int;
 
 attribute vec3 aVertexPosition;
 attribute vec3 aVertexColor;
@@ -10,6 +12,8 @@ uniform mat4 uMVMatrix;
 uniform mat4 uPMatrix;
 uniform mat4 uMMatrix;
 uniform mat3 uNMatrix;
+uniform float uT;
+uniform int uId;
 
 
 
@@ -22,7 +26,15 @@ varying vec3 vTransformedNormal;
 void main(void) {
 
 	vUv = aUv;
-    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+	vec3 aVertexPositionAux;
+
+	if (uId == 1){
+		aVertexPositionAux = vec3(aVertexPosition.x, aVertexPosition.y + sin(uT + aVertexPosition.x + aVertexPosition.z)/5.0, aVertexPosition.z);
+	}else{
+		aVertexPositionAux = vec3(aVertexPosition.x, aVertexPosition.y, aVertexPosition.z);
+	}
+
+    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPositionAux, 1.0);
     vColor = vec4(aVertexColor,1.0);
     gl_PointSize = 10.0;
 

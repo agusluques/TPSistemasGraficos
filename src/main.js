@@ -51,7 +51,7 @@ function GLInstance(){
 
 function drawScene(shaderProg){
     
-    t = t + 0.01;
+    t = t + 0.005;
 
     requestAnimationFrame(drawScene);
 
@@ -64,9 +64,9 @@ function drawScene(shaderProg){
     gl.uniform1i(uId, 0); // se pone a todos id = 0, y el agua se pone id = 1
     
     my_scene.draw(viewMatrix);
-    my_water.animate(anguloAgua);
+    //my_water.animate(anguloAgua);
     my_water.draw(viewMatrix);
-    anguloAgua = anguloAgua + (Math.PI/10);
+    //anguloAgua = anguloAgua + (Math.PI/10);
 }
 
 function start(){
