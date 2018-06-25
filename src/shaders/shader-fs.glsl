@@ -37,7 +37,7 @@ void main(void) {
 		vec3 colorAgua1=vec3(0.3,0.5,0.86);
        	vec3 colorAgua2=vec3(0.2,0.5,0.7);
 
-		textColor = mix(colorAgua1*texture2D(uTextura, vUv+offset).xyz, colorAgua2*texture2D(uTextura2, vUv*0.3+ offset2).xyz, 0.5);
+		textColor = mix(colorAgua1*texture2D(uTextura, mod(vUv+offset,1.0)).xyz, colorAgua2*texture2D(uTextura2, mod(vUv*0.3+ offset2,1.0)).xyz, 0.5);
 	} else{
 		textColor = texture2D(uTextura, vUv).xyz;
 	}

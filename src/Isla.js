@@ -135,8 +135,8 @@ function Isla () {
         var rows = 145;
         for (var i = 0; i < rows; i++) {
             for (var j = 0.0; j < cols; j++){
-                texture_buffer.push(1-(i/rows));
-                texture_buffer.push(1-(j/cols));
+                texture_buffer.push(1-(i/(rows-1)));
+                texture_buffer.push(1-(j/(cols-1)));
             }
         }
     }

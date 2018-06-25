@@ -37,8 +37,8 @@ function Water () {
         		color_buffer.push(0.0);
         		color_buffer.push(0.0);
 
-        		texture_buffer.push(i/cantidadPuntosX);
-        		texture_buffer.push(j/cantidadPuntosZ);
+        		texture_buffer.push(i/(cantidadPuntosX-1));
+        		texture_buffer.push(j/(cantidadPuntosZ-1));
 
         	}
         }

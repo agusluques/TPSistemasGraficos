@@ -88,8 +88,8 @@ function Esfera(_posicion, _radio){
         for (var i = 0; i < rows; i++) {
             for (var j = 0.0; j < cols; j++){
                 
-                texture_buffer.push((j/cols));
-                texture_buffer.push((i/rows));
+                texture_buffer.push((j/(cols-1)));
+                texture_buffer.push((i/(rows-1)));
             }
         }
 
