@@ -130,8 +130,13 @@ function Barco () {
 		derivadaPunto.z = Base0der(u)*p0[2]+Base1der(u)*p1[2]+Base2der(u)*p2[2]+Base3der(u)*p3[2];
 
 		normalPunto.x = -derivadaPunto.z;
-		normalPunto.y = derivadaPunto.y; //Es fijo
+		normalPunto.y = 0; //Es fijo
 		normalPunto.z = derivadaPunto.x;
+
+		//Normalizo el punto
+		var modulo = Math.sqrt((normalPunto.x * normalPunto.x) + (normalPunto.z * normalPunto.z));
+		normalPunto.x = (normalPunto.x / modulo);
+		normalPunto.z = (normalPunto.z / modulo);
 
 		return normalPunto;
     }
@@ -345,36 +350,37 @@ function Barco () {
 
             //-------------DERIVADA/NORMAL ------------
 			bezier_final_d.push(bezier_first_level_d[i]);
-			bezier_final_d.push(bezier_first_level_d[i+1]);
+			bezier_final_d.push(0);
 			bezier_final_d.push(bezier_first_level_d[i+2]);
 
 			bezier_final_d.push(bezier_second_level_d[i]);
-			bezier_final_d.push(bezier_second_level_d[i+1]);
+			bezier_final_d.push(0);
 			bezier_final_d.push(bezier_second_level_d[i+2]);
 
 			bezier_final_d.push(bezier_third_level_d[i]);
-			bezier_final_d.push(bezier_third_level_d[i+1]);
+			bezier_final_d.push(0);
 			bezier_final_d.push(bezier_third_level_d[i+2]);
 
             bezier_final_d.push(bezier_4_level_d[i]);
-            bezier_final_d.push(bezier_4_level_d[i+1]);
+            bezier_final_d.push(0);
             bezier_final_d.push(bezier_4_level_d[i+2]);
 
             bezier_final_d.push(bezier_5_level_d[i]);
-            bezier_final_d.push(bezier_5_level_d[i+1]);
+            bezier_final_d.push(0);
             bezier_final_d.push(bezier_5_level_d[i+2]);
 
             bezier_final_d.push(bezier_6_level_d[i]);
-            bezier_final_d.push(bezier_6_level_d[i+1]);
+            bezier_final_d.push(0);
             bezier_final_d.push(bezier_6_level_d[i+2]);
 
             bezier_final_d.push(bezier_7_level_d[i]);
-            bezier_final_d.push(bezier_7_level_d[i+1]);
+            bezier_final_d.push(0);
             bezier_final_d.push(bezier_7_level_d[i+2]);
 		} 
 
 		//console.log("----- FINAL BEZIER -----");
 		//console.log(bezier_final);
+		//console.log(bezier_final_d);
 
         tapa = new TapaBarco(bezier_intermediate_level);
 
