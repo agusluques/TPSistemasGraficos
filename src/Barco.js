@@ -18,6 +18,11 @@ function Barco () {
 	var bezier_points_3 = [];
 	var bezier_points_4 = [];
 
+	var bezier_points_1_d = [];
+	var bezier_points_2_d = [];
+	var bezier_points_3_d = [];
+	var bezier_points_4_d = [];
+
 	//Puntos de la curva de Bezier final con la forma de la superficie del barco
 	//Se requieren puntos en distintos niveles para generar la superficie de barrido
 	var bezier_first_level = [];
@@ -28,10 +33,19 @@ function Barco () {
     var bezier_6_level = [];
     var bezier_7_level = [];
 
+	var bezier_first_level_d = [];
+	var bezier_second_level_d = [];
+	var bezier_third_level_d = [];
+    var bezier_4_level_d = [];
+    var bezier_5_level_d = [];
+    var bezier_6_level_d = [];
+    var bezier_7_level_d = [];
+
     var bezier_intermediate_level = [];
 
 	//Todos los puntos de la malla para el barco
 	var bezier_final = [];
+	var bezier_final_d = [];
 	var color_buffer = [];
 	var index_buffer = [];
     var texture_buffer = [];
@@ -53,13 +67,13 @@ function Barco () {
 
 		//Bases derivadas
 
-		 Base0der=function(u) { return -3*u*u+6*u-3;} //-3u2 +6u -3
+		Base0der=function(u) { return -3*u*u+6*u-3;} //-3u2 +6u -3
 
-		 Base1der=function(u) { return 9*u*u-12*u+3; }  // 9u2 -12u +3
+		Base1der=function(u) { return 9*u*u-12*u+3; }  // 9u2 -12u +3
 
-		 Base2der=function(u) { return -9*u*u+6*u;}		 // -9u2 +6u
+		Base2der=function(u) { return -9*u*u+6*u;}		 // -9u2 +6u
 
-		 Base3der=function(u) { return 3*u*u; }			// 3u2
+		Base3der=function(u) { return 3*u*u; }			// 3u2
 
 	}
 
@@ -101,6 +115,27 @@ function Barco () {
         return punto;
     }
 
+    var CalcularNormalPuntoBezier = function (u, buffer){
+
+        var p0=buffer[0];
+        var p1=buffer[1];
+        var p2=buffer[2];
+        var p3=buffer[3];
+
+        var derivadaPunto = new Object();
+        var normalPunto = new Object();
+
+		derivadaPunto.x = Base0der(u)*p0[0]+Base1der(u)*p1[0]+Base2der(u)*p2[0]+Base3der(u)*p3[0];
+		derivadaPunto.y = Base0der(u)*p0[1]+Base1der(u)*p1[1]+Base2der(u)*p2[1]+Base3der(u)*p3[1];
+		derivadaPunto.z = Base0der(u)*p0[2]+Base1der(u)*p1[2]+Base2der(u)*p2[2]+Base3der(u)*p3[2];
+
+		normalPunto.x = -derivadaPunto.z;
+		normalPunto.y = derivadaPunto.y; //Es fijo
+		normalPunto.z = derivadaPunto.x;
+
+		return normalPunto;
+    }
+
 	var createBezierCurvePoints = function(){
 
         var currentU = 0;
@@ -129,6 +164,32 @@ function Barco () {
             bezier_points_4.push(punto_cp4.x);
             bezier_points_4.push(punto_cp4.y);
             bezier_points_4.push(punto_cp4.z);
+
+            //Normal en el punto
+
+        	//Para la trompa
+            var punto_cp1_d = CalcularNormalPuntoBezier(currentU,control_points_1);
+            bezier_points_1_d.push(punto_cp1_d.x);
+            bezier_points_1_d.push(punto_cp1_d.y);
+            bezier_points_1_d.push(punto_cp1_d.z);
+
+        	//Para costado inferior
+            var punto_cp2_d = CalcularNormalPuntoBezier(currentU,control_points_2);
+            bezier_points_2_d.push(punto_cp2_d.x);
+            bezier_points_2_d.push(punto_cp2_d.y);
+            bezier_points_2_d.push(punto_cp2_d.z);
+
+        	//Para cola
+            var punto_cp3_d = CalcularNormalPuntoBezier(currentU,control_points_3);
+            bezier_points_3_d.push(punto_cp3_d.x);
+            bezier_points_3_d.push(punto_cp3_d.y);
+            bezier_points_3_d.push(punto_cp3_d.z);
+
+        	//Para costado superior
+            var punto_cp4_d = CalcularNormalPuntoBezier(currentU,control_points_4);
+            bezier_points_4_d.push(punto_cp4_d.x);
+            bezier_points_4_d.push(punto_cp4_d.y);
+            bezier_points_4_d.push(punto_cp4_d.z);
             
             currentU+=0.10;
         }
@@ -139,15 +200,24 @@ function Barco () {
         bezier_points_4.push(ultimoPunto.y);
         bezier_points_4.push(ultimoPunto.z);
 
+		var ultimoPunto_d = CalcularNormalPuntoBezier(1,control_points_4);
+        bezier_points_4_d.push(ultimoPunto_d.x);
+        bezier_points_4_d.push(ultimoPunto_d.y);
+        bezier_points_4_d.push(ultimoPunto_d.z);
+
         /*
         console.log("------ POINTS 1 ------");
         console.log(bezier_points_1);
+        console.log(bezier_points_1_d);
         console.log("------ POINTS 2 ------");
         console.log(bezier_points_2);
+		console.log(bezier_points_2_d);
         console.log("------ POINTS 3 ------");
         console.log(bezier_points_3);
+        console.log(bezier_points_3_d);
         console.log("------ POINTS 4 ------");
-        console.log(bezier_points_4);*/
+        console.log(bezier_points_4);
+        console.log(bezier_points_4_d);*/
 
 	}
 
@@ -155,18 +225,22 @@ function Barco () {
 
 		for (var i = 0; i<bezier_points_1.length ; i++) {
 			bezier_first_level.push(bezier_points_1[i]);
+			bezier_first_level_d.push(bezier_points_1_d[i]);
 		}
 		
 		for (var i = 0; i<bezier_points_2.length ; i++) {
 			bezier_first_level.push(bezier_points_2[i]);
+			bezier_first_level_d.push(bezier_points_2_d[i]);
 		}
 
 		for (var i = 0; i<bezier_points_3.length ; i++) {
 			bezier_first_level.push(bezier_points_3[i]);
+			bezier_first_level_d.push(bezier_points_3_d[i]);
 		}
 
 		for (var i = 0; i<bezier_points_4.length ; i++) {
 			bezier_first_level.push(bezier_points_4[i]);
+			bezier_first_level_d.push(bezier_points_4_d[i]);
 		}
 
 		//console.log("----- FIRST LEVEL -----");
@@ -188,6 +262,7 @@ function Barco () {
 	var createBezierSecondLevelSurface = function(){
 
 		expandPoints(bezier_first_level, bezier_second_level);
+		expandPoints(bezier_first_level_d, bezier_second_level_d);
 
 		//console.log("----- SECOND LEVEL -----");
 		//console.log(bezier_second_level);	
@@ -196,6 +271,7 @@ function Barco () {
 	var createBezierThirdLevelSurface = function(){
 
 		expandPoints(bezier_second_level, bezier_third_level);
+		expandPoints(bezier_second_level_d, bezier_third_level_d);
 
 		//console.log("----- THIRD LEVEL -----");
 		//console.log(bezier_third_level);	
@@ -203,18 +279,22 @@ function Barco () {
 
     var createBezier4LevelSurface = function(){
         expandPoints(bezier_third_level, bezier_4_level);
+        expandPoints(bezier_third_level_d, bezier_4_level_d);
     }
 
     var createBezier5LevelSurface = function(){
         expandPoints(bezier_4_level, bezier_5_level);
+        expandPoints(bezier_4_level_d, bezier_5_level_d);
     }
 
     var createBezier6LevelSurface = function(){
         expandPoints(bezier_5_level, bezier_6_level);
+        expandPoints(bezier_5_level_d, bezier_6_level_d);
     }
 
     var createBezier7LevelSurface = function(){
         expandPoints(bezier_6_level, bezier_7_level);
+        expandPoints(bezier_6_level_d, bezier_7_level_d);
     }
 
 	var joinPoints = function(){
@@ -262,6 +342,35 @@ function Barco () {
             bezier_final.push(bezier_7_level[i]);
             bezier_final.push(bezier_7_level[i+1]);
             bezier_final.push(bezier_7_level[i+2]);
+
+            //-------------DERIVADA/NORMAL ------------
+			bezier_final_d.push(bezier_first_level_d[i]);
+			bezier_final_d.push(bezier_first_level_d[i+1]);
+			bezier_final_d.push(bezier_first_level_d[i+2]);
+
+			bezier_final_d.push(bezier_second_level_d[i]);
+			bezier_final_d.push(bezier_second_level_d[i+1]);
+			bezier_final_d.push(bezier_second_level_d[i+2]);
+
+			bezier_final_d.push(bezier_third_level_d[i]);
+			bezier_final_d.push(bezier_third_level_d[i+1]);
+			bezier_final_d.push(bezier_third_level_d[i+2]);
+
+            bezier_final_d.push(bezier_4_level_d[i]);
+            bezier_final_d.push(bezier_4_level_d[i+1]);
+            bezier_final_d.push(bezier_4_level_d[i+2]);
+
+            bezier_final_d.push(bezier_5_level_d[i]);
+            bezier_final_d.push(bezier_5_level_d[i+1]);
+            bezier_final_d.push(bezier_5_level_d[i+2]);
+
+            bezier_final_d.push(bezier_6_level_d[i]);
+            bezier_final_d.push(bezier_6_level_d[i+1]);
+            bezier_final_d.push(bezier_6_level_d[i+2]);
+
+            bezier_final_d.push(bezier_7_level_d[i]);
+            bezier_final_d.push(bezier_7_level_d[i+1]);
+            bezier_final_d.push(bezier_7_level_d[i+2]);
 		} 
 
 		//console.log("----- FINAL BEZIER -----");
