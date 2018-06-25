@@ -76,9 +76,8 @@ var initLuces = function(){
     var lightingDirection = [ -30.0,5.0,-5.0 ]; // sol
     var adjustedLD = vec3.create();
     vec3.normalize(adjustedLD, lightingDirection);
-    vec3.scale(adjustedLD, adjustedLD, -1);
     gl.uniform3fv(glProgram.uLightDirection, adjustedLD);
-    gl.uniform3f(glProgram.uDirectionalColor,intensidadSol+0.05,intensidadSol,intensidadSol); //El +0.05 es para que sea mas anaranjado por el sol
+    gl.uniform3f(glProgram.uDirectionalColor,intensidadSol+0.5,intensidadSol,intensidadSol); //El +0.05 es para que sea mas anaranjado por el sol
     // //Luz de la lampara
     // gl.uniform3f(shaderProgram.lampLightOnePosition,-7.0,0.0,0.8);
     // gl.uniform3f(shaderProgram.lampLightTwoPosition,15.0,0.0,0.8);

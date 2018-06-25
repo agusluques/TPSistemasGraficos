@@ -28,7 +28,7 @@ void main(void) {
 	vec4 color = vec4(0.0,0.0,0.0,1.0);
 	vec3 textColor;
 
-	float directionalLightWeighting = max(dot(normalize(uLightDirection), normalize(vModelPosition.xyz)), 0.0);
+	float directionalLightWeighting = max(dot(normalize(uLightDirection), normalize(vTransformedNormal.xyz)), 0.0);
 
 	if (uId == 1){
 		vec2 offset=vec2(uT*0.01, uT*0.02);
@@ -48,4 +48,5 @@ void main(void) {
 	color.z = textColor.z + vColor.z;
   	gl_FragColor = vec4(color.rgb * (uAmbientColor + uDirectionalColor * directionalLightWeighting), color.a);
   	//gl_FragColor = vec4(vTransformedNormal, 1.0);
+  	//gl_FragColor = vec4(color.rgb, 1.0);
 }
