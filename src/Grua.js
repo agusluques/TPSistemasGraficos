@@ -8,20 +8,20 @@ function Grua(){
 
     var fierros = [];
     // columnas
-    fierros.push(new Fierro([-2,1.4,-1], 0, [0.05,2,0.06]));
-    fierros.push(new Fierro([-4,1.4,-1], 0, [0.05,2,0.06]));
-    fierros.push(new Fierro([-2,1.4,0], 0, [0.05,2,0.06]));
-    fierros.push(new Fierro([-4,1.4,0], 0, [0.05,2,0.06]));
+    fierros.push(new Fierro([-2,0.3,-1], 0, [0.05,1.4,0.05]));
+    fierros.push(new Fierro([-4,0.3,-1], 0, [0.05,1.4,0.05]));
+    fierros.push(new Fierro([-2,0.3,0], 0, [0.05,1.4,0.05]));
+    fierros.push(new Fierro([-4,0.3,0], 0, [0.05,1.4,0.05]));
 
     // horizontales
-    fierros.push(new Fierro([-4,-2.5,-0.5], 0, [0.05,0.05,0.7]));
-    fierros.push(new Fierro([-2,-2.5,-0.5], 0, [0.05,0.05,0.7]));
-    fierros.push(new Fierro([-4,-3.5,-0.5], 0, [0.05,0.05,0.7]));
-    fierros.push(new Fierro([-2,-3.5,-0.5], 0, [0.05,0.05,0.7]));
+    fierros.push(new Fierro([-4,-2.5,-0.5], 0, [0.05,0.05,0.5]));
+    fierros.push(new Fierro([-2,-2.5,-0.5], 0, [0.05,0.05,0.5]));
+    fierros.push(new Fierro([-4,-3.5,-0.5], 0, [0.05,0.05,0.5]));
+    fierros.push(new Fierro([-2,-3.5,-0.5], 0, [0.05,0.05,0.5]));
 
     // diagonales
-    fierros.push(new Fierro([-4,-3,-0.5], 1, [0.05,0.05,1]));
-    fierros.push(new Fierro([-2,-3,-0.5], 1, [0.05,0.05,1]));
+    fierros.push(new Fierro([-4,-3,-0.5], 1, [0.05,0.05,0.7]));
+    fierros.push(new Fierro([-2,-3,-0.5], 1, [0.05,0.05,0.7]));
 
     // en x
     fierros.push(new Fierro([-3,-3.5,-1], 0, [1,0.05,0.05]));
@@ -30,10 +30,10 @@ function Grua(){
     // riel superior
     fierros.push(new Fierro([-3.5,-3.5,-2], 0, [0.05,0.1,3]));
     fierros.push(new Fierro([-2.5,-3.5,-2], 0, [0.05,0.1,3]));
-    fierros.push(new Fierro([-3,-3.5,-4.08], 0, [0.5,0.1,0.05]));
+    fierros.push(new Fierro([-3,-3.5,-4.2], 0, [0.5,0.1,0.05]));
 
     // sosten rectangulo grande
-    fierros.push(new Fierro([-3,-3.25,0.45], 0, [1,0.25,0.5]));
+    fierros.push(new Fierro([-3,-3.25,0.7], 0, [1,0.25,0.3]));
 
     var objetosCabina = [];    
 
@@ -41,25 +41,25 @@ function Grua(){
     //Tapa delantera
     objetosCabina.push(new Fierro([-3,-3.5,-3], 0, [0.5,0.1,0.01]));     //Palo arriba
     objetosCabina.push(new Fierro([-3,-3,-3], 0, [0.5,0.1,0.01]));       //Palo abajo
-    objetosCabina.push(new Fierro([-3.5,-2.7,-3], 0, [0.05,0.4,0.01]));  //Palo izquierda
-    objetosCabina.push(new Fierro([-2.5,-2.7,-3], 0, [0.05,0.4,0.01]));  //Palo derecha
+    objetosCabina.push(new Fierro([-3.5,-3.0,-3], 0, [0.05,0.25,0.01]));  //Palo izquierda
+    objetosCabina.push(new Fierro([-2.5,-3.0,-3], 0, [0.05,0.25,0.01]));  //Palo derecha
 
     //Tapa trasera
-    objetosCabina.push(new Fierro([-3,-2.66,-2.44], 0, [0.5,0.44,0.01]));
+    objetosCabina.push(new Fierro([-3,-2.8,-2.44], 0, [0.5,0.3,0.01]));
 
     //Tapa arriba
     objetosCabina.push(new Fierro([-3,-3.74,-2.725], 0, [0.5,0.01,0.4]));
 
     //Tapa lateral 1
     objetosCabina.push(new Fierro([-3.5,-3.5,-2.72], 0, [0.01,0.1,0.39]));     //Palo arriba
-    objetosCabina.push(new Fierro([-3.5,-3.05,-2.72], 0, [0.01,0.1,0.39]));     //Palo abajo
+    objetosCabina.push(new Fierro([-3.5,-3.0,-2.72], 0, [0.01,0.1,0.3]));     //Palo abajo
 
     //Tapa lateral 1
     objetosCabina.push(new Fierro([-2.5,-3.5,-2.72], 0, [0.01,0.1,0.39]));     //Palo arriba
-    objetosCabina.push(new Fierro([-2.5,-3.05,-2.72], 0, [0.01,0.1,0.39]));     //Palo abajo
+    objetosCabina.push(new Fierro([-2.5,-3.0,-2.72], 0, [0.01,0.1,0.3]));     //Palo abajo
 
     //Tapa abajo
-    objetosCabina.push(new Fierro([-3,-3.2,-2.57], 0, [0.5,0.01,0.2]));
+    objetosCabina.push(new Fierro([-3,-3.2,-2.57], 0, [0.5,0.01,0.10]));
 
     //--------------------------------------------------------------------------------------
 

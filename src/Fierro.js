@@ -5,7 +5,7 @@ function Fierro(_posicion, _diagonal, _tamano){
 
     var posicionRelativa = [-5 + posicion[0],-1.8*tamano[1] + posicion[1], 3.05 + posicion[2]];
 
-	var fierro = new VertexGrid(5,5);
+	var fierro = new Cubo();
 
 
     var setFierro = function(){
@@ -14,7 +14,7 @@ function Fierro(_posicion, _diagonal, _tamano){
         fierro.translate(-5,-1.8*tamano[1],3.05);
         if (diagonal) fierro.rotate(Math.PI/4, [1,0,0]);
         fierro.scale(tamano);
-        fierro.rotate(Math.PI/4, [1,0,0]);
+        //fierro.rotate(Math.PI/4, [1,0,0]);
     }
 
     this.getPosicion = function(){
