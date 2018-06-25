@@ -223,15 +223,18 @@ function Grua(){
     }
 
     this.tomarContainer = function(container){
-        containerTomado = container;
-        var posicionImanes = this.getPosicionImanes();
-        var posicionContainer = containerTomado.getPosicion();
-        var posicion = [];
-        posicion[0] = posicionImanes[0] - posicionContainer[0];
-        posicion[1] = posicionImanes[1] - posicionContainer[1];
-        posicion[2] = posicionImanes[2] - posicionContainer[2];
-        containerTomado.translate(posicion[0] - 0.1, posicion[1] + 0.1, posicion[2]);
-        containerTomado.reset();
+        if(container != null){
+            containerTomado = container;
+            var posicionImanes = this.getPosicionImanes();
+            var posicionContainer = containerTomado.getPosicion();
+            var posicion = [];
+            posicion[0] = posicionImanes[0] - posicionContainer[0];
+            posicion[1] = posicionImanes[1] - posicionContainer[1];
+            posicion[2] = posicionImanes[2] - posicionContainer[2];
+            containerTomado.translate(posicion[0] - 0.1, posicion[1] + 0.1, posicion[2]);
+            containerTomado.reset();
+        }
+
     }
 
     this.soltarContainer = function(){
