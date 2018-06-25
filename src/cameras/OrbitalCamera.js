@@ -24,10 +24,14 @@ function OrbitalCamera(){
 
 			if (beta<0) beta=0.1;
 			if (beta>Math.PI) beta=Math.PI-0.1;
+			console.log("X: " + radio * Math.sin(beta) * Math.cos(-alfa));
+			console.log("Y: " + radio * Math.cos(beta));
+			console.log("Z: " + radio * Math.sin(beta) * Math.sin(-alfa));
 		}else{
 			previousClientX = mouse.x;
 	        previousClientY = mouse.y;
 		}
+
 
 	    // Preparamos una matriz de modelo+vista.
 	    mat4.lookAt(vMatrix, [radio * Math.sin(beta) * Math.cos(-alfa), radio * Math.cos(beta), radio * Math.sin(beta) * Math.sin(-alfa)], [0.0,0.0,0.0], [0.0,1.0,0.0]);

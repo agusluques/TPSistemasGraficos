@@ -51,6 +51,7 @@ function TapaBarco(_puntosContorno){
     	crearTercerNivel();
     	crearCuartoNivel();
     	crearQuintoNivel();
+        /*
     	console.log("Primer Nivel");
     	console.log(puntosContorno);
 		console.log("Segundo Nivel");
@@ -60,7 +61,7 @@ function TapaBarco(_puntosContorno){
 		console.log("Cuarto Nivel");
 		console.log(cuartoNivel);
 		console.log("Quinto Nivel");
-		console.log(quintoNivel);
+		console.log(quintoNivel);*/
     }
 
     var joinPoints = function(){
