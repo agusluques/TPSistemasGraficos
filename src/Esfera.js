@@ -3,11 +3,13 @@ function Esfera(_posicion, _radio){
 	var puntosSemicirculo = [];
 	var puntosEsfera = [];
 
+    var normal_buffer = [];
 	var color_buffer = [];
 	var index_buffer = [];
     var texture_buffer = [];
 
     var webgl_position_buffer = null;
+    var webgl_normal_buffer = null;
     var webgl_color_buffer = null;
     var webgl_index_buffer = null;
     var webgl_texture_coord_buffer = null;
@@ -52,6 +54,10 @@ function Esfera(_posicion, _radio){
            color_buffer.push(color[0]);
            color_buffer.push(color[1]);
            color_buffer.push(color[2]);
+
+           normal_buffer.push(-1.0);
+           normal_buffer.push(0.0);
+           normal_buffer.push(0.0);
        };
         
     }
@@ -121,6 +127,10 @@ function Esfera(_posicion, _radio){
         webgl_index_buffer = gl.createBuffer();
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, webgl_index_buffer);
         gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(index_buffer), gl.STATIC_DRAW);
+
+        webgl_normal_buffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, webgl_normal_buffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normal_buffer), gl.STATIC_DRAW);
     }
 
     var getModelMatrix = function(){
@@ -152,6 +162,10 @@ function Esfera(_posicion, _radio){
         var u_model_matrix = gl.getUniformLocation(glProgram, "uMMatrix");
         gl.uniformMatrix4fv(u_model_matrix, false, modelMatrix);
 
+        var modelMatrix = getModelMatrix();
+        var u_model_matrix = gl.getUniformLocation(glProgram, "uMMatrix");
+        gl.uniformMatrix4fv(u_model_matrix, false, modelMatrix);
+
         var vertexTextureAttribute = gl.getAttribLocation(glProgram, "aUv");
         gl.enableVertexAttribArray(vertexTextureAttribute);
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_texture_coord_buffer);
@@ -171,6 +185,11 @@ function Esfera(_posicion, _radio){
         gl.enableVertexAttribArray(vertexColorAttribute);
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_color_buffer);
         gl.vertexAttribPointer(vertexColorAttribute, 3, gl.FLOAT, false, 0, 0);
+
+        var vertexNormalAttribute = gl.getAttribLocation(glProgram, "aVertexNormal");
+        gl.enableVertexAttribArray(vertexNormalAttribute);
+        gl.bindBuffer(gl.ARRAY_BUFFER, webgl_normal_buffer);
+        gl.vertexAttribPointer(vertexNormalAttribute, 3, gl.FLOAT, false, 0, 0);
 
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, webgl_index_buffer);
 

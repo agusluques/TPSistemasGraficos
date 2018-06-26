@@ -12,6 +12,7 @@ function Container (_posicion) {
         formaContainer.scale([3/16,3/32,3/32]);
         formaContainer.rotate(Math.PI/2, [1,0,0]);
         formaContainer.rotate(Math.PI/2, [0,1,0]);
+        
     }
 
     this.translate = function(x,y,z){

@@ -1,9 +1,9 @@
 function Scene(){
     var objetos = [];
-    objetos.push(new Isla());
     objetos.push(new PosteLuz([-6,-1,2.5]));
     objetos.push(new PosteLuz([-10,-1,2.5]));
     objetos.push(new Sky());
+    objetos.push(new Isla());
     objetos.push(new Barco());
     var grua = new Grua();
     objetos.push(grua);

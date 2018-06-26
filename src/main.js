@@ -71,7 +71,7 @@ var intensidadSol = 0.5;
 
 var initLuces = function(){
     //Acá inicio mi primera luz que quiero que sea la de ambiente
-    gl.uniform3f(glProgram.uAmbientColor,0.8,0.8,0.8); // correcto es 0.1,0.1,0.5
+    gl.uniform3f(glProgram.uAmbientColor,0.1,0.1,0.5); // correcto es 0.1,0.1,0.5
     //Luz del sol
     var lightingDirection = [ -30.0,5.0,0.0 ]; // sol
     var adjustedLD = vec3.create();

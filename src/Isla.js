@@ -15,6 +15,7 @@ function Isla () {
     var texture_buffer = [];
 
     var webgl_position_buffer = null;
+    var webgl_normal_buffer = null;
     var webgl_color_buffer = null;
     var webgl_index_buffer = null;
     var webgl_texture_coord_buffer = null;
@@ -41,9 +42,9 @@ function Isla () {
     	var y = (_y / modulo);
     	var z = (_z / modulo);
 
-		bsplineFinal_d.push(x);
-		bsplineFinal_d.push(y);
-		bsplineFinal_d.push(z);
+		bsplineFinal_d.push(-x);
+		bsplineFinal_d.push(-y);
+		bsplineFinal_d.push(-z);
     }
 
     var cambiarRadio = function(puntoRotado, angulo, anguloAux, puntoRotado_d){
@@ -197,6 +198,10 @@ function Isla () {
         // 3. Cargamos datos de las posiciones en el buffer.
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(bsplineFinal), gl.STATIC_DRAW);
 
+        webgl_normal_buffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, webgl_normal_buffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(bsplineFinal_d), gl.STATIC_DRAW);
+
         // Repetimos los pasos 1. 2. y 3. para la información del color
         webgl_color_buffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_color_buffer);
@@ -245,6 +250,11 @@ function Isla () {
         var u_model_matrix = gl.getUniformLocation(glProgram, "uMMatrix");
         gl.uniformMatrix4fv(u_model_matrix, false, modelMatrix);
 
+        var normalMatrix = mat3.create();
+        mat3.normalFromMat4(normalMatrix, modelMatrix);
+        var u_normal_matrix = gl.getUniformLocation(glProgram, "uNMatrix");
+        gl.uniformMatrix3fv(u_normal_matrix, false, normalMatrix);
+
         var vertexTextureAttribute = gl.getAttribLocation(glProgram, "aUv");
         gl.enableVertexAttribArray(vertexTextureAttribute);
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_texture_coord_buffer);
@@ -266,6 +276,11 @@ function Isla () {
         gl.vertexAttribPointer(vertexColorAttribute, 3, gl.FLOAT, false, 0, 0);
 
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, webgl_index_buffer);
+
+        var vertexNormalAttribute = gl.getAttribLocation(glProgram, "aVertexNormal");
+        gl.enableVertexAttribArray(vertexNormalAttribute);
+        gl.bindBuffer(gl.ARRAY_BUFFER, webgl_normal_buffer);
+        gl.vertexAttribPointer(vertexNormalAttribute, 3, gl.FLOAT, false, 0, 0);
 
         // Dibujamos.
         //gl.drawElements(gl.POINTS_STRIP, index_buffer.length, gl.UNSIGNED_SHORT, 0);
