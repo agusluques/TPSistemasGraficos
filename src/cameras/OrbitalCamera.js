@@ -24,9 +24,9 @@ function OrbitalCamera(){
 
 			if (beta<0) beta=0.1;
 			if (beta>Math.PI) beta=Math.PI-0.1;
-			console.log("X: " + radio * Math.sin(beta) * Math.cos(-alfa));
-			console.log("Y: " + radio * Math.cos(beta));
-			console.log("Z: " + radio * Math.sin(beta) * Math.sin(-alfa));
+			//console.log("X: " + radio * Math.sin(beta) * Math.cos(-alfa));
+			//console.log("Y: " + radio * Math.cos(beta));
+			//console.log("Z: " + radio * Math.sin(beta) * Math.sin(-alfa));
 		}else{
 			previousClientX = mouse.x;
 	        previousClientY = mouse.y;

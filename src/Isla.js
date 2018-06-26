@@ -6,7 +6,9 @@ function Isla () {
 	//Puntos de control para crear las curvas BSpline
 	var controlPoints = [];
 	var bspline = [];
+	var bspline_d = [];
 	var bsplineFinal = [];
+	var bsplineFinal_d = [];
 
 	var color_buffer = [];
 	var index_buffer = [];
@@ -32,20 +34,38 @@ function Isla () {
 
     }
 
-    var cambiarRadio = function(puntoRotado, angulo, anguloAux){
+    var normalizarVectorNormal = function(_x,_y,_z){
+
+    	var modulo = Math.sqrt((_x * _x) + (_y * _y) + (_z * _z));
+    	var x = (_x / modulo);
+    	var y = (_y / modulo);
+    	var z = (_z / modulo);
+
+		bsplineFinal_d.push(x);
+		bsplineFinal_d.push(y);
+		bsplineFinal_d.push(z);
+    }
+
+    var cambiarRadio = function(puntoRotado, angulo, anguloAux, puntoRotado_d){
 
     	var radio = Math.sqrt((puntoRotado.x * puntoRotado.x) + (puntoRotado.z * puntoRotado.z));
     	radio = radio + (30*Math.sin(anguloAux));
 
+    	var radio_d = Math.sqrt((puntoRotado_d.x * puntoRotado_d.x) + (puntoRotado_d.z * puntoRotado_d.z));
+    	radio_d = radio_d + (30*Math.sin(anguloAux));
+
 		bsplineFinal.push(radio * Math.cos(angulo));
 		bsplineFinal.push(puntoRotado.y);
 		bsplineFinal.push(radio * Math.sin(angulo));
+
+		normalizarVectorNormal(radio_d * Math.cos(angulo), puntoRotado_d.y, radio_d * Math.sin(angulo));
 
     }
 
     var rotarBspline = function(){
         // Rotacion de los puntos
         var puntoRotado = new Object();
+        var puntoRotado_d = new Object();
         var angulo = 0;
         var anguloAux = 0.0;
         while(angulo < Math.PI*2){
@@ -53,13 +73,23 @@ function Isla () {
             bsplineFinal.push(0);
             bsplineFinal.push(250);
             bsplineFinal.push(0);
+
+            //En la tapa la normal va para arriba
+            bsplineFinal_d.push(0);
+            bsplineFinal_d.push(-1);
+            bsplineFinal_d.push(0);
+
 			for (var i = 0; i < bspline.length; i = i +3) {
 				
 	            puntoRotado.x = ((bspline[i] * Math.cos(angulo)) - (bspline[i+2] * Math.sin(angulo)));
 	            puntoRotado.y = bspline[i+1];
 	            puntoRotado.z = ((bspline[i] * Math.sin(angulo)) + (bspline[i+2] * Math.cos(angulo)));
 
-	            cambiarRadio(puntoRotado, angulo, anguloAux);
+	            puntoRotado_d.x = ((bspline_d[i] * Math.cos(angulo)) - (bspline_d[i+2] * Math.sin(angulo)));
+	            puntoRotado_d.y = bspline_d[i+1];
+	            puntoRotado_d.z = ((bspline_d[i] * Math.sin(angulo)) + (bspline_d[i+2] * Math.cos(angulo))); 
+
+	            cambiarRadio(puntoRotado, angulo, anguloAux, puntoRotado_d);
 
 	            //bsplineFinal.push(puntoRotado.x);
 	            //bsplineFinal.push(puntoRotado.y);
@@ -84,6 +114,14 @@ function Isla () {
 			bspline.push(punto.y);
 			punto.z = Base0(u)*p0[2]+Base1(u)*p1[2]+Base2(u)*p2[2]+Base3(u)*p3[2];
 			bspline.push(punto.z);
+
+			var punto_d = new Object();
+			punto_d.x=Base0der(u)*p0[0]+Base1der(u)*p1[0]+Base2der(u)*p2[0]+Base3der(u)*p3[0];
+			bspline_d.push(punto_d.x);
+			punto_d.y=Base0der(u)*p0[1]+Base1der(u)*p1[1]+Base2der(u)*p2[1]+Base3der(u)*p3[1];
+			bspline_d.push(punto_d.y);
+			punto_d.z=Base0der(u)*p0[2]+Base1der(u)*p1[2]+Base2der(u)*p2[2]+Base3der(u)*p3[2];
+			bspline_d.push(punto_d.z);
 
     		u+=0.25;
     	}
