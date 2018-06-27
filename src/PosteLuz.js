@@ -1,7 +1,7 @@
 function PosteLuz(_posicion){
 
     var posteBase = new VertexGrid(5,5);
-    var posteLampara = new Esfera(_posicion, 1);
+    var posteLampara = new Esfera(_posicion, 0.7);
 
     posteBase.translate(_posicion[0],_posicion[1],_posicion[2]);
     posteBase.scale([0.05,1,0.05]);

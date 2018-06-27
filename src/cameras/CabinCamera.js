@@ -114,6 +114,14 @@ function CabinCamera(){
     	}   
     }
 
+    this.getTarget = function(){
+        return [posX,posY,posZ];
+    }
+
+    this.getPos = function(){
+        return [focoX, focoY, focoZ];
+    }
+
     $('body').on("keydown",function(event){
         if(actualCameraAux != 3){
             //alert(event.keyCode)

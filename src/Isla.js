@@ -265,6 +265,14 @@ function Isla () {
         gl.bindTexture(gl.TEXTURE_2D, islaTexture);
         gl.uniform1i(texturaUniform, 0);
 
+        var texturaUniformNormal = gl.getUniformLocation(glProgram, "uNormalSampler");
+        gl.activeTexture(gl.TEXTURE1);
+        gl.bindTexture(gl.TEXTURE_2D, islaTexture.Normal);
+        gl.uniform1i(texturaUniformNormal, 1);
+
+        var materialShininessUniform = gl.getUniformLocation(glProgram, "uMaterialShininess");
+        gl.uniform1f(materialShininessUniform, 99999.0);
+
         var vertexPositionAttribute = gl.getAttribLocation(glProgram, "aVertexPosition");
         gl.enableVertexAttribArray(vertexPositionAttribute);
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_position_buffer);

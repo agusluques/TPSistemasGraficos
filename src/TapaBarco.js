@@ -207,6 +207,14 @@ function TapaBarco(_puntosContorno){
         gl.bindTexture(gl.TEXTURE_2D, tapaBarcoTexture);
         gl.uniform1i(texturaUniform, 0);
 
+        var texturaUniformNormal = gl.getUniformLocation(glProgram, "uNormalSampler");
+        gl.activeTexture(gl.TEXTURE1);
+        gl.bindTexture(gl.TEXTURE_2D, muelleTexture.Normal);
+        gl.uniform1i(texturaUniformNormal, 1);
+
+        var materialShininessUniform = gl.getUniformLocation(glProgram, "uMaterialShininess");
+        gl.uniform1f(materialShininessUniform, 50.0);
+
         var vertexPositionAttribute = gl.getAttribLocation(glProgram, "aVertexPosition");
         gl.enableVertexAttribArray(vertexPositionAttribute);
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_position_buffer);

@@ -22,6 +22,14 @@ function Camera(){
 		return actualCamera.getViewMatrix();
 	}
 
+	this.getTarget = function(){
+		return actualCamera.getTarget();
+	}
+
+	this.getPos = function(){
+		return actualCamera.getPos();
+	}
+
 	var changeCamera = function(){
 		actualCameraAux++;
 		if (actualCameraAux > 3) actualCameraAux = 1;

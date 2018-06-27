@@ -49,6 +49,6 @@ function Fierro(_posicion, _diagonal, _tamano){
 
     this.draw = function(viewMatrix){
         setFierro();
-		fierro.draw(viewMatrix, fierroTexture);
+		fierro.draw(viewMatrix, fierroTexture, 34.0);
     }
 }

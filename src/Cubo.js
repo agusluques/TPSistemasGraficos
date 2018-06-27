@@ -219,7 +219,7 @@ function Cubo() {
         setupWebGLBuffers();
     }
 
-    this.draw = function(viewMatrix, textura){
+    this.draw = function(viewMatrix, textura, shininess){
         var modelViewMatrix = mat4.create();
         mat4.multiply(modelViewMatrix, viewMatrix, getModelMatrix());
         var u_modelview_matrix = gl.getUniformLocation(glProgram, "uMVMatrix");
@@ -244,6 +244,14 @@ function Cubo() {
         gl.bindTexture(gl.TEXTURE_2D, textura);
         gl.uniform1i(texturaUniform, 0);
 
+        var texturaUniformNormal = gl.getUniformLocation(glProgram, "uNormalSampler");
+        gl.activeTexture(gl.TEXTURE1);
+        gl.bindTexture(gl.TEXTURE_2D, textura.Normal);
+        gl.uniform1i(texturaUniformNormal, 1);
+
+        var materialShininessUniform = gl.getUniformLocation(glProgram, "uMaterialShininess");
+        gl.uniform1f(materialShininessUniform, shininess);
+
         var vertexPositionAttribute = gl.getAttribLocation(glProgram, "aVertexPosition");
         gl.enableVertexAttribArray(vertexPositionAttribute);
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_position_buffer);
@@ -258,7 +266,6 @@ function Cubo() {
         gl.enableVertexAttribArray(vertexNormalAttribute);
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_normal_buffer);
         gl.vertexAttribPointer(vertexNormalAttribute, 3, gl.FLOAT, false, 0, 0);
-
 
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, webgl_index_buffer);
 

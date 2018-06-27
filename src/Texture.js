@@ -22,6 +22,13 @@ function initTexture() {
 	}
 	barcoTexture.image.src = "src/textures/cascoBarco3.jpg";
 
+	barcoTexture.Normal = gl.createTexture();
+	barcoTexture.Normal.image = new Image();
+	barcoTexture.Normal.image.onload = function() {		
+		handleLoadedTexture(barcoTexture.Normal);
+	}
+	barcoTexture.Normal.image.src = "src/textures/cascoBarco3N.jpg";
+
 	waterTexture = gl.createTexture();
 	waterTexture.image = new Image();
 	waterTexture.image.onload = function() {		
@@ -49,6 +56,13 @@ function initTexture() {
 		handleLoadedTexture(fierroTexture);
 	}
 	fierroTexture.image.src = "src/textures/texturaGrua.jpg";
+
+	fierroTexture.Normal = gl.createTexture();
+	fierroTexture.Normal.image = new Image();
+	fierroTexture.Normal.image.onload = function() {		
+		handleLoadedTexture(fierroTexture.Normal);
+	}
+	fierroTexture.Normal.image.src = "src/textures/texturaGruaNormalMap.jpg";
 	
 	muelleTexture = gl.createTexture();
 	muelleTexture.image = new Image();
@@ -57,12 +71,26 @@ function initTexture() {
 	}
 	muelleTexture.image.src = "src/textures/concretoPlataforma.jpg";
 
+	muelleTexture.Normal = gl.createTexture();
+	muelleTexture.Normal.image = new Image();
+	muelleTexture.Normal.image.onload = function() {		
+		handleLoadedTexture(muelleTexture.Normal);
+	}
+	muelleTexture.Normal.image.src = "src/textures/concretoPlataformaNomalMap.jpg";
+
 	islaTexture = gl.createTexture();
 	islaTexture.image = new Image();
 	islaTexture.image.onload = function() {		
 		handleLoadedTexture(islaTexture);
 	}
 	islaTexture.image.src = "src/textures/isla.jpg";
+
+	islaTexture.Normal = gl.createTexture();
+	islaTexture.Normal.image = new Image();
+	islaTexture.Normal.image.onload = function() {		
+		handleLoadedTexture(islaTexture.Normal);
+	}
+	islaTexture.Normal.image.src = "src/textures/islaNormalMap.jpg";
 
 	puenteMandoTexture = gl.createTexture();
 	puenteMandoTexture.image = new Image();

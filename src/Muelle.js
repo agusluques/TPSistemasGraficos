@@ -10,7 +10,7 @@ function Muelle(){
 
     this.draw = function(viewMatrix){
 
-		muelle.draw(viewMatrix, muelleTexture);
+		muelle.draw(viewMatrix, muelleTexture, 50.0);
     }
 
 

@@ -350,33 +350,33 @@ function Barco () {
             bezier_final.push(bezier_7_level[i+2]);
 
             //-------------DERIVADA/NORMAL ------------
-			bezier_final_d.push(bezier_first_level_d[i]);
-			bezier_final_d.push(0);
-			bezier_final_d.push(bezier_first_level_d[i+2]);
+			bezier_final_d.push(-bezier_first_level_d[i]);
+			bezier_final_d.push(-0.5);
+			bezier_final_d.push(-bezier_first_level_d[i+2]);
 
-			bezier_final_d.push(bezier_second_level_d[i]);
-			bezier_final_d.push(0);
-			bezier_final_d.push(bezier_second_level_d[i+2]);
+			bezier_final_d.push(-bezier_second_level_d[i]);
+			bezier_final_d.push(-0.6);
+			bezier_final_d.push(-bezier_second_level_d[i+2]);
 
-			bezier_final_d.push(bezier_third_level_d[i]);
-			bezier_final_d.push(0);
-			bezier_final_d.push(bezier_third_level_d[i+2]);
+			bezier_final_d.push(-bezier_third_level_d[i]);
+			bezier_final_d.push(-0.7);
+			bezier_final_d.push(-bezier_third_level_d[i+2]);
 
-            bezier_final_d.push(bezier_4_level_d[i]);
-            bezier_final_d.push(0);
-            bezier_final_d.push(bezier_4_level_d[i+2]);
+            bezier_final_d.push(-bezier_4_level_d[i]);
+            bezier_final_d.push(-0.8);
+            bezier_final_d.push(-bezier_4_level_d[i+2]);
 
-            bezier_final_d.push(bezier_5_level_d[i]);
-            bezier_final_d.push(0);
-            bezier_final_d.push(bezier_5_level_d[i+2]);
+            bezier_final_d.push(-bezier_5_level_d[i]);
+            bezier_final_d.push(-0.9);
+            bezier_final_d.push(-bezier_5_level_d[i+2]);
 
-            bezier_final_d.push(bezier_6_level_d[i]);
-            bezier_final_d.push(0);
-            bezier_final_d.push(bezier_6_level_d[i+2]);
+            bezier_final_d.push(-bezier_6_level_d[i]);
+            bezier_final_d.push(-1.0);
+            bezier_final_d.push(-bezier_6_level_d[i+2]);
 
-            bezier_final_d.push(bezier_7_level_d[i]);
-            bezier_final_d.push(0);
-            bezier_final_d.push(bezier_7_level_d[i+2]);
+            bezier_final_d.push(-bezier_7_level_d[i]);
+            bezier_final_d.push(-1.0);
+            bezier_final_d.push(-bezier_7_level_d[i+2]);
 		} 
 
 		//console.log("----- FINAL BEZIER -----");
@@ -520,6 +520,22 @@ function Barco () {
         gl.bindTexture(gl.TEXTURE_2D, barcoTexture);
         gl.uniform1i(texturaUniform, 0);
 
+        var texturaUniform2 = gl.getUniformLocation(glProgram, "uTextura2");
+        gl.activeTexture(gl.TEXTURE1); // aca va texture1
+        gl.bindTexture(gl.TEXTURE_2D, skyTexture);
+        gl.uniform1i(texturaUniform2, 1); // aca va 1
+
+        var texturaUniformNormal = gl.getUniformLocation(glProgram, "uNormalSampler");
+        gl.activeTexture(gl.TEXTURE2);
+        gl.bindTexture(gl.TEXTURE_2D, barcoTexture.Normal);
+        gl.uniform1i(texturaUniformNormal, 2);
+
+        var materialShininessUniform = gl.getUniformLocation(glProgram, "uMaterialShininess");
+        gl.uniform1f(materialShininessUniform, 50.0);
+
+        var uId = gl.getUniformLocation(glProgram, "uId");
+        gl.uniform1i(uId, 0);
+
         var vertexPositionAttribute = gl.getAttribLocation(glProgram, "aVertexPosition");
         gl.enableVertexAttribArray(vertexPositionAttribute);
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_position_buffer);
@@ -537,6 +553,7 @@ function Barco () {
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_normal_buffer);
         gl.vertexAttribPointer(vertexNormalAttribute, 3, gl.FLOAT, false, 0, 0);
 
+        gl.uniform1i(glProgram.useReflectionUniform, 1);
         // Dibujamos.
         //gl.drawElements(gl.POINTS_STRIP, index_buffer.length, gl.UNSIGNED_SHORT, 0);
         gl.drawElements(gl.TRIANGLE_STRIP, index_buffer.length, gl.UNSIGNED_SHORT, 0);

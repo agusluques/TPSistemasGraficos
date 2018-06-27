@@ -61,10 +61,16 @@ function drawScene(shaderProg){
     gl.uniform1f(glProgram.uT, t);
 
     gl.uniform1i(glProgram.uId, 0); // se pone a todos id = 0, y el agua se pone id = 1
-
+    gl.uniform1i(glProgram.useReflectionUniform, 0);
     
     my_scene.draw(viewMatrix);
     my_water.draw(viewMatrix);
+    my_barco.draw(viewMatrix);
+
+    var uniformTarget = vec3.create();
+    vec3.sub(uniformTarget, my_camera.getTarget() , my_camera.getPos());
+    gl.uniform3fv(glProgram.target,uniformTarget);
+    gl.uniform3fv(glProgram.cameraPos,my_camera.getPos());
 }
 
 var intensidadSol = 0.5;
@@ -78,11 +84,12 @@ var initLuces = function(){
     vec3.normalize(adjustedLD, lightingDirection);
     gl.uniform3fv(glProgram.uLightDirection, adjustedLD);
     gl.uniform3f(glProgram.uDirectionalColor,intensidadSol+0.5,intensidadSol,intensidadSol); //El +0.05 es para que sea mas anaranjado por el sol
-    // //Luz de la lampara
-    // gl.uniform3f(shaderProgram.lampLightOnePosition,-7.0,0.0,0.8);
-    // gl.uniform3f(shaderProgram.lampLightTwoPosition,15.0,0.0,0.8);
-    // gl.uniform3f(shaderProgram.lampLightColour,0.5,0.3,0.0);    //Naranja
-    // gl.uniform3f(shaderProgram.lampLightColourSpecular,0.5,0.5,0.5);    //Blanco
+    
+    //Luz de la lampara
+    gl.uniform3f(glProgram.lampLightOnePosition,-6,-1,2.5);
+    gl.uniform3f(glProgram.lampLightTwoPosition,-10,-1,2.5);
+    gl.uniform3f(glProgram.lampLightColour,0.5,0.3,0.0);    //Naranja
+    gl.uniform3f(glProgram.lampLightColourSpecular,0.5,0.5,0.5);    //Blanco
 }
 
 function start(){
@@ -100,8 +107,16 @@ function start(){
     glProgram.uLightDirection = gl.getUniformLocation(glProgram, "uLightDirection");
     glProgram.uDirectionalColor = gl.getUniformLocation(glProgram, "uDirectionalColor");
 
+    glProgram.lampLightOnePosition = gl.getUniformLocation(glProgram, "ulampLightOnePosition");
+    glProgram.lampLightTwoPosition = gl.getUniformLocation(glProgram, "ulampLightTwoPosition");
+    glProgram.lampLightColour = gl.getUniformLocation(glProgram, "ulampLightColour");
+    glProgram.lampLightColourSpecular = gl.getUniformLocation(glProgram, "uLampLightColourSpecular");
+
     glProgram.uTarget = gl.getUniformLocation(glProgram, "uTarget");
     glProgram.uCameraPos = gl.getUniformLocation(glProgram, "uCameraPos");
+    glProgram.materialShininessUniform = gl.getUniformLocation(glProgram, "uMaterialShininess");
+
+    glProgram.useReflectionUniform = gl.getUniformLocation(glProgram, "uUseReflection");
 
     initLuces();
 
@@ -110,6 +125,9 @@ function start(){
 
     my_water = new Water();
     my_water.initialize();
+
+    my_barco = new Barco();
+    my_barco.initialize();
 
     my_camera = new Camera();
     my_camera.setPerspective(55, 640.0/480.0, 0.1, 1000.0)
