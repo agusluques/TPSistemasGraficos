@@ -207,6 +207,11 @@ function TapaBarco(_puntosContorno){
         gl.bindTexture(gl.TEXTURE_2D, tapaBarcoTexture);
         gl.uniform1i(texturaUniform, 0);
 
+        var texturaUniform2 = gl.getUniformLocation(glProgram, "uTextura2");
+        gl.activeTexture(gl.TEXTURE1); // aca va texture1
+        gl.bindTexture(gl.TEXTURE_2D, skyTexture);
+        gl.uniform1i(texturaUniform2, 1); // aca va 1
+
         var texturaUniformNormal = gl.getUniformLocation(glProgram, "uNormalSampler");
         gl.activeTexture(gl.TEXTURE1);
         gl.bindTexture(gl.TEXTURE_2D, muelleTexture.Normal);

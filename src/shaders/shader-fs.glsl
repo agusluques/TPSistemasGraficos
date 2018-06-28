@@ -87,7 +87,7 @@ void main(void) {
 			espejoReflejado.y = 0.1;
 		}			
 		float valueY = atan(espejoReflejado.y/espejoReflejado.x);
-		vec4 textureColorD = texture2D(uTextura2, vec2(valueY/piValue,valueX/piValue));
+		vec4 textureColorD = texture2D(uTextura2, vec2(valueY/piValue,valueX/piValue)); // correcto? vec2(valueY/piValue,valueX/piValue)
 		gl_FragColor = vec4(textureColorD.rgb/7.0 + color.rgb * (uAmbientColor + uDirectionalColor * directionalLightWeighting + lightWeighting), color.a);
 	}
 	else{
