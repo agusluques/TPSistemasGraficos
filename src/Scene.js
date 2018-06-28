@@ -10,6 +10,8 @@ function Scene(){
     var conjuntoContainers = new ConjuntoContainers();
     objetos.push(conjuntoContainers);
     objetos.push(new puenteMando());
+    var posAux = grua.getPosicionCabina();
+    objetos.push(new Point(posAux[0], posAux[1], posAux[2]));
     
 
     this.initialize = function(){
@@ -22,6 +24,10 @@ function Scene(){
     	for (var i = 0; i < objetos.length; i++) {
 			objetos[i].draw(viewMatrix);        
 		}
+    }
+
+    this.getPosicionCabina = function(){
+        return grua.getPosicionCabina();
     }
 
     var tomarContainer = function(accion){

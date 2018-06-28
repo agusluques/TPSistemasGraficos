@@ -63,21 +63,24 @@ function drawScene(shaderProg){
     gl.uniform1i(glProgram.uId, 0); // se pone a todos id = 0, y el agua se pone id = 1
     gl.uniform1i(glProgram.useReflectionUniform, 0);
     
-    my_scene.draw(viewMatrix);
-    my_water.draw(viewMatrix);
-    my_barco.draw(viewMatrix);
-
     var uniformTarget = vec3.create();
     vec3.sub(uniformTarget, my_camera.getTarget() , my_camera.getPos());
     gl.uniform3fv(glProgram.target,uniformTarget);
     gl.uniform3fv(glProgram.cameraPos,my_camera.getPos());
+
+    var posAux = my_scene.getPosicionCabina();
+    gl.uniform3f(glProgram.lampLightGruaPosition,posAux[0],posAux[1],posAux[2]);
+
+    my_scene.draw(viewMatrix);
+    my_water.draw(viewMatrix);
+    my_barco.draw(viewMatrix);
 }
 
 var intensidadSol = 0.5;
 
 var initLuces = function(){
     //Acá inicio mi primera luz que quiero que sea la de ambiente
-    gl.uniform3f(glProgram.uAmbientColor,0.1,0.1,0.5); // correcto es 0.1,0.1,0.5
+    gl.uniform3f(glProgram.uAmbientColor,0.1,0.1,0.5); // correcto es 0.1,0.1,0.5  dia 0.8,0.8,0.8
     //Luz del sol
     var lightingDirection = [ -30.0,5.0,0.0 ]; // sol
     var adjustedLD = vec3.create();
@@ -109,6 +112,7 @@ function start(){
 
     glProgram.lampLightOnePosition = gl.getUniformLocation(glProgram, "ulampLightOnePosition");
     glProgram.lampLightTwoPosition = gl.getUniformLocation(glProgram, "ulampLightTwoPosition");
+    glProgram.lampLightGruaPosition = gl.getUniformLocation(glProgram, "ulampLightGruaPosition");
     glProgram.lampLightColour = gl.getUniformLocation(glProgram, "ulampLightColour");
     glProgram.lampLightColourSpecular = gl.getUniformLocation(glProgram, "uLampLightColourSpecular");
 

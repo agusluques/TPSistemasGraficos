@@ -20,6 +20,7 @@ uniform vec3 uLightDirection; // sol
 uniform vec3 uDirectionalColor; // sol
 uniform vec3 ulampLightOnePosition; // farol 1
 uniform vec3 ulampLightTwoPosition;	// farol 2
+uniform vec3 ulampLightGruaPosition; // farol grua
 uniform vec3 ulampLightColour;	// color faroles
 uniform vec3 uLampLightColourSpecular;	// specular faroles
 uniform vec3 uTarget;	// donde mira
@@ -51,10 +52,16 @@ void main(void) {
 	vec3 reflectionDirectionTwo = normalize(reflect(-lampLightDirectionTwo, textureNormalLighting.xyz));		//Recomiendan ponerle +normal
 	float specularLampLightWeightingTwo = pow(max(dot(reflectionDirectionTwo, eyeDirection), 0.0), uMaterialShininess);
 
+	vec3 lampLightDirectionGrua = normalize(ulampLightGruaPosition - vModelPosition.xyz);		
+	float lampLightWeightingGrua = max(dot(normalize(vTransformedNormal), normalize(lampLightDirectionGrua)), 0.0);		
+	vec3 reflectionDirectionGrua = normalize(reflect(-lampLightDirectionGrua, textureNormalLighting.xyz));		//Recomiendan ponerle +normal
+	float specularLampLightWeightingGrua = pow(max(dot(reflectionDirectionGrua, eyeDirection), 0.0), uMaterialShininess);
+
 	float distOne = length(ulampLightOnePosition - vModelPosition.xyz);
 	float distTwo = length(ulampLightTwoPosition - vModelPosition.xyz);
+	float distGrua = length(ulampLightGruaPosition - vModelPosition.xyz);
 
-	vec3 lightWeighting = ulampLightColour * 12.0 * (lampLightWeightingOne/distOne + lampLightWeightingTwo/distTwo) + 10.0 * uLampLightColourSpecular * (specularLampLightWeightingOne/distOne + specularLampLightWeightingTwo/distTwo);		
+	vec3 lightWeighting = ulampLightColour * 12.0 * (lampLightWeightingOne/distOne + lampLightWeightingTwo/distGrua + lampLightWeightingTwo/distGrua) + 10.0 * uLampLightColourSpecular * (specularLampLightWeightingOne/distOne + specularLampLightWeightingTwo/distTwo + specularLampLightWeightingGrua/distGrua);		
 
 	if (uId == 1){
 		vec2 offset=vec2(uT*0.01, uT*0.02);

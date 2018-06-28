@@ -15,7 +15,7 @@ function CabinCamera(){
     var mouse = {x: 0, y: 0};
     var deltaX = 0, deltaY = 0;
 
-    var posX = -8;
+    var posX = -8.015;
     var posY = -3.5;
     var posZ = 0.3;
 
@@ -87,10 +87,10 @@ function CabinCamera(){
     }
 
     var desplazarCamara = function(sentido){
-            if (sentido == 0) posZ = posZ -0.1;
-            if (sentido == 1) posZ = posZ +0.1;
-            if (sentido == 2) posX = posX +0.1;
-            if (sentido == 3) posX = posX -0.1;
+            if (sentido == 0) {posZ = posZ -0.1; focoZ=focoZ-0.1;}
+            if (sentido == 1) {posZ = posZ +0.1; focoZ=focoZ+0.1;}
+            if (sentido == 2) {posX = posX +0.1; focoX=focoX+0.1;}
+            if (sentido == 3) {posX = posX -0.1; focoX=focoX-0.1;}
     }
 
     var validarLimiteCabina = function(arg){

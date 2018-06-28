@@ -216,7 +216,9 @@ function Grua(){
         }   
     }     
 
-
+    this.getPosicionCabina = function(){
+        return objetosCabina[10].getPosicionRelativa();
+    }
 
     this.getPosicionImanes = function(){
         return objetosCabina[15].getPosicionRelativa();
