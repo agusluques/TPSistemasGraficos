@@ -61,7 +61,7 @@ void main(void) {
 	float distTwo = length(ulampLightTwoPosition - vModelPosition.xyz);
 	float distGrua = length(ulampLightGruaPosition - vModelPosition.xyz);
 
-	vec3 lightWeighting = ulampLightColour * 12.0 * (lampLightWeightingOne/distOne + lampLightWeightingTwo/distGrua + lampLightWeightingTwo/distGrua) + 10.0 * uLampLightColourSpecular * (specularLampLightWeightingOne/distOne + specularLampLightWeightingTwo/distTwo + specularLampLightWeightingGrua/distGrua);		
+	vec3 lightWeighting = ulampLightColour * 12.0 * (lampLightWeightingOne/distOne + lampLightWeightingTwo/distTwo + lampLightWeightingGrua/distGrua) + 10.0 * uLampLightColourSpecular * (specularLampLightWeightingOne/distOne + specularLampLightWeightingTwo/distTwo + specularLampLightWeightingGrua/distGrua);		
 
 	if (uId == 1){
 		vec2 offset=vec2(uT*0.01, uT*0.02);
@@ -87,7 +87,7 @@ void main(void) {
 			espejoReflejado.y = 0.1;
 		}			
 		float valueY = atan(espejoReflejado.y/espejoReflejado.x);
-		vec4 textureColorD = texture2D(uTextura2, vec2(valueY/piValue,valueX/piValue)); // correcto? vec2(valueY/piValue,valueX/piValue)
+		vec4 textureColorD = texture2D(uTextura2, vec2(vUv.x, 1.0-vUv.y)); // correcto? vec2(valueY/piValue,valueX/piValue)  incorrecto: vec2(vUv.x, 1.0-vUv.y)
 		gl_FragColor = vec4(textureColorD.rgb/7.0 + color.rgb * (uAmbientColor + uDirectionalColor * directionalLightWeighting + lightWeighting), color.a);
 	}
 	else{

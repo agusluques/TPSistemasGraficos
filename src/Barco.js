@@ -350,31 +350,31 @@ function Barco () {
             bezier_final.push(bezier_7_level[i+2]);
 
             //-------------DERIVADA/NORMAL ------------
-			bezier_final_d.push(-bezier_first_level_d[i]);
+			bezier_final_d.push(bezier_first_level_d[i]);
 			bezier_final_d.push(-0.5);
 			bezier_final_d.push(-bezier_first_level_d[i+2]);
 
-			bezier_final_d.push(-bezier_second_level_d[i]);
+			bezier_final_d.push(bezier_second_level_d[i]);
 			bezier_final_d.push(-0.6);
 			bezier_final_d.push(-bezier_second_level_d[i+2]);
 
-			bezier_final_d.push(-bezier_third_level_d[i]);
+			bezier_final_d.push(bezier_third_level_d[i]);
 			bezier_final_d.push(-0.7);
 			bezier_final_d.push(-bezier_third_level_d[i+2]);
 
-            bezier_final_d.push(-bezier_4_level_d[i]);
+            bezier_final_d.push(bezier_4_level_d[i]);
             bezier_final_d.push(-0.8);
             bezier_final_d.push(-bezier_4_level_d[i+2]);
 
-            bezier_final_d.push(-bezier_5_level_d[i]);
+            bezier_final_d.push(bezier_5_level_d[i]);
             bezier_final_d.push(-0.9);
             bezier_final_d.push(-bezier_5_level_d[i+2]);
 
-            bezier_final_d.push(-bezier_6_level_d[i]);
+            bezier_final_d.push(bezier_6_level_d[i]);
             bezier_final_d.push(-1.0);
             bezier_final_d.push(-bezier_6_level_d[i+2]);
 
-            bezier_final_d.push(-bezier_7_level_d[i]);
+            bezier_final_d.push(bezier_7_level_d[i]);
             bezier_final_d.push(-1.0);
             bezier_final_d.push(-bezier_7_level_d[i+2]);
 		} 

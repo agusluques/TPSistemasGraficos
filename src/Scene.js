@@ -11,7 +11,7 @@ function Scene(){
     objetos.push(conjuntoContainers);
     objetos.push(new puenteMando());
     var posAux = grua.getPosicionCabina();
-    objetos.push(new Point(posAux[0], posAux[1], posAux[2]));
+    //objetos.push(new Point(posAux[0], posAux[1], posAux[2]));
     
 
     this.initialize = function(){

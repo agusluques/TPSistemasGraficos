@@ -8,6 +8,7 @@ function puenteMando(){
 
     mandoTope.translate(-6.3,-1.50,0);
     mandoTope.scale([0.1,0.1,0.7]);
+    
 
     this.initialize = function(){
         mandoBase.setColor([0,0,0]);

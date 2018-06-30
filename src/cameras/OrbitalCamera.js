@@ -56,11 +56,11 @@ function OrbitalCamera(){
 		isMouseDown = result;
 	}
 
-	this.getTarget = function(){
+	this.getPos = function(){
 		return [radio * Math.sin(beta) * Math.cos(-alfa), radio * Math.cos(beta), radio * Math.sin(beta) * Math.sin(-alfa)];
 	}
 
-	this.getPos = function(){
+	this.getTarget = function(){
 		return [0.0,0.0,0.0];
 	}
 	

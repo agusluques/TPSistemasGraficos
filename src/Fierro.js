@@ -15,6 +15,8 @@ function Fierro(_posicion, _diagonal, _tamano){
         if (diagonal) fierro.rotate(Math.PI/4, [1,0,0]);
         fierro.scale(tamano);
         //fierro.rotate(Math.PI/4, [1,0,0]);
+        // fierro.rotate(Math.PI/2, [1,0,0]);
+        // fierro.rotate(Math.PI/2, [0,1,0]);
     }
 
     this.getPosicion = function(){

@@ -117,40 +117,40 @@ function PuenteMandoInferior () {
 
         normal_buffer = [
             // Front face
-             1.0,  0.0,  0.0,
-             1.0,  0.0,  0.0,
-             1.0,  0.0,  0.0,
-             1.0,  0.0,  0.0,
+            1.0/Math.sqrt(3), 1.0/Math.sqrt(3),  -1.0/Math.sqrt(3),
+            1.0/Math.sqrt(3), 1.0/Math.sqrt(3),  1.0/Math.sqrt(3),
+            1.0/Math.sqrt(3), -1.0/Math.sqrt(3),  1.0/Math.sqrt(3),
+            1.0/Math.sqrt(3), -1.0/Math.sqrt(3),  -1.0/Math.sqrt(3),
 
             // Back face
-             -1.0,  0.0,  0.0,
-             -1.0,  0.0,  0.0,
-             -1.0,  0.0,  0.0,
-             -1.0,  0.0,  0.0,
+            -1.0/Math.sqrt(3), 1.0/Math.sqrt(3),  -1.0/Math.sqrt(3),
+            -1.0/Math.sqrt(3), -1.0/Math.sqrt(3), -1.0/Math.sqrt(3),
+            -1.0/Math.sqrt(3), -1.0/Math.sqrt(3),  1.0/Math.sqrt(3),
+            -1.0/Math.sqrt(3), 1.0/Math.sqrt(3),  1.0/Math.sqrt(3),
 
             // Top face
-             0.0,  -1.0,  0.0,
-             0.0,  -1.0,  0.0,
-             0.0,  -1.0,  0.0,
-             0.0,  -1.0,  0.0,
+            1.0/Math.sqrt(3),  -1.0/Math.sqrt(3), -1.0/Math.sqrt(3),
+            -1.0/Math.sqrt(3),  -1.0/Math.sqrt(3), -1.0/Math.sqrt(3),
+            -1.0/Math.sqrt(3),  -1.0/Math.sqrt(3),  1.0/Math.sqrt(3),
+            1.0/Math.sqrt(3),  -1.0/Math.sqrt(3), 1.0/Math.sqrt(3),
 
             // Bottom face
-             0.0,  1.0,  0.0,
-             0.0,  1.0,  0.0,
-             0.0,  1.0,  0.0,
-             0.0,  1.0,  0.0,
+            1.0/Math.sqrt(3), 1.0/Math.sqrt(3), -1.0/Math.sqrt(3),
+            1.0/Math.sqrt(3), 1.0/Math.sqrt(3), 1.0/Math.sqrt(3),
+            -1.0/Math.sqrt(3), 1.0/Math.sqrt(3),  1.0/Math.sqrt(3),
+            -1.0/Math.sqrt(3), 1.0/Math.sqrt(3), -1.0/Math.sqrt(3),
 
             // Right face
-             0.0,  0.0,  1.0,
-             0.0,  0.0,  1.0,
-             0.0,  0.0,  1.0,
-             0.0,  0.0,  1.0,
+            1.0/Math.sqrt(3), 1.0/Math.sqrt(3), -1.0/Math.sqrt(3),
+            1.0/Math.sqrt(3), -1.0/Math.sqrt(3), -1.0/Math.sqrt(3),
+            -1.0/Math.sqrt(3), -1.0/Math.sqrt(3),  -1.0/Math.sqrt(3),
+            -1.0/Math.sqrt(3), 1.0/Math.sqrt(3),  -1.0/Math.sqrt(3),
 
             // Left face
-            0.0,  0.0,  -1.0,
-            0.0,  0.0,  -1.0,
-            0.0,  0.0,  -1.0,
-            0.0,  0.0,  -1.0
+            1.0/Math.sqrt(3), 1.0/Math.sqrt(3), 1.0/Math.sqrt(3),
+            -1.0/Math.sqrt(3), 1.0/Math.sqrt(3),  1.0/Math.sqrt(3),
+            -1.0/Math.sqrt(3), -1.0/Math.sqrt(3), 1.0/Math.sqrt(3),
+            1.0/Math.sqrt(3), -1.0/Math.sqrt(3), 1.0/Math.sqrt(3)
         ];
 
         
