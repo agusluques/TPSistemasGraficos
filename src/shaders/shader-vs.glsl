@@ -14,14 +14,16 @@ uniform mat4 uMMatrix;
 uniform mat3 uNMatrix;
 uniform float uT;
 uniform int uId;
+uniform vec3 uCameraPos;
 
 
 
 varying highp vec4 vColor;
 varying vec2 vUv;
 varying mat4 vMVMatrix;
-varying vec4 vModelPosition;
+varying vec3 vModelPosition;
 varying vec3 vTransformedNormal;
+varying vec3 vCameraPosition;
 
 void main(void) {
 
@@ -38,9 +40,11 @@ void main(void) {
     vColor = vec4(aVertexColor,1.0);
     gl_PointSize = 10.0;
 
-    vModelPosition = uMMatrix * vec4(aVertexPosition, 1.0);
+    vModelPosition = (uMMatrix * vec4(aVertexPosition, 1.0)).xyz;
 
     vMVMatrix = uMVMatrix;
+
+    vCameraPosition = (uMMatrix * vec4(uCameraPos, 1.0)).xyz;
 
     vTransformedNormal = uNMatrix * aVertexNormal;
 }

@@ -611,7 +611,7 @@ function Barco () {
         gl.uniform1i(texturaUniformNormal, 2);
 
         var materialShininessUniform = gl.getUniformLocation(glProgram, "uMaterialShininess");
-        gl.uniform1f(materialShininessUniform, 50.0);
+        gl.uniform1f(materialShininessUniform, 100.0);
 
         var uId = gl.getUniformLocation(glProgram, "uId");
         gl.uniform1i(uId, 0);

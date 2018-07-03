@@ -271,7 +271,7 @@ function Isla () {
         gl.uniform1i(texturaUniformNormal, 1);
 
         var materialShininessUniform = gl.getUniformLocation(glProgram, "uMaterialShininess");
-        gl.uniform1f(materialShininessUniform, 99999.0);
+        gl.uniform1f(materialShininessUniform, 999999.0);
 
         var vertexPositionAttribute = gl.getAttribLocation(glProgram, "aVertexPosition");
         gl.enableVertexAttribArray(vertexPositionAttribute);

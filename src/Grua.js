@@ -33,7 +33,7 @@ function Grua(){
     fierros.push(new Fierro([-3,-3.5,-4.2], 0, [0.5,0.1,0.05]));
 
     // sosten rectangulo grande
-    fierros.push(new Fierro([-3,-3.25,0.7], 0, [1,0.25,0.3]));
+    fierros.push(new Fierro([-3,-3.25,1], 0, [1,0.25,0.3]));
 
     var objetosCabina = [];    
 

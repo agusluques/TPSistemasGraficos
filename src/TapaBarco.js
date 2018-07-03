@@ -218,7 +218,7 @@ function TapaBarco(_puntosContorno){
         gl.uniform1i(texturaUniformNormal, 1);
 
         var materialShininessUniform = gl.getUniformLocation(glProgram, "uMaterialShininess");
-        gl.uniform1f(materialShininessUniform, 50.0);
+        gl.uniform1f(materialShininessUniform, 100.0);
 
         var vertexPositionAttribute = gl.getAttribLocation(glProgram, "aVertexPosition");
         gl.enableVertexAttribArray(vertexPositionAttribute);

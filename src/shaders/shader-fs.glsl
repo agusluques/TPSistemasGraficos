@@ -4,8 +4,9 @@ precision highp int;
 varying vec2 vUv;
 varying highp vec4 vColor;
 varying mat4 vMVMatrix;
-varying vec4 vModelPosition;
+varying vec3 vModelPosition;
 varying vec3 vTransformedNormal;
+varying vec3 vCameraPosition;
 
 uniform sampler2D uTextura;
 uniform sampler2D uTextura2;
@@ -24,7 +25,6 @@ uniform vec3 ulampLightGruaPosition; // farol grua
 uniform vec3 ulampLightColour;	// color faroles
 uniform vec3 uLampLightColourSpecular;	// specular faroles
 uniform vec3 uTarget;	// donde mira
-uniform vec3 uCameraPos;	// camara posicion
 uniform float uMaterialShininess;	// material objetos
 uniform int uUseReflection;
 
@@ -42,26 +42,32 @@ void main(void) {
 
 	vec3 eyeDirection = normalize(-uTarget.xyz);
 
-	vec3 lampLightDirectionOne = normalize(ulampLightOnePosition - vModelPosition.xyz);
-	float lampLightWeightingOne = max(dot(normalize(vTransformedNormal), normalize(lampLightDirectionOne)), 0.0);
-	vec3 reflectionDirectionOne = normalize(reflect(-lampLightDirectionOne, textureNormalLighting.xyz));			//Recomiendan ponerle +normal
-	float specularLampLightWeightingOne = pow(max(dot(reflectionDirectionOne, eyeDirection), 0.0), uMaterialShininess);
-	
-	vec3 lampLightDirectionTwo = normalize(ulampLightTwoPosition - vModelPosition.xyz);		
-	float lampLightWeightingTwo = max(dot(normalize(vTransformedNormal), normalize(lampLightDirectionTwo)), 0.0);		
-	vec3 reflectionDirectionTwo = normalize(reflect(-lampLightDirectionTwo, textureNormalLighting.xyz));		//Recomiendan ponerle +normal
-	float specularLampLightWeightingTwo = pow(max(dot(reflectionDirectionTwo, eyeDirection), 0.0), uMaterialShininess);
+	//camara a objeto
+	vec3 camObj = (vCameraPosition - vModelPosition);
 
-	vec3 lampLightDirectionGrua = normalize(ulampLightGruaPosition - vModelPosition.xyz);		
-	float lampLightWeightingGrua = max(dot(normalize(vTransformedNormal), normalize(lampLightDirectionGrua)), 0.0);		
-	vec3 reflectionDirectionGrua = normalize(reflect(-lampLightDirectionGrua, textureNormalLighting.xyz));		//Recomiendan ponerle +normal
-	float specularLampLightWeightingGrua = pow(max(dot(reflectionDirectionGrua, eyeDirection), 0.0), uMaterialShininess);
+	// normalizo
+	vec3 vTransformedNormal_n = normalize(vTransformedNormal);
+
+	vec3 lampLightDirectionOne = normalize(ulampLightOnePosition - vModelPosition);
+	float lampLightWeightingOne = max(dot(vTransformedNormal_n, lampLightDirectionOne), 0.0);
+	vec3 halfVectorOne = normalize(camObj + lampLightDirectionOne);
+	float specularLampLightWeightingOne = pow(dot(vTransformedNormal_n, halfVectorOne), uMaterialShininess);
+	
+	vec3 lampLightDirectionTwo = normalize(ulampLightTwoPosition - vModelPosition);		
+	float lampLightWeightingTwo = max(dot(vTransformedNormal_n, lampLightDirectionTwo), 0.0);	
+	vec3 halfVectorTwo = normalize(camObj + lampLightDirectionTwo);	
+	float specularLampLightWeightingTwo = pow(dot(vTransformedNormal_n, halfVectorTwo), uMaterialShininess);
+
+	vec3 lampLightDirectionGrua = normalize(ulampLightGruaPosition - vModelPosition);		
+	float lampLightWeightingGrua = max(dot(vTransformedNormal_n, lampLightDirectionGrua), 0.0);
+	vec3 halfVectorGrua = normalize(camObj + lampLightDirectionGrua);	
+	float specularLampLightWeightingGrua = pow(dot(vTransformedNormal_n, halfVectorGrua), uMaterialShininess);	
 
 	float distOne = length(ulampLightOnePosition - vModelPosition.xyz);
 	float distTwo = length(ulampLightTwoPosition - vModelPosition.xyz);
 	float distGrua = length(ulampLightGruaPosition - vModelPosition.xyz);
 
-	vec3 lightWeighting = ulampLightColour * 12.0 * (lampLightWeightingOne/distOne + lampLightWeightingTwo/distTwo + lampLightWeightingGrua/distGrua) + 10.0 * uLampLightColourSpecular * (specularLampLightWeightingOne/distOne + specularLampLightWeightingTwo/distTwo + specularLampLightWeightingGrua/distGrua);		
+	vec3 lightWeighting = ulampLightColour * 5.0 * (lampLightWeightingOne/distOne + lampLightWeightingTwo/distTwo + lampLightWeightingGrua/distGrua) + 10.0 * uLampLightColourSpecular * (specularLampLightWeightingOne/distOne + specularLampLightWeightingTwo/distTwo + specularLampLightWeightingGrua/distGrua);		
 
 	if (uId == 1){
 		vec2 offset=vec2(uT*0.01, uT*0.02);
@@ -81,19 +87,20 @@ void main(void) {
 
 	if (uUseReflection == 1){
 		float piValue = 3.14159265359;
-		vec3 espejoReflejado = normalize(reflect(normalize(normalMapeadaVista.xyz), normalize(uCameraPos-vModelPosition.xyz)));
+		vec3 espejoReflejado = normalize(reflect(normalize(normalMapeadaVista.xyz), normalize(vCameraPosition-vModelPosition)));
 		float valueX = acos((espejoReflejado.z)/(sqrt(espejoReflejado.x*espejoReflejado.x + espejoReflejado.y*espejoReflejado.y + espejoReflejado.z*espejoReflejado.z)));
 		if (espejoReflejado.y <= 0.1){
 			espejoReflejado.y = 0.1;
 		}			
 		float valueY = atan(espejoReflejado.y/espejoReflejado.x);
-		vec4 textureColorD = texture2D(uTextura2, vec2(vUv.x, 1.0-vUv.y)); // correcto? vec2(valueY/piValue,valueX/piValue)  incorrecto: vec2(vUv.x, 1.0-vUv.y)
+		vec4 textureColorD = texture2D(uTextura2, vec2(valueY/piValue,valueX/piValue)); // correcto? vec2(valueY/piValue,valueX/piValue)  incorrecto: vec2(vUv.x, 1.0-vUv.y)
 		gl_FragColor = vec4(textureColorD.rgb/7.0 + color.rgb * (uAmbientColor + uDirectionalColor * directionalLightWeighting + lightWeighting), color.a);
 	}
 	else{
 		gl_FragColor = vec4(color.rgb * (uAmbientColor + uDirectionalColor * directionalLightWeighting + lightWeighting), color.a);
 		//gl_FragColor = vec4(vTransformedNormal, 1.0);
 		//gl_FragColor = vec4(color.rgb, 1.0);
+		//gl_FragColor = vec4(camObj, 1.0);
 	}
 	
 

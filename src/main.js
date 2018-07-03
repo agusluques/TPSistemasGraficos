@@ -65,8 +65,8 @@ function drawScene(shaderProg){
     
     var uniformTarget = vec3.create();
     vec3.sub(uniformTarget, my_camera.getTarget() , my_camera.getPos());
-    gl.uniform3fv(glProgram.target,uniformTarget);
-    gl.uniform3fv(glProgram.cameraPos,my_camera.getPos());
+    gl.uniform3fv(glProgram.uTarget, uniformTarget);
+    gl.uniform3fv(glProgram.uCameraPos, my_camera.getPos());
 
     var posAux = my_scene.getPosicionCabina();
     gl.uniform3f(glProgram.lampLightGruaPosition,posAux[0],posAux[1],posAux[2]);
