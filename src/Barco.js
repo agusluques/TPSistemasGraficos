@@ -23,6 +23,11 @@ function Barco () {
 	var bezier_points_3_d = [];
 	var bezier_points_4_d = [];
 
+	var bezier_points_1_t = [];
+	var bezier_points_2_t = [];
+	var bezier_points_3_t = [];
+	var bezier_points_4_t = [];
+
 	//Puntos de la curva de Bezier final con la forma de la superficie del barco
 	//Se requieren puntos en distintos niveles para generar la superficie de barrido
 	var bezier_first_level = [];
@@ -41,11 +46,20 @@ function Barco () {
     var bezier_6_level_d = [];
     var bezier_7_level_d = [];
 
+	var bezier_first_level_t = [];
+	var bezier_second_level_t = [];
+	var bezier_third_level_t = [];
+    var bezier_4_level_t = [];
+    var bezier_5_level_t = [];
+    var bezier_6_level_t = [];
+    var bezier_7_level_t = [];
+
     var bezier_intermediate_level = [];
 
 	//Todos los puntos de la malla para el barco
 	var bezier_final = [];
 	var bezier_final_d = [];
+	var bezier_final_t = [];
 	var color_buffer = [];
 	var index_buffer = [];
     var texture_buffer = [];
@@ -139,7 +153,11 @@ function Barco () {
 		normalPunto.x = (normalPunto.x / modulo);
 		normalPunto.z = (normalPunto.z / modulo);
 
-		return normalPunto;
+		var dosPuntos = new Object();
+		dosPuntos.tangente = derivadaPunto;
+		dosPuntos.normal = normalPunto;
+
+		return dosPuntos;
     }
 
 	var createBezierCurvePoints = function(){
@@ -171,31 +189,47 @@ function Barco () {
             bezier_points_4.push(punto_cp4.y);
             bezier_points_4.push(punto_cp4.z);
 
-            //Normal en el punto
+            //Normal en el punto + Tangente
 
         	//Para la trompa
             var punto_cp1_d = CalcularNormalPuntoBezier(currentU,control_points_1);
-            bezier_points_1_d.push(punto_cp1_d.x);
-            bezier_points_1_d.push(punto_cp1_d.y);
-            bezier_points_1_d.push(punto_cp1_d.z);
+            bezier_points_1_d.push(punto_cp1_d.normal.x);
+            bezier_points_1_d.push(punto_cp1_d.normal.y);
+            bezier_points_1_d.push(punto_cp1_d.normal.z);
+
+            bezier_points_1_t.push(punto_cp1_d.tangente.x);
+            bezier_points_1_t.push(punto_cp1_d.tangente.y);
+            bezier_points_1_t.push(punto_cp1_d.tangente.z);
 
         	//Para costado inferior
             var punto_cp2_d = CalcularNormalPuntoBezier(currentU,control_points_2);
-            bezier_points_2_d.push(punto_cp2_d.x);
-            bezier_points_2_d.push(punto_cp2_d.y);
-            bezier_points_2_d.push(punto_cp2_d.z);
+            bezier_points_2_d.push(punto_cp2_d.normal.x);
+            bezier_points_2_d.push(punto_cp2_d.normal.y);
+            bezier_points_2_d.push(punto_cp2_d.normal.z);
+
+            bezier_points_2_t.push(punto_cp2_d.tangente.x);
+            bezier_points_2_t.push(punto_cp2_d.tangente.y);
+            bezier_points_2_t.push(punto_cp2_d.tangente.z);
 
         	//Para cola
             var punto_cp3_d = CalcularNormalPuntoBezier(currentU,control_points_3);
-            bezier_points_3_d.push(punto_cp3_d.x);
-            bezier_points_3_d.push(punto_cp3_d.y);
-            bezier_points_3_d.push(punto_cp3_d.z);
+            bezier_points_3_d.push(punto_cp3_d.normal.x);
+            bezier_points_3_d.push(punto_cp3_d.normal.y);
+            bezier_points_3_d.push(punto_cp3_d.normal.z);
+
+         	bezier_points_3_t.push(punto_cp3_d.tangente.x);
+            bezier_points_3_t.push(punto_cp3_d.tangente.y);
+            bezier_points_3_t.push(punto_cp3_d.tangente.z);
 
         	//Para costado superior
             var punto_cp4_d = CalcularNormalPuntoBezier(currentU,control_points_4);
-            bezier_points_4_d.push(punto_cp4_d.x);
-            bezier_points_4_d.push(punto_cp4_d.y);
-            bezier_points_4_d.push(punto_cp4_d.z);
+            bezier_points_4_d.push(punto_cp4_d.normal.x);
+            bezier_points_4_d.push(punto_cp4_d.normal.y);
+            bezier_points_4_d.push(punto_cp4_d.normal.z);
+
+            bezier_points_4_t.push(punto_cp4_d.tangente.x);
+            bezier_points_4_t.push(punto_cp4_d.tangente.y);
+            bezier_points_4_t.push(punto_cp4_d.tangente.z);
             
             currentU+=0.10;
         }
@@ -206,7 +240,7 @@ function Barco () {
         bezier_points_4.push(ultimoPunto.y);
         bezier_points_4.push(ultimoPunto.z);
 
-		var ultimoPunto_d = CalcularNormalPuntoBezier(1,control_points_4);
+		var ultimoPunto_d = CalcularNormalPuntoBezier(1,control_points_4).normal;
         bezier_points_4_d.push(ultimoPunto_d.x);
         bezier_points_4_d.push(ultimoPunto_d.y);
         bezier_points_4_d.push(ultimoPunto_d.z);
@@ -232,21 +266,25 @@ function Barco () {
 		for (var i = 0; i<bezier_points_1.length ; i++) {
 			bezier_first_level.push(bezier_points_1[i]);
 			bezier_first_level_d.push(bezier_points_1_d[i]);
+			bezier_first_level_t.push(bezier_points_1_t[i]);
 		}
 		
 		for (var i = 0; i<bezier_points_2.length ; i++) {
 			bezier_first_level.push(bezier_points_2[i]);
 			bezier_first_level_d.push(bezier_points_2_d[i]);
+			bezier_first_level_t.push(bezier_points_2_t[i]);
 		}
 
 		for (var i = 0; i<bezier_points_3.length ; i++) {
 			bezier_first_level.push(bezier_points_3[i]);
 			bezier_first_level_d.push(bezier_points_3_d[i]);
+			bezier_first_level_t.push(bezier_points_3_t[i]);
 		}
 
 		for (var i = 0; i<bezier_points_4.length ; i++) {
 			bezier_first_level.push(bezier_points_4[i]);
 			bezier_first_level_d.push(bezier_points_4_d[i]);
+			bezier_first_level_t.push(bezier_points_4_t[i]);
 		}
 
 		//console.log("----- FIRST LEVEL -----");
@@ -269,6 +307,7 @@ function Barco () {
 
 		expandPoints(bezier_first_level, bezier_second_level);
 		expandPoints(bezier_first_level_d, bezier_second_level_d);
+		expandPoints(bezier_first_level_t, bezier_second_level_t);
 
 		//console.log("----- SECOND LEVEL -----");
 		//console.log(bezier_second_level);	
@@ -278,6 +317,7 @@ function Barco () {
 
 		expandPoints(bezier_second_level, bezier_third_level);
 		expandPoints(bezier_second_level_d, bezier_third_level_d);
+		expandPoints(bezier_second_level_t, bezier_third_level_t);
 
 		//console.log("----- THIRD LEVEL -----");
 		//console.log(bezier_third_level);	
@@ -286,21 +326,25 @@ function Barco () {
     var createBezier4LevelSurface = function(){
         expandPoints(bezier_third_level, bezier_4_level);
         expandPoints(bezier_third_level_d, bezier_4_level_d);
+        expandPoints(bezier_third_level_t, bezier_4_level_t);
     }
 
     var createBezier5LevelSurface = function(){
         expandPoints(bezier_4_level, bezier_5_level);
         expandPoints(bezier_4_level_d, bezier_5_level_d);
+        expandPoints(bezier_4_level_t, bezier_5_level_t);
     }
 
     var createBezier6LevelSurface = function(){
         expandPoints(bezier_5_level, bezier_6_level);
         expandPoints(bezier_5_level_d, bezier_6_level_d);
+        expandPoints(bezier_5_level_t, bezier_6_level_t);
     }
 
     var createBezier7LevelSurface = function(){
         expandPoints(bezier_6_level, bezier_7_level);
         expandPoints(bezier_6_level_d, bezier_7_level_d);
+        expandPoints(bezier_6_level_t, bezier_7_level_t);
     }
 
 	var joinPoints = function(){
@@ -349,7 +393,7 @@ function Barco () {
             bezier_final.push(bezier_7_level[i+1]);
             bezier_final.push(bezier_7_level[i+2]);
 
-            //-------------DERIVADA/NORMAL ------------
+            //-------------NORMAL ------------
 			bezier_final_d.push(bezier_first_level_d[i]);
 			bezier_final_d.push(-0.5);
 			bezier_final_d.push(-bezier_first_level_d[i+2]);
@@ -377,6 +421,35 @@ function Barco () {
             bezier_final_d.push(bezier_7_level_d[i]);
             bezier_final_d.push(-1.0);
             bezier_final_d.push(-bezier_7_level_d[i+2]);
+
+            //-------------TANGENTE ------------
+			bezier_final_t.push(bezier_first_level_t[i]);
+			bezier_final_t.push(-0.5);
+			bezier_final_t.push(-bezier_first_level_t[i+2]);
+
+			bezier_final_t.push(bezier_second_level_t[i]);
+			bezier_final_t.push(-0.6);
+			bezier_final_t.push(-bezier_second_level_t[i+2]);
+
+			bezier_final_t.push(bezier_third_level_t[i]);
+			bezier_final_t.push(-0.7);
+			bezier_final_t.push(-bezier_third_level_t[i+2]);
+
+            bezier_final_t.push(bezier_4_level_t[i]);
+            bezier_final_t.push(-0.8);
+            bezier_final_t.push(-bezier_4_level_t[i+2]);
+
+            bezier_final_t.push(bezier_5_level_t[i]);
+            bezier_final_t.push(-0.9);
+            bezier_final_t.push(-bezier_5_level_t[i+2]);
+
+            bezier_final_t.push(bezier_6_level_t[i]);
+            bezier_final_t.push(-1.0);
+            bezier_final_t.push(-bezier_6_level_t[i+2]);
+
+            bezier_final_t.push(bezier_7_level_t[i]);
+            bezier_final_t.push(-1.0);
+            bezier_final_t.push(-bezier_7_level_t[i+2]);
 		} 
 
 		//console.log("----- FINAL BEZIER -----");
