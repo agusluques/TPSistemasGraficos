@@ -148,10 +148,16 @@ function Barco () {
 		normalPunto.y = 0; //Es fijo
 		normalPunto.z = derivadaPunto.x;
 
-		//Normalizo el punto
+		//Normalizo el punto (NORMAL)
 		var modulo = Math.sqrt((normalPunto.x * normalPunto.x) + (normalPunto.z * normalPunto.z));
 		normalPunto.x = (normalPunto.x / modulo);
 		normalPunto.z = (normalPunto.z / modulo);
+
+		//Normalizo el punto (TANGENTE)
+		var modulo_t = Math.sqrt((derivadaPunto.x * derivadaPunto.x) + (derivadaPunto.y * derivadaPunto.y) + (derivadaPunto.z * derivadaPunto.z));
+		derivadaPunto.x = (derivadaPunto.x / modulo_t);
+		derivadaPunto.y = (derivadaPunto.y / modulo_t);
+		derivadaPunto.z = (derivadaPunto.z / modulo_t);
 
 		var dosPuntos = new Object();
 		dosPuntos.tangente = derivadaPunto;
@@ -424,31 +430,31 @@ function Barco () {
 
             //-------------TANGENTE ------------
 			bezier_final_t.push(bezier_first_level_t[i]);
-			bezier_final_t.push(-0.5);
+			bezier_final_t.push(bezier_first_level_t[i+1]);
 			bezier_final_t.push(-bezier_first_level_t[i+2]);
 
 			bezier_final_t.push(bezier_second_level_t[i]);
-			bezier_final_t.push(-0.6);
+			bezier_final_t.push(bezier_first_level_t[i+1]);
 			bezier_final_t.push(-bezier_second_level_t[i+2]);
 
 			bezier_final_t.push(bezier_third_level_t[i]);
-			bezier_final_t.push(-0.7);
+			bezier_final_t.push(bezier_first_level_t[i+1]);
 			bezier_final_t.push(-bezier_third_level_t[i+2]);
 
             bezier_final_t.push(bezier_4_level_t[i]);
-            bezier_final_t.push(-0.8);
+            bezier_final_t.push(bezier_first_level_t[i+1]);
             bezier_final_t.push(-bezier_4_level_t[i+2]);
 
             bezier_final_t.push(bezier_5_level_t[i]);
-            bezier_final_t.push(-0.9);
+            bezier_final_t.push(bezier_first_level_t[i+1]);
             bezier_final_t.push(-bezier_5_level_t[i+2]);
 
             bezier_final_t.push(bezier_6_level_t[i]);
-            bezier_final_t.push(-1.0);
+            bezier_final_t.push(bezier_first_level_t[i+1]);
             bezier_final_t.push(-bezier_6_level_t[i+2]);
 
             bezier_final_t.push(bezier_7_level_t[i]);
-            bezier_final_t.push(-1.0);
+            bezier_final_t.push(bezier_first_level_t[i+1]);
             bezier_final_t.push(-bezier_7_level_t[i+2]);
 		} 
 
