@@ -149,9 +149,8 @@ function Barco () {
 		normalPunto.z = derivadaPunto.x;
 
 		//Normalizo el punto (NORMAL)
-		var modulo = Math.sqrt((normalPunto.x * normalPunto.x) + (normalPunto.y * normalPunto.y) + (normalPunto.z * normalPunto.z));
+		var modulo = Math.sqrt((normalPunto.x * normalPunto.x) + (normalPunto.z * normalPunto.z));
 		normalPunto.x = (normalPunto.x / modulo);
-		normalPunto.y = (normalPunto.y / modulo);
 		normalPunto.z = (normalPunto.z / modulo);
 
 		//Normalizo el punto (TANGENTE)
@@ -402,31 +401,31 @@ function Barco () {
 
             //-------------NORMAL ------------
 			bezier_final_d.push(bezier_first_level_d[i]);
-			bezier_final_d.push(bezier_first_level_d[i+1]);
+			bezier_final_d.push(-0.5);
 			bezier_final_d.push(-bezier_first_level_d[i+2]);
 
 			bezier_final_d.push(bezier_second_level_d[i]);
-			bezier_final_d.push(bezier_first_level_d[i+1]);
+			bezier_final_d.push(-0.6);
 			bezier_final_d.push(-bezier_second_level_d[i+2]);
 
 			bezier_final_d.push(bezier_third_level_d[i]);
-			bezier_final_d.push(bezier_first_level_d[i+1]);
+			bezier_final_d.push(-0.7);
 			bezier_final_d.push(-bezier_third_level_d[i+2]);
 
             bezier_final_d.push(bezier_4_level_d[i]);
-            bezier_final_d.push(bezier_first_level_d[i+1]);
+            bezier_final_d.push(-0.8);
             bezier_final_d.push(-bezier_4_level_d[i+2]);
 
             bezier_final_d.push(bezier_5_level_d[i]);
-            bezier_final_d.push(bezier_first_level_d[i+1]);
+            bezier_final_d.push(-0.9);
             bezier_final_d.push(-bezier_5_level_d[i+2]);
 
             bezier_final_d.push(bezier_6_level_d[i]);
-            bezier_final_d.push(bezier_first_level_d[i+1]);
+            bezier_final_d.push(-1.0);
             bezier_final_d.push(-bezier_6_level_d[i+2]);
 
             bezier_final_d.push(bezier_7_level_d[i]);
-            bezier_final_d.push(bezier_first_level_d[i+1]);
+            bezier_final_d.push(-1.0);
             bezier_final_d.push(-bezier_7_level_d[i+2]);
 
             //-------------TANGENTE ------------
