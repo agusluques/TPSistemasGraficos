@@ -5,6 +5,7 @@ attribute vec3 aVertexPosition;
 attribute vec3 aVertexColor;
 attribute vec2 aUv;
 attribute vec3 aVertexNormal;
+attribute vec3 aVertexTangent;
 
 
 
@@ -47,4 +48,6 @@ void main(void) {
     vCameraPosition = (uMMatrix * vec4(uCameraPos, 1.0)).xyz;
 
     vTransformedNormal = uNMatrix * aVertexNormal;
+    //vec3 TransformedTangent = normalize(uNMatrix * aVertexTangent);
+    //vec3 TransformedBi = normalize(uNMatrix * cross(aVertexNormal, aVertexTangent));
 }

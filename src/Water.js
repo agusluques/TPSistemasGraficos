@@ -163,6 +163,9 @@ function Water () {
         var uId = gl.getUniformLocation(glProgram, "uId");
         gl.uniform1i(uId, 1);
 
+        var materialShininessUniform = gl.getUniformLocation(glProgram, "uMaterialShininess");
+        gl.uniform1f(materialShininessUniform, 99999999.0);
+
         var vertexColorAttribute = gl.getAttribLocation(glProgram, "aVertexColor");
         gl.enableVertexAttribArray(vertexColorAttribute);
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_color_buffer);

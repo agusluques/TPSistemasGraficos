@@ -36,38 +36,42 @@ void main(void) {
 	// luz direccional sol
 	float directionalLightWeighting = max(dot(normalize(uLightDirection), normalize(vTransformedNormal.xyz)), 0.0);
 
-	// luz puntual faroles
 	vec4 textureNormalLighting = texture2D(uNormalSampler, vec2(vUv.s, vUv.t));
 	vec4 normalMapeadaVista = vMVMatrix * textureNormalLighting;
 
-	vec3 eyeDirection = normalize(-uTarget.xyz);
-
 	//camara a objeto
-	vec3 camObj = (vCameraPosition - vModelPosition);
+	vec3 camObj = normalize(vCameraPosition - (vModelPosition));
 
 	// normalizo
 	vec3 vTransformedNormal_n = normalize(vTransformedNormal);
 
+	// luz puntual faroles
 	vec3 lampLightDirectionOne = normalize(ulampLightOnePosition - vModelPosition);
 	float lampLightWeightingOne = max(dot(vTransformedNormal_n, lampLightDirectionOne), 0.0);
-	vec3 halfVectorOne = normalize(camObj + lampLightDirectionOne);
-	float specularLampLightWeightingOne = pow(dot(vTransformedNormal_n, halfVectorOne), uMaterialShininess);
+	//vec3 halfVectorOne = normalize(camObj + lampLightDirectionOne);
+	vec3 halfVectorOne = reflect(-lampLightDirectionOne, vTransformedNormal_n);
+	float specularLampLightWeightingOne = pow(dot(camObj, halfVectorOne), uMaterialShininess);
 	
 	vec3 lampLightDirectionTwo = normalize(ulampLightTwoPosition - vModelPosition);		
 	float lampLightWeightingTwo = max(dot(vTransformedNormal_n, lampLightDirectionTwo), 0.0);	
-	vec3 halfVectorTwo = normalize(camObj + lampLightDirectionTwo);	
-	float specularLampLightWeightingTwo = pow(dot(vTransformedNormal_n, halfVectorTwo), uMaterialShininess);
+	//vec3 halfVectorTwo = normalize(camObj + lampLightDirectionTwo);
+	vec3 halfVectorTwo = reflect(-lampLightDirectionTwo, vTransformedNormal_n);
+	float specularLampLightWeightingTwo = pow(dot(camObj, halfVectorTwo), uMaterialShininess);
 
 	vec3 lampLightDirectionGrua = normalize(ulampLightGruaPosition - vModelPosition);		
 	float lampLightWeightingGrua = max(dot(vTransformedNormal_n, lampLightDirectionGrua), 0.0);
-	vec3 halfVectorGrua = normalize(camObj + lampLightDirectionGrua);	
-	float specularLampLightWeightingGrua = pow(dot(vTransformedNormal_n, halfVectorGrua), uMaterialShininess);	
+	//vec3 halfVectorGrua = normalize(camObj + lampLightDirectionGrua);	
+	vec3 halfVectorGrua = reflect(-lampLightDirectionGrua, vTransformedNormal_n);
+	float specularLampLightWeightingGrua = pow(dot(camObj, halfVectorGrua), uMaterialShininess);	
 
 	float distOne = length(ulampLightOnePosition - vModelPosition.xyz);
 	float distTwo = length(ulampLightTwoPosition - vModelPosition.xyz);
 	float distGrua = length(ulampLightGruaPosition - vModelPosition.xyz);
 
-	vec3 lightWeighting = ulampLightColour * 5.0 * (lampLightWeightingOne/distOne + lampLightWeightingTwo/distTwo + lampLightWeightingGrua/distGrua) + 10.0 * uLampLightColourSpecular * (specularLampLightWeightingOne/distOne + specularLampLightWeightingTwo/distTwo + specularLampLightWeightingGrua/distGrua);		
+
+	vec3 difuse = 5.0 * ulampLightColour * (lampLightWeightingOne/distOne + lampLightWeightingTwo/distTwo + lampLightWeightingGrua/distGrua);
+	vec3 specular = 10.0 * uLampLightColourSpecular * (specularLampLightWeightingOne/distOne + specularLampLightWeightingTwo/distTwo + specularLampLightWeightingGrua/distGrua);
+	vec3 lightWeighting = difuse + specular;		
 
 	if (uId == 1){
 		vec2 offset=vec2(uT*0.01, uT*0.02);
@@ -95,12 +99,13 @@ void main(void) {
 		float valueY = atan(espejoReflejado.y/espejoReflejado.x);
 		vec4 textureColorD = texture2D(uTextura2, vec2(valueY/piValue,valueX/piValue)); // correcto? vec2(valueY/piValue,valueX/piValue)  incorrecto: vec2(vUv.x, 1.0-vUv.y)
 		gl_FragColor = vec4(textureColorD.rgb/7.0 + color.rgb * (uAmbientColor + uDirectionalColor * directionalLightWeighting + lightWeighting), color.a);
+		//gl_FragColor = vec4(vTransformedNormal, 1.0);
 	}
 	else{
 		gl_FragColor = vec4(color.rgb * (uAmbientColor + uDirectionalColor * directionalLightWeighting + lightWeighting), color.a);
 		//gl_FragColor = vec4(vTransformedNormal, 1.0);
 		//gl_FragColor = vec4(color.rgb, 1.0);
-		//gl_FragColor = vec4(camObj, 1.0);
+		//gl_FragColor = vec4(specularLampLightWeightingOne,specularLampLightWeightingOne,specularLampLightWeightingOne, 1.0);
 	}
 	
 

@@ -181,6 +181,9 @@ function Esfera(_posicion, _radio){
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_position_buffer);
         gl.vertexAttribPointer(vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0);
 
+        var materialShininessUniform = gl.getUniformLocation(glProgram, "uMaterialShininess");
+        gl.uniform1f(materialShininessUniform, 99999999.0);
+
         var vertexColorAttribute = gl.getAttribLocation(glProgram, "aVertexColor");
         gl.enableVertexAttribArray(vertexColorAttribute);
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_color_buffer);

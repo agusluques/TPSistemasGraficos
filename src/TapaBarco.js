@@ -8,12 +8,14 @@ function TapaBarco(_puntosContorno){
 
 	var position_buffer = [];
     var normal_buffer = [];
+    var tangent_buffer = [];
 	var color_buffer = [];
 	var index_buffer = [];
     var texture_buffer = [];
 
     var webgl_position_buffer = null;
     var webgl_normal_buffer = null;
+    var webgl_tangent_buffer = null;
     var webgl_color_buffer = null;
     var webgl_index_buffer = null;
     var webgl_texture_coord_buffer = null;
@@ -100,6 +102,10 @@ function TapaBarco(_puntosContorno){
            normal_buffer.push(0.0);
            normal_buffer.push(-1.0);
            normal_buffer.push(0.0);
+
+           tangent_buffer.push(1.0);
+           tangent_buffer.push(0.0);
+           tangent_buffer.push(0.0);
        };
     }
 
@@ -144,6 +150,10 @@ function TapaBarco(_puntosContorno){
         webgl_normal_buffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_normal_buffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normal_buffer), gl.STATIC_DRAW); 
+
+        webgl_tangent_buffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, webgl_tangent_buffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(tangent_buffer), gl.STATIC_DRAW); 
 
         // 1. Creamos un buffer para las posicioens dentro del pipeline.
         webgl_position_buffer = gl.createBuffer();
@@ -236,6 +246,11 @@ function TapaBarco(_puntosContorno){
         gl.enableVertexAttribArray(vertexNormalAttribute);
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_normal_buffer);
         gl.vertexAttribPointer(vertexNormalAttribute, 3, gl.FLOAT, false, 0, 0);
+
+        var vertexTangentAttribute = gl.getAttribLocation(glProgram, "aVertexTangent");
+        gl.enableVertexAttribArray(vertexTangentAttribute);
+        gl.bindBuffer(gl.ARRAY_BUFFER, webgl_tangent_buffer);
+        gl.vertexAttribPointer(vertexTangentAttribute, 3, gl.FLOAT, false, 0, 0);
 
         // Dibujamos.
         //gl.drawElements(gl.POINTS_STRIP, index_buffer.length, gl.UNSIGNED_SHORT, 0);
