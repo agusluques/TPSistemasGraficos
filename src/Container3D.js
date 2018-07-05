@@ -244,6 +244,11 @@ function Container3D () {
         gl.bindTexture(gl.TEXTURE_2D, textura);
         gl.uniform1i(texturaUniform, 0);
 
+        var texturaUniformNormal = gl.getUniformLocation(glProgram, "uNormalSampler");
+        gl.activeTexture(gl.TEXTURE2);
+        gl.bindTexture(gl.TEXTURE_2D, containerTexture.Normal);
+        gl.uniform1i(texturaUniformNormal, 2);
+
         var vertexPositionAttribute = gl.getAttribLocation(glProgram, "aVertexPosition");
         gl.enableVertexAttribArray(vertexPositionAttribute);
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_position_buffer);

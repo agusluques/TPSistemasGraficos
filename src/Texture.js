@@ -43,12 +43,26 @@ function initTexture() {
 	}
 	skyTexture.image.src = "src/textures/reflexionMap.jpg";
 
+	skyTexture.Dos = gl.createTexture();
+	skyTexture.Dos.image = new Image();
+	skyTexture.Dos.image.onload = function() {		
+		handleLoadedTexture(skyTexture.Dos);
+	}
+	skyTexture.Dos.image.src = "src/textures/skyBox.jpg";
+
 	containerTexture = gl.createTexture();
 	containerTexture.image = new Image();
 	containerTexture.image.onload = function() {		
 		handleLoadedTexture(containerTexture);
 	}
 	containerTexture.image.src = "src/textures/container_difusemapceleste.jpg";
+
+	containerTexture.Normal = gl.createTexture();
+	containerTexture.Normal.image = new Image();
+	containerTexture.Normal.image.onload = function() {		
+		handleLoadedTexture(containerTexture.Normal);
+	}
+	containerTexture.Normal.image.src = "src/textures/container_difusemapN.jpg";
 
 	fierroTexture = gl.createTexture();
 	fierroTexture.image = new Image();
