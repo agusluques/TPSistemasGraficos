@@ -72,9 +72,16 @@ void main(void) {
 	float distTwo = length(ulampLightTwoPosition - vModelPosition.xyz);
 	float distGrua = length(ulampLightGruaPosition - vModelPosition.xyz);
 
+	float difuseOne = lampLightWeightingOne/distOne;
+	float difuseTwo = lampLightWeightingTwo/distTwo;
+	float difuseGrua = lampLightWeightingGrua/distGrua;
 
-	vec3 difuse = 5.0 * ulampLightColour * (lampLightWeightingOne/distOne + lampLightWeightingTwo/distTwo + lampLightWeightingGrua/distGrua);
-	vec3 specular = 5.0 * uLampLightColourSpecular * (specularLampLightWeightingOne/distOne + specularLampLightWeightingTwo/distTwo + specularLampLightWeightingGrua/distGrua);
+	float specularOne = specularLampLightWeightingOne/distOne;
+	float specularTwo = specularLampLightWeightingTwo/distTwo;
+	float specularGrua = specularLampLightWeightingGrua/distGrua;
+
+	vec3 difuse = 5.0 * ulampLightColour * (difuseOne + difuseTwo + difuseGrua);
+	vec3 specular = 5.0 * uLampLightColourSpecular * (specularOne + specularTwo + specularGrua);
 	vec3 lightWeighting = difuse + specular;		
 
 	if (uId == 1){

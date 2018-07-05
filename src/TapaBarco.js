@@ -252,6 +252,8 @@ function TapaBarco(_puntosContorno){
         gl.bindBuffer(gl.ARRAY_BUFFER, webgl_tangent_buffer);
         gl.vertexAttribPointer(vertexTangentAttribute, 3, gl.FLOAT, false, 0, 0);
 
+        gl.uniform1i(glProgram.useReflectionUniform, 1);
+
         // Dibujamos.
         //gl.drawElements(gl.POINTS_STRIP, index_buffer.length, gl.UNSIGNED_SHORT, 0);
         gl.drawElements(gl.TRIANGLE_STRIP, index_buffer.length, gl.UNSIGNED_SHORT, 0);
