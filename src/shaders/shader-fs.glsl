@@ -49,24 +49,24 @@ void main(void) {
 	// luz puntual faroles
 	vec3 lampLightDirectionOne = normalize(ulampLightOnePosition - vModelPosition);
 	float lampLightWeightingOne = max(dot(vTransformedNormal_n, lampLightDirectionOne), 0.0);
-	// vec3 halfVectorOne = normalize(reflect(-lampLightDirectionOne, vTransformedNormal_n));
-	// float specularLampLightWeightingOne = pow(dot(camObj, halfVectorOne), uMaterialShininess);
-	vec3 halfVectorOne = normalize(reflect(-lampLightDirectionOne, textureNormalLighting.xyz));
-	float specularLampLightWeightingOne = pow(dot(halfVectorOne, eyeDirection), uMaterialShininess);
+	vec3 halfVectorOne = normalize(reflect(-lampLightDirectionOne, vTransformedNormal_n));
+	float specularLampLightWeightingOne = pow(dot(camObj, halfVectorOne), uMaterialShininess);
+	// vec3 halfVectorOne = normalize(reflect(-lampLightDirectionOne, textureNormalLighting.xyz));
+	// float specularLampLightWeightingOne = pow(dot(halfVectorOne, eyeDirection), uMaterialShininess);
 	
 	vec3 lampLightDirectionTwo = normalize(ulampLightTwoPosition - vModelPosition);		
 	float lampLightWeightingTwo = max(dot(vTransformedNormal_n, lampLightDirectionTwo), 0.0);	
-	// vec3 halfVectorTwo = normalize(reflect(-lampLightDirectionTwo, vTransformedNormal_n));
-	// float specularLampLightWeightingTwo = pow(dot(camObj, halfVectorTwo), uMaterialShininess);
-	vec3 halfVectorTwo = normalize(reflect(-lampLightDirectionTwo, textureNormalLighting.xyz));
-	float specularLampLightWeightingTwo = pow(dot(halfVectorTwo, eyeDirection), uMaterialShininess);
+	vec3 halfVectorTwo = normalize(reflect(-lampLightDirectionTwo, vTransformedNormal_n));
+	float specularLampLightWeightingTwo = pow(dot(camObj, halfVectorTwo), uMaterialShininess);
+	// vec3 halfVectorTwo = normalize(reflect(-lampLightDirectionTwo, textureNormalLighting.xyz));
+	// float specularLampLightWeightingTwo = pow(dot(halfVectorTwo, eyeDirection), uMaterialShininess);
 
 	vec3 lampLightDirectionGrua = normalize(ulampLightGruaPosition - vModelPosition);		
 	float lampLightWeightingGrua = max(dot(vTransformedNormal_n, lampLightDirectionGrua), 0.0);
-	// vec3 halfVectorGrua = normalize(reflect(-lampLightDirectionGrua, vTransformedNormal_n));
-	// float specularLampLightWeightingGrua = pow(dot(camObj, halfVectorGrua), uMaterialShininess);
-	vec3 halfVectorGrua = normalize(reflect(-lampLightDirectionGrua, textureNormalLighting.xyz));
-	float specularLampLightWeightingGrua = pow(dot(halfVectorGrua, eyeDirection), uMaterialShininess);	
+	vec3 halfVectorGrua = normalize(reflect(-lampLightDirectionGrua, vTransformedNormal_n));
+	float specularLampLightWeightingGrua = pow(dot(camObj, halfVectorGrua), uMaterialShininess);
+	// vec3 halfVectorGrua = normalize(reflect(-lampLightDirectionGrua, textureNormalLighting.xyz));
+	// float specularLampLightWeightingGrua = pow(dot(halfVectorGrua, eyeDirection), uMaterialShininess);	
 
 	float distOne = length(ulampLightOnePosition - vModelPosition.xyz);
 	float distTwo = length(ulampLightTwoPosition - vModelPosition.xyz);
